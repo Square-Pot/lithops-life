@@ -8,7 +8,7 @@ services:
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}
-      - DJANGO_DEBUG=1
+      - DJANGO_DEBUG=0
 
   proxy:
     build:

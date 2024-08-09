@@ -1,0 +1,247 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+      h1 {
+        font-family: 'Ubuntu Mono', sans-serif;
+      }
+
+      .bg-blur{
+        backdrop-filter: blur(5px);
+      }
+
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    
+    <link href="c" rel="stylesheet">
+{% endblock head %}
+
+{% block body %}
+
+<main>
+
+  <div class="container marketing my-5">
+    <div class="row align-items-center g-5 pt-5">
+			<!-- Left content START -->
+			<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-7 mb-sm-0">
+
+				<!-- Title -->
+				<h1 class="mb-0 display-6">Первый ежегодный посевной марафон аизовых</h1>
+				
+				<!-- Content -->
+				<p class="mt-3 mb-5 lead">Стартовал 1 октября 2023 года в составе 15 активных участников. На данный момент завершен 14-й этап (возраст сеянцев: 10 месяцев).</p>
+				
+				<!-- Info -->
+				<ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
+					<li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>О проекте</li>
+					<li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>Принять участие</li>
+					<li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i>Учебные материалы</li>
+				</ul>
+      </div>
+
+      <!-- Right content START -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative">
+
+        <img src="{% static 'marathon/img/2023/title.jpg' %}" class="img-fluid" alt="Lithops seedlings">
+
+				<!-- Congratulations message -->
+				<div class="p-3 bg-blur border border-light shadow rounded-4 position-absolute bottom-0 start-0 z-index-9 d-none d-xl-block mb-5 ms-5">
+					<div class="d-flex justify-content-between align-items-center">
+						<!-- Icon -->
+						<span class="icon-lg bg-warning rounded-circle"><i class="fas fa-envelope text-white"></i></span>
+						<!-- Info -->
+						<div class="text-start ms-3">
+							<h6 class="mb-0 text-white">Сеянцы Lithops <span class="ms-4"><i class="fas fa-check-circle text-success"></i></span></h6>
+							<p class="mb-0 small text-white">≈5 недель с дня посева</p>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+
+    </div>
+
+    <div class="row my-4 bg-light ">
+      <div class="col-12">
+          <h1 class="display-6 my-4 text-center">Конкурсные сеянцы</h1>
+      </div>
+
+      <div class="col-lg-4 d-flex flex-column align-items-center">
+        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
+        <img src="{% static 'marathon/img/2023/front_c188_140p.jpg' %}" class="rounded-circle" alt="Lithops werneri, C188">
+        <h2>C188</h2>
+        <p><span class="fst-italic">Lithops werneri</span>, C188 </p>
+        <p><a class="btn btn-secondary" href="{% url 'species table' species_id='c188' %}">Таблица &raquo;</a></p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4 d-flex flex-column align-items-center">
+        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
+        <img src="{% static 'marathon/img/2023/front_c262_140p.jpg' %}" class="rounded-circle" alt="Lithops gracildelineata, C262">
+        <h2>C262</h2>
+        <p><span class="fst-italic">Lithops gracildelineata</span>, C262</p>
+        <p><a class="btn btn-secondary" href="{% url 'species table' species_id='c262' %}">Таблица &raquo;</a></p>
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-4 d-flex flex-column align-items-center  ">
+        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
+        <img src="{% static 'marathon/img/2023/front_annarosa_140p.jpg' %}" class="rounded-circle" alt="Lithops hookeri var. dabneri cv. Annarosa">
+        <h2>Annarosa</h2>
+        <p><span class="fst-italic">Lithops hookeri</span> var. <span class="fst-italic">dabneri</span> cv. 'Annarosa'</p>
+        <p><a class="btn btn-secondary" href="{% url 'species table' species_id='annarosa' %}">Таблица &raquo;</a></p>
+      </div><!-- /.col-lg-4 -->
+    </div><!-- /.row -->
+
+
+    <div class="row align-items-start g-5 pt-5">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-7 mb-sm-0">
+        <h2 class="display-6 mb-4 text-center"><small><i class="bi bi-calendar4-week"></i></small>&nbsp; Календарь:</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Дата</th>
+              <th scope="col">Событие</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td><small>1 августа 2024</small></td>
+              <td><strong>14 этап</strong>, Конкурсные сеянцы</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>5 августа 2024</small></td>
+              <td>Внеконкурсные сеянцы</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>12 августа 2024</small></td>
+              <td>Развлекательная/свободная неделя</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>19 августа 2024</small></td>
+              <td>Образовательная неделя: <em>L. verruculosa</em></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>1 сентября 2024</small></td>
+              <td><strong>15 этап</strong>, Конкурсные сеянцы</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>9 сентября 2024</small></td>
+              <td>Внеконкурсные сеянцы</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>16 сентября 2024</small></td>
+              <td>Номинирование</td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td><small>1 октября 2024</small></td>
+              <td>День посева в Марафоне 2024</td>
+            </tr>
+            <tr">
+              <th scope="row"></th>
+              <td><small></small></td>
+              <td class="text-danger">Голосование</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Right content -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative">
+        <h2 class="display-6 mb-4 text-center"><small><i class="bi bi-trophy-fill"></i></small>&nbsp;Номинации:</h2>
+        <table class="table table-striped text-start">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Номинация</th>
+              <th scope="col">Номинанты</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"></th>
+              <td colspan="2" class="text-center"><u>Конкурсные сеянцы</u></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучшая Annarosa</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучший c188</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучший c262</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучшая тройка</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучшие среди новичков</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Первое цветение (бессрочно)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td colspan="2" class="text-center"><u>Внеконкурсные сеянцы</u></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучший Lithops</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Лучший Аизовый</td>
+              <td></td>
+            </tr>
+               <tr>
+              <th scope="row"></th>
+              <td>Первое цветение литопса (бессрочно)</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th scope="row"></th>
+              <td>Первое цветение аизового</td>
+              <td></td>
+            </tr> 
+          </tbody>
+        </table>
+      </div>  
+    </div>
+  </main>
+
+{% endblock body %}

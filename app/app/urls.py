@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from marathon.views import redirect_to_marathon
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', redirect_to_marathon, name='redirect_to_marathon'),
     path("marathon/", include("marathon.urls")),
 ] 
 
-# if settings.DEBUG:
-#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,9 +1,22 @@
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.template import loader
 
+
+
+def redirect_to_marathon(request):
+    return redirect('marathons') 
+
 def index_view(request):
+    today = datetime.date.today()
+    second_marathon_days_left = (datetime.date(2024, 10, 1) - today).days
+    if second_marathon_days_left <= 0:
+        second_marathon_days_left = ''
+    context = {'days_left': second_marathon_days_left}
+    return render(request, 'marathon/index.html', context=context)
+
+def first_view(request):
     return render(request, 'marathon/2023.html')
 
 

@@ -1,0 +1,50 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+{% endblock head %}
+
+{% block body %}
+
+<main>
+
+  <div class="container marketing my-5">
+    <div class="row align-items-center mt-5 pt-5">
+      <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон 2023</h5>
+              <p class="card-text">Первый посевной марафон аизовых.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><small>Статус:</small>&nbsp;<span class="badge text-bg-success">Идёт</span></li>
+            </ul>
+            <div class="card-body">
+              <a href="{% url 'marathon 2023' %}" class="btn btn-primary">Подробней</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон 2024</h5>
+              <p class="card-text">Второй посевной марафон аизовых.</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><small>Статус:</small>&nbsp;<span class="badge text-bg-warning">через {{ days_left }} дней</span></li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="btn btn-primary disabled">Подробней</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  
+  </div>
+</main>
+
+{% endblock body %}

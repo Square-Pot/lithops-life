@@ -6,14 +6,15 @@ COPY requirements.txt /requirements.txt
 RUN apk add --upgrade --no-cache build-base linux-headers && \
     pip install --upgrade pip && \
     pip install -r /requirements.txt &&\
-    mkdir -p /vol/static && \
-    chown -R app:app /vol && \
-    chmod -R 755 /vol
+    mkdir -p /vol/static \
+    
 
 COPY app/ /app
 WORKDIR /app
 
-RUN adduser --disabled-password --no-create-home django
+RUN adduser --disabled-password --no-create-home django &&\
+    chown -R django:django /vol && \
+    chmod -R 755 /vol
 
 USER django
 

@@ -6,7 +6,7 @@ services:
       context: .
     restart: always
     volumes:
-      - static-data:/vol/static
+      - /static/lithops-life:/vol/static
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}
@@ -25,7 +25,7 @@ services:
       - certbot-web:/vol/www
       - proxy-dhparams:/vol/proxy
       - certbot-certs:/etc/letsencrypt
-      - static-data:/vol/static
+      - /static/lithops-life:/vol/static
     environment:
       - DOMAIN=${DOMAIN}
 
@@ -43,7 +43,6 @@ services:
       - proxy
 
 volumes:
-  static-data:
   certbot-web:
   proxy-dhparams:
   certbot-certs:

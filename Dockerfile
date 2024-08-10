@@ -5,7 +5,10 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt /requirements.txt
 RUN apk add --upgrade --no-cache build-base linux-headers && \
     pip install --upgrade pip && \
-    pip install -r /requirements.txt
+    pip install -r /requirements.txt \
+    mkdir -p /vol/static && \
+    chown -R app:app /vol && \
+    chmod -R 755 /vol
 
 COPY app/ /app
 WORKDIR /app

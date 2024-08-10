@@ -1,4 +1,9 @@
-static/
+app/marathon/static/marathon/img/dzi_imgs
+app/marathon/static/marathon/js/openseadragon*
+app/marathon/static/marathon/js/jquery*
+app/marathon/static/marathon/img/2023/original
+app/static/original
+
 iptables/
 
 # Byte-compiled / optimized / DLL files

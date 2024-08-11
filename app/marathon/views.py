@@ -22,9 +22,9 @@ def first_view(request):
 
 def table_view(request, species_id):
     species_ids = {
-        'annarosa': 'Lithops hookeri var. dabneri cv. Annarosa',
-        'c188': 'Lithops werneri, C188',
-        'c262': 'Lithops gracildelineata, C262'
+        'annarosa': 'L. hookeri var. dabneri cv. Annarosa',
+        'c188': 'L. werneri, C188',
+        'c262': 'L. gracilidelineata, C262'
     }
     
     if species_id not in species_ids:

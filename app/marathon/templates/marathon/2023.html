@@ -16,7 +16,8 @@
 <main>
 
   <div class="container my-5">
-    <div class="row align-items-center  mt-5 pt-5 ">
+
+    {% comment %} <div class="row align-items-center  mt-5 pt-5 ">
 			<!-- Left content START -->
 			<div class="col-lg-5 col-xl-6 text-center text-lg-start mb-7 mb-sm-0">
 
@@ -54,7 +55,7 @@
 				
 			</div>
 
-    </div>
+    </div> {% endcomment %}
 
     <div class="row my-4 bg-light ">
       <div class="col-12">
@@ -70,7 +71,7 @@
       <div class="col-lg-4 d-flex flex-column align-items-center mb-5 mb-lg-0">
         <a href="{% url 'species table' species_id='c262' %}"><img src="{% static 'marathon/img/2023/front_c262_140p.jpg' %}" class="rounded-circle" alt="Lithops gracildelineata, C262"></a>
         <h2>C262</h2>
-        <p><span class="fst-italic">Lithops gracildelineata</span>, C262</p>
+        <p><span class="fst-italic">Lithops gracilidelineata</span>, C262</p>
         <p><a class="btn btn-secondary" href="{% url 'species table' species_id='c262' %}">Таблица &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       <div class="col-lg-4 d-flex flex-column align-items-center mb-5 mb-lg-0">

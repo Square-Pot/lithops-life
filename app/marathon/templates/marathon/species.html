@@ -2,12 +2,13 @@
 {% load static %}
 
 {% block head %}
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <script type="text/javascript" src="{% static 'marathon/js/openseadragon-bin-4.1.1/openseadragon.js' %}" ></script>
     <script type="text/javascript" src="{% static 'marathon/js/jquery-1.9.1.min.js' %}" ></script>
     <style type="text/css">
         .openseadragon1 {
             width: 100%;
-            height: 400px;
+            height: 60vh;
             border: 1px solid;
         }
     </style>
@@ -25,33 +26,30 @@
       </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-10 ">
+        <div class="col">
             <div id="contentDiv" class="openseadragon1"></div>
         </div>
     </div>
     <div class="row justify-content-center my-5">
       {% if 'c188' in rest_species %}
-      <div class="col-lg-4 d-flex flex-column align-items-center">
-        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
-        <img src="{% static 'marathon/img/2023/front_c188_140p.jpg' %}" class="rounded-circle" alt="Lithops werneri, C188">
+      <div class="col-lg-4  d-flex flex-column align-items-center mb-5 mb-lg-0">
+        <a href="{% url 'species table' species_id='c188' %}"><img src="{% static 'marathon/img/2023/front_c188_140p.jpg' %}" class="rounded-circle" alt="Lithops werneri, C188"></a>
         <h2>C188</h2>
         <p><span class="fst-italic">Lithops werneri</span>, C188 </p>
         <p><a class="btn btn-secondary" href="{% url 'species table' species_id='c188' %}">Таблица &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
+      </div>
       {% endif %}
       {% if 'c262' in rest_species %}
-      <div class="col-lg-4 d-flex flex-column align-items-center">
-        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
-        <img src="{% static 'marathon/img/2023/front_c262_140p.jpg' %}" class="rounded-circle" alt="Lithops gracildelineata, C262">
+      <div class="col-lg-4 d-flex flex-column align-items-center mb-5 mb-lg-0">
+        <a href="{% url 'species table' species_id='c262' %}"><img src="{% static 'marathon/img/2023/front_c262_140p.jpg' %}" class="rounded-circle" alt="Lithops gracildelineata, C262"></a>
         <h2>C262</h2>
         <p><span class="fst-italic">Lithops gracildelineata</span>, C262</p>
         <p><a class="btn btn-secondary" href="{% url 'species table' species_id='c262' %}">Таблица &raquo;</a></p>
-      </div><!-- /.col-lg-4 -->
+      </div>
       {% endif %}
       {% if 'annarosa' in rest_species %}
-      <div class="col-lg-4 d-flex flex-column align-items-center  ">
-        {% comment %} <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg> {% endcomment %}
-        <img src="{% static 'marathon/img/2023/front_annarosa_140p.jpg' %}" class="rounded-circle" alt="Lithops hookeri var. dabneri cv. Annarosa">
+      <div class="col-lg-4 d-flex flex-column align-items-center  mb-5 mb-lg-0">
+        <a href="{% url 'species table' species_id='annarosa' %}"><img src="{% static 'marathon/img/2023/front_annarosa_140p.jpg' %}" class="rounded-circle" alt="Lithops hookeri var. dabneri cv. Annarosa"></a>
         <h2>Annarosa</h2>
         <p><span class="fst-italic">Lithops hookeri</span> var. <span class="fst-italic">dabneri</span> cv. 'Annarosa'</p>
         <p><a class="btn btn-secondary" href="{% url 'species table' species_id='annarosa' %}">Таблица &raquo;</a></p>

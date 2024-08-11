@@ -14,25 +14,24 @@
 {% block body %}
 
 <main>
-
   <div class="container my-5">
 
-    {% comment %} <div class="row align-items-center  mt-5 pt-5 ">
-			<!-- Left content START -->
-			<div class="col-lg-5 col-xl-6 text-center text-lg-start mb-7 mb-sm-0">
+    <div class="row align-items-center  mt-5 pt-5 ">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 text-center text-lg-start mb-7 mb-sm-0">
 
-				<!-- Title -->
-				<h1 class="mb-0 display-6">Первый ежегодный посевной марафон аизовых</h1>
-				
-				<!-- Content -->
-				<p class="mt-3 mb-5 lead">Стартовал 1 октября 2023 года в составе 15 активных участников. На данный момент завершен 14-й этап (возраст сеянцев: 10 месяцев).</p>
-				
-				<!-- Info -->
-				<ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
-					<li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>О проекте</li>
-					<li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>Принять участие</li>
-					<li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i>Учебные материалы</li>
-				</ul>
+        <!-- Title -->
+        <h1 class="mb-0 display-6">Первый ежегодный посевной марафон аизовых</h1>
+        
+        <!-- Content -->
+        <p class="mt-3 mb-5 lead">Стартовал 1 октября 2023 года в составе 15 активных участников. На данный момент завершен 14-й этап (возраст сеянцев: 10 месяцев).</p>
+        
+        <!-- Info -->
+        <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>О проекте</li>
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i>Принять участие</li>
+          <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i>Учебные материалы</li>
+        </ul>
       </div>
 
       <!-- Right content START -->
@@ -40,24 +39,24 @@
 
         <img src="{% static 'marathon/img/2023/title.jpg' %}" class="img-fluid" alt="Lithops seedlings">
 
-				<!-- Congratulations message -->
-				<div class="p-3 bg-blur border border-light shadow rounded-4 position-absolute bottom-0 start-0 z-index-9 d-none d-xl-block mb-5 ms-5">
-					<div class="d-flex justify-content-between align-items-center">
-						<!-- Icon -->
-						<span class="icon-lg bg-warning rounded-circle"><i class="fas fa-envelope text-white"></i></span>
-						<!-- Info -->
-						<div class="text-start ms-3">
-							<h6 class="mb-0 text-white">Сеянцы Lithops <span class="ms-4"><i class="fas fa-check-circle text-success"></i></span></h6>
-							<p class="mb-0 small text-white">≈5 недель с дня посева</p>
-						</div>
-					</div>
-				</div>
-				
-			</div>
+        <!-- Congratulations message -->
+        <div class="p-3 bg-blur border border-light shadow rounded-4 position-absolute bottom-0 start-0 z-index-9 d-none d-xl-block mb-5 ms-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <!-- Icon -->
+            <span class="icon-lg bg-warning rounded-circle"><i class="fas fa-envelope text-white"></i></span>
+            <!-- Info -->
+            <div class="text-start ms-3">
+              <h6 class="mb-0 text-white">Сеянцы Lithops <span class="ms-4"><i class="fas fa-check-circle text-success"></i></span></h6>
+              <p class="mb-0 small text-white">≈5 недель с дня посева</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
 
-    </div> {% endcomment %}
+    </div> 
 
-    {% comment %} <div class="row my-4 bg-light ">
+    <div class="row my-4 bg-light ">
       <div class="col-12">
           <h1 class="display-6 my-4 text-center">Конкурсные сеянцы</h1>
       </div>
@@ -80,8 +79,7 @@
         <p><span class="fst-italic">Lithops hookeri</span> var. <span class="fst-italic">dabneri</span> cv. 'Annarosa'</p>
         <p><a class="btn btn-secondary" href="{% url 'species table' species_id='annarosa' %}">Таблица &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
-    </div><!-- /.row --> {% endcomment %}
-
+    </div><!-- /.row -->
 
     <div class="row align-items-start g-5 pt-5">
       <!-- Left content START -->
@@ -205,7 +203,7 @@
               <td>Лучший Аизовый</td>
               <td></td>
             </tr>
-               <tr>
+              <tr>
               <th scope="row"></th>
               <td>Первое цветение литопса (бессрочно)</td>
               <td></td>
@@ -218,7 +216,9 @@
           </tbody>
         </table>
       </div>  
-    </div>
-  </main>
+    </div> 
+
+  </div>
+</main>
 
 {% endblock body %}

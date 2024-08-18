@@ -1,0 +1,1 @@
+scp -r app/marathon/static/marathon/img/dzi_imgs dntx@galangal.ru:/static/lithops-life/img/

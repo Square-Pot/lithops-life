@@ -22,6 +22,7 @@
             </div>
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><small>Статус:</small>&nbsp;<span class="badge text-bg-success">Идёт</span></li>
+              <li class="list-group-item"><small>Тема недели: <em>L. verruculosa</em></small></li>
             </ul>
             <div class="card-body">
               <a href="{% url 'marathon 2023' %}" class="btn btn-primary">Подробней</a>
@@ -35,10 +36,10 @@
               <p class="card-text">Второй посевной марафон аизовых.</p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item"><small>Статус:</small>&nbsp;<span class="badge text-bg-warning">через {{ days_left }} дней</span></li>
+              <li class="list-group-item"><small>Статус:</small>&nbsp;<span class="badge text-bg-warning">Старт через {{ days_left }} дней</span></li>
             </ul>
             <div class="card-body">
-              <a href="#" class="btn btn-primary disabled">Подробней</a>
+              <a href="{% url 'marathon 2024' %}" class="btn btn-primary">Подробней</a>
             </div>
           </div>
         </div>

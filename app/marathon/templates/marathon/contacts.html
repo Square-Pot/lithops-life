@@ -1,0 +1,63 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <style type="text/css">
+        h3 {
+            padding-top: 0.7em
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container mt-5">
+        {% if result == 'success' %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Успех!</strong> Ваше сообщение отправлено.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+            </div>
+        </div>
+        {% endif %}
+        {% if result == 'error' %}
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Неуспешно!</strong> Что-то пошло не так. 
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="row justify-content-center my-5">
+            <div class="col-10">
+                <form action="{% url 'marathon contacts' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Ваша почта для обратной связи:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                    </div>
+                    
+                    <label class="form-label">Тема:</label>
+                    <select class="form-select mb-3" name="subject" aria-label="Default select example" required>
+                        <option {% if subject == 'membership' %}selected{% endif %} value="membership">Заявка на участие в Марафоне</option>
+                        <option {% if subject == 'partnership' %}selected{% endif %} value="partnership">Партнерство</option>
+                        <option {% if subject == 'etc' %}selected{% endif %} value="etc">Прочее</option>
+                    </select>
+                    
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Сообщение:</label>
+                        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                    </div>
+                    <input class="btn btn-success" type="submit" value="Отправить">
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock  %}

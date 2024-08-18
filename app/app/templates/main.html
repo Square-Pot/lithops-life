@@ -54,26 +54,32 @@
             <span class="navbar-toggler-icon"></span>
           </button> 
           <div class="collapse navbar-collapse" id="navbarCollapse">
+            {% with request.resolver_match.url_name as url_name %}
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'marathon 2023' %}">2023</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if url_name == 'marathon 2023' or url_name == 'marathon 2024' %}active{% endif %}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Марафон {% if url_name == 'marathon 2023' %}2023{% endif %}{% if url_name == 'marathon 2024' %}2024{% endif %}
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item {% if url_name == 'marathon 2023' %}active{% endif %}" aria-current="page" href="{% url 'marathon 2023' %}">2023</a></li>
+                  <li><a class="dropdown-item {% if url_name == 'marathon 2024' %}active{% endif %}" href="{% url 'marathon 2024' %}">2024</a></li>
+                  <li><a class="dropdown-item disabled" href="#">2025</a></li>
+                </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled" href="#">2024</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Правила</a>
-              </li> 
-              <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Участие</a>
+                <a class="nav-link {% if url_name == 'marathon about' %}active{% endif %}" href="{% url 'marathon about' %}" tabindex="-1" aria-disabled="true">О проекте</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Знания</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Партнеры</a>
+                <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">Партнеры</a>
+              </li> 
+              <li class="nav-item">
+                <a class="nav-link {% if url_name == 'marathon contacts' %}active{% endif %}" href="{% url 'marathon contacts' %}" tabindex="-1" aria-disabled="true">Контакты</a>
               </li> 
             </ul>
+            {% endwith %}
             <img class="d-flex me-4" src="{% static 'img/flags/gb.svg' %}" style="height: 20px;">
           </div>
         </div>

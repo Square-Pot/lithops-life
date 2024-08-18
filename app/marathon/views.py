@@ -1,3 +1,5 @@
+from django.core.mail import send_mail
+from django.conf import settings
 import datetime
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound
@@ -18,6 +20,9 @@ def index_view(request):
 
 def first_view(request):
     return render(request, 'marathon/2023.html')
+
+def second_view(request):
+    return render(request, 'marathon/2024.html')
 
 
 def table_view(request, species_id):
@@ -40,3 +45,48 @@ def table_view(request, species_id):
     }
     template = loader.get_template('marathon/species.html')
     return HttpResponse(template.render(context, request))
+
+
+def about(request):
+    context = {}
+    template = loader.get_template('marathon/about.html')
+    return HttpResponse(template.render(context, request))
+
+
+def partners(request):
+    context = {}
+    template = loader.get_template('marathon/partners.html')
+    return HttpResponse(template.render(context, request))
+
+
+def contacts(request):
+    
+    result = None
+    subject = request.GET.get('subject', 'None')
+    if not subject:
+        subject = 'etc'
+    if subject not in ['membership', 'partnership']:
+        subject = 'etc'
+
+    if request.method == 'POST':
+        email = request.POST.get('email', '')
+        subject = request.POST.get('subject', '')
+        message = request.POST.get('message', '')
+
+        if email and subject and message:
+            send_mail(subject, message, settings.EMAIL_HOST_USER, settings.EMAIL_RECIPIENT)
+            result = 'success'
+        else: 
+            result = 'error'
+    
+    
+    
+    context = {
+        'subject': subject,
+        'result': result,
+    }
+    template = loader.get_template('marathon/contacts.html')
+    return HttpResponse(template.render(context, request))
+
+
+

@@ -1,0 +1,109 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+      h1 { font-family: 'Ubuntu Mono', sans-serif; }
+      .bg-blur{ backdrop-filter: blur(5px); }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+<main>
+  <div class="container mt-5">
+
+    <div class="row align-items-center  mt-5 pt-1 ">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 text-center text-lg-start mb-7 mb-sm-0">
+
+        <!-- Title -->
+        <h1 class="mb-0 display-6">Второй ежегодный посевной марафон аизовых</h1>
+        
+        <!-- Content -->
+        <p class="mt-3 mb-5 lead">Стартует 1 октября 2024 года.</p>
+        
+        <!-- Info -->
+        <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="https://docs.google.com/spreadsheets/d/1_3qnfAIQWgoRt2tQl8_fJk1ppUj9ZsOJ-yJH-TMMa_w/edit?usp=sharing">Таблица семян</a></li>
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#competition">Конкурсные сеянцы</a></li>
+          <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="{% url 'marathon contacts' %}?subject=membership">Принять участие</a></li>
+        </ul>
+      </div>
+
+      <!-- Right content START -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative">
+        <img src="{% static 'marathon/img/2024/title.jpg' %}" class="img-fluid" alt="Lithops seedlings">
+      </div>
+
+    </div> 
+
+    <div class="row my-4">
+        <div class="col">
+          <h1 class="display-6 my-4 text-center" id="competition">Конкурсные сеянцы</h1>
+        </div>
+    </div>
+   
+    <div class="row mt-5 justify-content-center">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 text-center text-lg-start mb-5  ">
+        <h4 class="mb-4 text-center">Семена из питомника ZW:</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Наименование</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1.</th>
+              <td><em>Lithops</em> 'Murasaki-Kikushogyoku'</td>
+            </tr>
+            <tr>
+              <th scope="row">2.</th>
+              <td><em>Lithops karasmontana</em> cv. 'Axel's Rose'</td>
+            </tr>
+            <tr>
+              <th scope="row">3.</th>
+              <td><em>Lithops otzeniana</em> cv. 'Cesky Granat'</td>
+            </tr>
+          </tbody>
+        </table> 
+      </div>
+
+      <!-- Right content -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative mb-4">
+        <h4 class="mb-4 text-center">Прочие семена:</h4>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Наименование</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1.</th>
+              <td><em>Lithops pseudotruncatella</em> ssp. <em>pseudotruncatella</em></br>var. <em>elisabethiae</em>, C187</td>
+            </tr>
+            <tr>
+              <th scope="row">2.</th>
+              <td><em>Lithops lesliei</em> cv. 'Albinica', C036A</td>
+            </tr>
+            <tr>
+              <th scope="row">3.</th>
+              <td><em>Lithops hookeri</em> var. <em>susannae</em>, C091</td>
+            </tr>
+          </tbody>
+        </table> 
+      </div>  
+    </div>  
+
+  </div>
+</main>
+
+{% endblock body %}

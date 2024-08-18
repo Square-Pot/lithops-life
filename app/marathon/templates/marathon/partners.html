@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <style type="text/css">
+        h3 {
+            padding-top: 0.7em
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <p class="lead my-4">Главные партнеры нашего Марафона — это его участники. Именно благодаря их внимательным наблюдениям и активному участию создаются все материалы и отчеты. Однако у нас есть и другие важные партнеры, которые сопровождают Марафон: предоставляют площадку для общения, поддерживают порядок в чате, снабжают посевным материалом, обеспечивают информационную поддержку, а также выступают спонсорами призов и подарков. Без их помощи Марафон, безусловно, состоялся бы, но был бы немного скучнее.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <img src="{% static 'img/masemb_marathon_logo_300p.png' %}" class="rounded-circle" width="200px" height="200px" alt="Mesemb Marathon Logo">
+            </div>
+        </div>
+        <div class="row row-cols-auto justify-content-center my-5">
+            <div class="col text-center">
+                <a href="https://www.youtube.com/@SuccsInTheNorth">
+                    <img src="{% static 'img/partners/succulents_in_the_north_logo.png' %}" class="rounded-circle" width="140px" height="140px" alt="Succulents in the North">
+                </a>
+                <p class="mt-3"><small>Succulents in the North</small></p>  
+            </div>
+            <div class="col text-center">
+                <a href="https://vk.com/club221111793">
+                    <img src="{% static 'img/partners/lithops-ne-ne-slyshal.jpg' %}" class="rounded-circle" width="140px" height="140px" alt="Литопсы? Не, не слышал">
+                </a>
+                <p class="mt-3"><small>Литопсы? Не, не слышал</small></p>  
+            </div>
+            <div class="col text-center">
+                <a href="https://t.me/stylesucculent">
+                    <img src="{% static 'img/partners/style_succulents_anet.jpg' %}" class="rounded-circle" width="140px" height="140px" alt="Стильные суккуленты Анет">
+                </a>
+                <p class="mt-3"><small>Стильные суккуленты Анет</small></p>  
+            </div>
+            <div class="col text-center">
+                <a href="https://lithopsik.ru/">
+                    <img src="{% static 'img/partners/lithopsik.jpg' %}" class="rounded-circle" width="140px" height="140px" alt="Клуб Любители живых камней">
+                </a>
+                <p class="mt-3"><small>Клуб "Любители живых камней"</small></p>  
+            </div>
+            <div class="col text-center">
+                <a href="#">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg img-fluid rounded-circle img-fluid" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img"  preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Место для партнера</title>
+                        <rect width="100%" height="100%" fill="#868e96"></rect>
+                        <text x="50%" y="50%" fill="#dee2e6" text-anchor="middle" dy=".3em">Партнер</text>
+                    </svg>
+                </a>
+                <p class="mt-3"><small>Место для партнеров</small></p>  
+            </div>
+
+        </div>
+        
+        <div class="row justify-content-center my-5 py-5">
+            <div class="col-10 border border-success py-3 px-5 text-center">
+                <p class="lead"><small>Чтобы стать партнером Марафона - воспользуйтесь формой обратной связи на странице <a href="{% url 'marathon contacts' %}?subject=partnership">Контакты</a>.</small></p>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock  %}

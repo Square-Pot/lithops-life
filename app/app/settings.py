@@ -146,4 +146,4 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_FROM_SITE")  # Your email address
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_FROM_SITE_PASSWD")  # Your email password  
 EMAIL_RECIPIENT = [os.environ.get("EMAIL_FROM_SITE_TO")]
 
-CSRF_TRUSTED_ORIGINS = [f'https://{ os.environ.get("DOMAIN") }', ]
+CSRF_TRUSTED_ORIGINS = [f'https://{ os.environ.get("DOMAIN") }', f'http://{ os.environ.get("DOMAIN") }' ]

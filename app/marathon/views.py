@@ -84,6 +84,7 @@ def contacts(request):
     context = {
         'subject': subject,
         'result': result,
+        'bla': settings.CSRF_TRUSTED_ORIGINS
     }
     template = loader.get_template('marathon/contacts.html')
     return HttpResponse(template.render(context, request))

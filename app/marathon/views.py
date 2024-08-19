@@ -84,7 +84,9 @@ def contacts(request):
     context = {
         'subject': subject,
         'result': result,
-        'bla': settings.CSRF_TRUSTED_ORIGINS
+        'bla': settings.CSRF_TRUSTED_ORIGINS,
+        'host': settings.EMAIL_HOST_USER,
+        'rec': settings.EMAIL_RECIPIENT,
     }
     template = loader.get_template('marathon/contacts.html')
     return HttpResponse(template.render(context, request))

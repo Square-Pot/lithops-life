@@ -58,6 +58,10 @@ def partners(request):
     template = loader.get_template('marathon/partners.html')
     return HttpResponse(template.render(context, request))
 
+def knowledge(request):
+    context = {}
+    template = loader.get_template('marathon/knowledge.html')
+    return HttpResponse(template.render(context, request))
 
 def contacts(request):
     

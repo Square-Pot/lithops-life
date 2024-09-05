@@ -6,6 +6,7 @@ urlpatterns = [
     path("about", views.about, name="marathon about"),
     path("partners", views.partners, name="marathon partners"),
     path("contacts", views.contacts, name="marathon contacts"),
+    path("knowledge", views.knowledge, name="marathon knowledge"),
     path("2023", views.first_view, name="marathon 2023"),
     path("2024", views.second_view, name="marathon 2024"),
     path("2023/<str:species_id>", views.table_view, name="species table"),

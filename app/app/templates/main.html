@@ -68,9 +68,12 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link {% if url_name == 'marathon about' %}active{% endif %}" href="{% url 'marathon about' %}" tabindex="-1" aria-disabled="true">О проекте</a>
-              </li> 
+              </li>
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Знания</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Публикации</a>
+              </li>  
+              <li class="nav-item">
+                <a class="nav-link {% if url_name == 'marathon knowledge' %}active{% endif %}" href="{% url 'marathon knowledge' %}" tabindex="-1" aria-disabled="true">Знания</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">Партнеры</a>

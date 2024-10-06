@@ -30,7 +30,7 @@
         <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="https://docs.google.com/spreadsheets/d/1_3qnfAIQWgoRt2tQl8_fJk1ppUj9ZsOJ-yJH-TMMa_w/edit?usp=sharing">Таблица семян</a></li>
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#competition">Конкурсные сеянцы</a></li>
-          <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="{% url 'marathon contacts' %}?subject=membership">Принять участие</a></li>
+          <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="#requirements">Требования</a></li>
         </ul>
       </div>
 
@@ -113,12 +113,28 @@
 
     <div class="row my-4">
       <div class="col">
-        <h4 class="my-4 text-center">Требования к участникам конкурса</h4>
+        <h4 class="my-4 text-center" id="requirements">Требования к участникам конкурса</h4>
         <ul>
           <li>конкурные виды должны быть посеяны в отдельные горшки (квадратной/круглой/многоугольной формы);</li>
           <li>наличие фотоаппарата — примерно раз в месяц необходимо делать фото конкурсных сеянцев;</li>
           <li>наличие линейки с миллиметровой шкалой;</li>
           <li>наличие информации об источнике семян и их точном количестве в посеве.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row my-4">
+      <div class="col">
+        <h4 class="my-4 text-center">Требования к конкурсным фото:</h4>
+        <ul>
+          <li>Ракурс: вертиально сверху или под <span class="text-decoration-underline">небольшим</span> углом;</li>
+          <li>Освещение: лучше искусственное, т.к. оно не меняется в зависимости от сезона;</li>
+          <li>Ракурс и освещение должны быть по возможности одинаковые на протяжении всего марафона;</li>
+          <li>Позиционирование: горшок на фото должен стоять всегда одной и той же стороной (можно сделать метку на одном из бортов);</li>
+          <li>Вдоль нижнего борта должна быть видна шкала линейки (только на первом фото + после каждой смены горшка)</li>
+          <li>Борта горшка должны попадать в кадр;</li>
+          <li>Фото не обязательно должно быть кадрировано - все лишнее будет обрезано;</li>
+          <li>Отправлять фото в чат необходима "как файл", а не "как фото".</li>
         </ul>
       </div>
     </div>
@@ -130,11 +146,11 @@
     </div>
 
     <div class="row mb-5">
-      <div class="col-4">
+      <div class="col-lg-4 col-xl-5 text-center position-relative">
         <img src="{% static 'marathon/img/2024/ruler_on_the_pots_w1000.png' %}" class="img-fluid" alt="Ruler on the pot">
       </div>
 
-      <div class="col-8">
+      <div class="col-lg-8 col-xl-7 text-center text-lg-start">
         <p>Линейка на фото необходима для понимания масштаба на фото в конкурсной таблице. При пикировке в другой (более крупный) горшок — из-за большей площади растения на фото после пикировки становятся мелкие.</p>
         <p>Линейка может быть любая: распечатанная на принтере, гостированная, школьная, главное чтобы на ней была шкала миллиметров. Для распечатанных на принтере линеек следует проверить, что миллиметры соответствуют своему размеру. </p>
         <p>Линейку нужно приложить к горшку вдоль нижнего борта, чтобы она попадала в кадр. Не имеет значения, куда прикладывать ноль, главное чтобы была видна шкала. </p>

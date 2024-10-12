@@ -15,7 +15,11 @@ def index_view(request):
     second_marathon_days_left = (datetime.date(2024, 10, 1) - today).days
     if second_marathon_days_left <= 0:
         second_marathon_days_left = ''
-    context = {'days_left': second_marathon_days_left}
+    context = {
+        'm1_age': (datetime.date.today() - datetime.date(2023, 10, 1)).days,
+        'm2_age': (datetime.date.today() - datetime.date(2024, 10, 1)).days,
+    }
+    
     return render(request, 'marathon/index.html', context=context)
 
 def first_view(request):

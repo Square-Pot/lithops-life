@@ -19,5 +19,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to server
-        run: ssh dntx@galangal.ru 'bash -s' < ./deploy.sh 
+        run: ssh dntx@lithops.life 'bash -s' < ./deploy.sh 
+
+      - name: Add server to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          echo "lithops.life ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCdrSPP0CSb+QJDNwYQ8dAyQww5NJZNeN+D3Ie2AfH+PiAhu4s5NQXoR4IDKImJ8asEShRUwipv5bp48X0HqdGnPR6W7Es3xtsGAYsmTs2dSMKQ8IE/2iDabd5F3zKR4ddmdB5toGOagTYsVPxrXMNcGsAJf4FT4b
 

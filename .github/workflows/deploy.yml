@@ -19,5 +19,5 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy to server
-        run: ssh dntx@your_server_lithops.life 'bash -s' < /home/dntx/projects/lithops-life/deploy.sh
+        run: ssh dntx@your_server_lithops.life 'bash -s' < ./deploy.sh
 

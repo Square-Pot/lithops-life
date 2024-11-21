@@ -1,3 +1,6 @@
+aws.sh
+
+app/marathon/static/marathon/img/s3
 app/marathon/static/marathon/img/dzi_imgs
 app/marathon/static/marathon/js/openseadragon*
 app/marathon/static/marathon/js/jquery*

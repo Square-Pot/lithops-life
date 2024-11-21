@@ -57,18 +57,22 @@
             {% with request.resolver_match.url_name as url_name %}
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle {% if url_name == 'marathon 2023' or url_name == 'marathon 2024' %}active{% endif %}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Марафон {% if url_name == 'marathon 2023' %}2023{% endif %}{% if url_name == 'marathon 2024' %}2024{% endif %}
+                <a class="nav-link dropdown-toggle {% if '/marathon/20' in request.path %}active{% endif %}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Марафоны 
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a class="dropdown-item {% if url_name == 'marathon 2023' %}active{% endif %}" aria-current="page" href="{% url 'marathon 2023' %}">2023</a></li>
-                  <li><a class="dropdown-item {% if url_name == 'marathon 2024' %}active{% endif %}" href="{% url 'marathon 2024' %}">2024</a></li>
-                  <li><a class="dropdown-item disabled" href="#">2025</a></li>
+                  {% for marathon in marathons %}
+                  {% url 'marathon' marathon.name as marathon_url %}
+                  <li><a class="dropdown-item {% if request.get_full_path == marathon_url %}active{% endif %}" href="{% url 'marathon' marathon.name %}">{{ marathon.name }}</a></li>
+                  {% endfor %}
                 </ul>
               </li>
               <li class="nav-item">
                 <a class="nav-link {% if url_name == 'marathon about' %}active{% endif %}" href="{% url 'marathon about' %}" tabindex="-1" aria-disabled="true">О проекте</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link {% if url_name == 'marathon rules' %}active{% endif %}" href="{% url 'marathon rules' %}" tabindex="-1" aria-disabled="true">Правила</a>
+              </li>  
               <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Публикации</a>
               </li>  

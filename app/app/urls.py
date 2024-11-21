@@ -17,13 +17,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from marathon.views import redirect_to_marathon
+from marathon import views as marathon_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', redirect_to_marathon, name='redirect_to_marathon'),
+    path('', marathon_views.redirect_to_marathon, name='redirect_to_marathon'),
     path("marathon/", include("marathon.urls")),
+    path("about", marathon_views.about, name="marathon about"),
+    path("partners", marathon_views.partners, name="marathon partners"),
+    path("contacts", marathon_views.contacts, name="marathon contacts"),
+    path("knowledge", marathon_views.knowledge, name="marathon knowledge"),
+    path("rules", marathon_views.rules, name="marathon rules"),
 ] 
 
 if settings.DEBUG:

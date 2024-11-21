@@ -77,9 +77,7 @@
         // debugMode: true,
         id: "contentDiv",
         prefixUrl: "{% static 'marathon/js/openseadragon-bin-4.1.1/images/' %}",
-        {% with species_url='marathon/img/dzi_imgs/'|add:species_id|add:'.dzi' %}
-        tileSources: "{% static species_url %}?v=15",
-        {% endwith %}
+        tileSources: "https://storage.yandexcloud.net/lithops.life/dzi/annarosa.dzi",
         showNavigator: true,
     });
   </script>

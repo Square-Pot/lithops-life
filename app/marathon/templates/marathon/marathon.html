@@ -1,0 +1,181 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <style>
+      h1 { font-family: 'Ubuntu Mono', sans-serif; }
+      .bg-blur{ backdrop-filter: blur(5px); }
+
+      .carousel-item img {
+        width: 100%; /* Make the image take the full width of the container */
+        height: 500px; /* Set a fixed height */
+        object-fit: cover; /* This will crop the image to fit the container */
+      }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+<main>
+  <div class="container mt-5">
+
+    <div class="row align-items-center  mt-5 pt-1 ">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 text-center text-lg-start mb-7 mb-sm-0">
+
+        <!-- Title -->
+        <h1 class="mb-0 display-6">{{ marathon.description }}</h1>
+        
+        <!-- Content -->
+        <p class="mt-3 mb-5 lead">Стартовал {{ marathon.seeding_date | date:"d.m.Y" }} года в составе {{ marathon.participants_number }} активных участников. Текущий возраст сеянцев: {{ marathon.age_days }} дней. Последнее событие в Марафоне — {{ marathon.current_event.title }}</p>
+        
+        <!-- Info -->
+        <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#contest">Конкурсные сеянцы</a></li>
+          <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#calendar">Календарь</a></li>
+          {% if marathon.nomination_set.all %}
+          <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="#nominations">Номинации</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <!-- Right content START -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative">
+
+        <img src="{{ marathon.title_image.url }}" class="img-fluid" alt="Lithops seedlings">
+
+        <div class="p-3 bg-blur border border-light shadow rounded-4 position-absolute bottom-0 start-0 z-index-9 d-none d-xl-block mb-5 ms-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="icon-lg bg-warning rounded-circle"><i class="fas fa-envelope text-white"></i></span>
+            <div class="text-start ms-3">
+              <h6 class="mb-0 text-white">Сеянцы Lithops <span class="ms-4"><i class="fas fa-check-circle text-success"></i></span></h6>
+              <p class="mb-0 small text-white">≈5 недель с дня посева</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div> 
+
+    <div class="row my-4 bg-light ">
+      <div class="col-12">
+          <h1 class="display-6 my-4 text-center" id="contest">Конкурсные сеянцы</h1>
+      </div>
+
+      {% for contestant in marathon.contestant_set.all %}
+      <div class="col-lg-4 d-flex flex-column align-items-center mb-5 mb-lg-4">
+        <a href="{% url 'contestant' contestant.short_name %}"><img src="{{ contestant.title_image.url }}" width=140 class="rounded-circle" alt="{{ contestant.full_name }}"></a>
+        <h2>{{ contestant.short_name }}</h2>
+        <p class="text-center">{{ contestant.full_botanic_name }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'contestant' contestant.short_name %}">Таблица &raquo;</a></p>
+      </div><!-- /.col-lg-4 -->
+      {% endfor %}
+      
+    
+
+    <div class="row mt-5 pt-5 justify-content-center">
+      <!-- Left content START -->
+      <div class="col-lg-5 col-xl-6 text-center text-lg-start mb-5  ">
+        <h2 class="display-6 mb-4 text-center" id="calendar"><small><i class="bi bi-calendar4-week"></i></small>&nbsp; Календарь:</h2>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Дата</th>
+              <th scope="col">Событие</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+              {% if event == marathon.current_event %}
+              <tr >
+                <th scope="row"></th>
+                <td class="text-danger">Сейчас</td>
+                <td class="text-danger"><strong>{{ event.title }}</strong></td>
+              </tr>
+              {% else %}
+              <tr >
+                <th scope="row"></th>
+                <td class="text-{{ event.color }}"><small>{{ event.date | date:"d.m.Y" }}</small></td>
+                <td class="text-{{ event.color }}">{{ event.title }}</td>
+              </tr>
+              {% endif %}
+
+            {% endfor %}
+          </tbody>
+        </table> 
+      </div>
+
+      {% if marathon.nomination_set.all %}
+      <!-- Right content -->
+      <div class="col-lg-7 col-xl-6 text-center position-relative mb-4">
+        <h2 class="display-6 mb-4 text-center" id="nominations"><small><i class="bi bi-trophy-fill"></i></small>&nbsp;Номинации:</h2>
+        <table class="table table-striped text-start">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Номинация</th>
+              <th scope="col">Победитель</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for nom_category in nomination_categories %}
+            <tr>
+              <th scope="row"></th>
+              <td colspan=2 class="text-center"><strong>{{ nom_category}}</strong></td>
+              <td></td>
+            </tr>
+            {% for nomination in marathon.nomination_set.all %}
+            {% if nom_category == nomination.category %}
+            <tr>
+              <th scope="row"></th>
+              <td>{{ nomination.title }}</td>
+              <td>{{ nomination.winner_name }}<br/><span class="fw-light small">{{ nomination.winner_username }}</span></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table> 
+      </div>  
+      {% endif %}
+    </div> 
+
+    {% if images %}
+    <div class="row justify-content-center my-5" >
+      <h3 class="text-center">Финальные фото</h3>
+      <div class="col-lg-6 col-sm-12 p-4 border">
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for img in images %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+          </div>
+          <div class="carousel-inner">
+            {% for img in images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ img.url }}" class="d-block w-100" >
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</main>
+
+{% endblock body %}

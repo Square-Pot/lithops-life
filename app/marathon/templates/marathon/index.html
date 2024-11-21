@@ -5,6 +5,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+
+    <style>
+      .card-img-top {
+        height: 150px; /* Set your desired height */
+        object-fit: cover; /* This will ensure the image covers the area without distortion */
+      }
+    </style>
 {% endblock head %}
 
 {% block body %}
@@ -12,62 +19,36 @@
 <main>
 
   <div class="container marketing my-5">
-    <div class="row align-items-center mt-5 pt-5">
+    <div class="row align-items-start mt-5 pt-5">
+      {% for marathon in marathons %}
       <div class="col-sm-6 mb-3 mb-sm-0">
         <div class="card shadow">
+          <img src="{{ marathon.title_image.url }}" class="card-img-top" height=200 alt="Lithops seedlings">
           <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон 2023</h5>
-            <p class="card-text text-secondary">Первый посевной марафон аизовых</p>
+            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон <span class="fw-bolder">{{ marathon.name }}</span></h5>
+            <p class="card-text text-secondary">{{ marathon.description }}</p>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><small>Статус:</small>&nbsp; <span class="badge text-bg-danger">Финал</span></li>
-            <li class="list-group-item"><small>Текущий возраст сеянцев:</small>&nbsp; {{ m1_age }} дней</li>
-            <li class="list-group-item"><small>Тема недели: <em>Голосование за победителей</em></small></li>
+            <li class="list-group-item"><small>Статус:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
+            <li class="list-group-item"><small>Возраст:</small>&nbsp; {{ marathon.age_days }} дней</li>
+            <li class="list-group-item"><small>Текущий этап: <em> {{ marathon.current_event.title }} </em></small></li>
             <li class="list-group-item"><small>
               Конкурсные виды:
               <ul>
-               <li><a href="{% url 'species table' species_id='c188' %}"><em>Lithops werneri</em>, C188</a></li>
-               <li><a href="{% url 'species table' species_id='c262' %}"><em>Lithops gracilidelineata</em>, C262</a></li>
-               <li><a href="{% url 'species table' species_id='annarosa' %}"><em>Lithops hookeri</em> var. <em>dabneri</em> cv. 'Annarosa'</a></li>
-              </br>
+                {% for contestant in marathon.contestant_set.all %}
+                <li><a href="{% url 'contestant' contestant.short_name  %}"> {{ contestant.full_botanic_name }} </a></li>
+                {% endfor %}
+                </br>
               </ul>
               </small>
             </li>
           </ul>
           <div class="card-body text-center">
-            <a href="{% url 'marathon 2023' %}" class="btn btn-primary btn-sm">Подробней</a>
+            <a href="{% url 'marathon' marathon.name %}" class="btn btn-primary btn-sm">Подробней</a>
           </div>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="card shadow">
-          <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон 2024</h5>
-            <p class="card-text text-secondary">Второй посевной марафон аизовых</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><small>Текущий этап:</small>&nbsp; <span class="badge text-bg-success">4 этап: 29 октября</span></li>
-            <li class="list-group-item"><small>Следующий этап:</small>&nbsp;<span class="badge text-bg-secondary">5 этап: 11 ноября</span></li>
-            <li class="list-group-item"><small>Текущий возраст сеянцев:</small>&nbsp; {{ m2_age }} дней</li>
-            <li class="list-group-item">
-              <small>
-              Конкурсные виды:
-              <ul>
-                <li><em>Lithops</em> 'Murasaki-Kikushogyoku'</li>
-                <li><em>Lithops karasmontana</em> cv. 'Axel's Rose'</em></li>
-                <li><em>Lithops otzeniana</em> cv. 'Cesky Granat'</li>
-                <li><em>Lithops pseudotruncatella</em> ssp. <em>pseudotruncatella</em> var. <em>elisabethiae</em>, C187</li>
-                <li><em>Lithops lesliei</em> cv. 'Albinica', C036A</li>
-                <li><em>Lithops hookeri</em> var. <em>susannae</em>, C091</li>
-               </ul>
-              </small>
-            </li>
-          </ul>
-          <div class="card-body text-center">
-            <a href="{% url 'marathon 2024' %}" class="btn btn-sm btn-primary">Подробней</a>
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>  
   </div>
 </main>

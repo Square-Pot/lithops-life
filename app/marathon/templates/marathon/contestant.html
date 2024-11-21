@@ -1,0 +1,114 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <script type="text/javascript" src="{% static 'marathon/js/jquery-1.9.1.min.js' %}" ></script>
+    <style type="text/css">
+        .openseadragon1 {
+            width: 100%;
+            height: 60vh;
+            border: 1px solid;
+        }
+
+        .carousel-item img {
+            width: 100%; /* Make the image take the full width of the container */
+            height: 500px; /* Set a fixed height */
+            object-fit: cover; /* This will crop the image to fit the container */
+        }
+        
+    </style>
+
+{% endblock head %}
+
+{% block body %}
+
+<main>
+
+  <div class="container mt-5">
+    <div class="row mt-5  justify-content-center">
+      <div class="col ">
+          {% comment %} <h1 class="display-6 my-5 text-center">Конкурсная таблица {{ species_full_name }}</h1> {% endcomment %}
+          <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'marathons' %}">Марафон</a></li>
+              <li class="breadcrumb-item"><a href="">{{ contestant.marathon.name }}</a></li>
+              <li class="breadcrumb-item active" aria-current="page">{{ contestant.full_botanic_name }}</li>
+            </ol>
+          </nav>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col">
+            <div id="contentDiv" class="openseadragon1"></div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col">
+          <p class="small">Используйе кнопку <img src="{% static "marathon/js/openseadragon-bin-4.1.1/images/fullpage_rest.png" %}"> <strong>Развернуть на весь экран</strong> в верхнем левом углу для более удобного просмотра</p>
+      </div>
+    </div>
+    
+    {% if contestant.images.all %}
+    <div class="row justify-content-center my-5" >
+      <h3 class="text-center">Сеянцы через 1 год после посева</h3>
+      <div class="col-lg-6 col-sm-12 p-4 border">
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for img in contestant.images.all %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter }}" {% if forloop.first %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+          </div>
+          <div class="carousel-inner">
+            {% for img in contestant.images.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ img.url }}" class="d-block .w-100" >
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+    <div class="row justify-content-center my-5">
+      <h3 class="text-center my-5">Другие сеянцы этого марафона:</h3>
+      {% for another_cont in rest_contestants %}
+      <div class="col-lg-4  d-flex flex-column align-items-center mb-5 mb-lg-0">
+        <a href="{% url 'contestant' another_cont.short_name %}"><img src="{{ another_cont.title_image.url }}" class="rounded-circle" width=140 alt="{{ another_cont.full_name }}"></a>
+        <h2>{{ another_cont.short_name }}</h2>
+        <p class="text-center">{{ another_cont.full_botanic_name }}</p>
+        <p><a class="btn btn-secondary" href="{% url 'contestant' another_cont.short_name %}">Таблица &raquo;</a></p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</main>
+
+<script type="text/javascript" src="{% static 'marathon/js/openseadragon-bin-4.1.1/openseadragon.js' %}" ></script>
+{% endblock body %}
+
+
+{% block foot %}
+
+
+  <script type="text/javascript">
+    var viewer = OpenSeadragon({
+        // debugMode: true,
+        id: "contentDiv",
+        prefixUrl: "{% static 'marathon/js/openseadragon-bin-4.1.1/images/' %}",
+        tileSources: "https://storage.yandexcloud.net/lithops.life/dzi/{{ contestant.dzi }}",
+        showNavigator: true
+    });
+  </script>
+
+{% endblock foot %}

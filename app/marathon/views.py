@@ -1,53 +1,47 @@
+import datetime
 from django.core.mail import send_mail
 from django.conf import settings
-import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound
 from django.template import loader
-
+from marathon.models import Marathon, Contestant, Nomination, Image
 
 
 def redirect_to_marathon(request):
     return redirect('marathons') 
 
 def index_view(request):
-    today = datetime.date.today()
-    second_marathon_days_left = (datetime.date(2024, 10, 1) - today).days
-    if second_marathon_days_left <= 0:
-        second_marathon_days_left = ''
+    marathons = Marathon.objects.all()
     context = {
-        'm1_age': (datetime.date.today() - datetime.date(2023, 10, 1)).days,
-        'm2_age': (datetime.date.today() - datetime.date(2024, 10, 1)).days,
+        'marathons': marathons,
     }
-    
     return render(request, 'marathon/index.html', context=context)
 
-def first_view(request):
-    return render(request, 'marathon/2023.html')
 
-def second_view(request):
-    return render(request, 'marathon/2024.html')
+def marathon_view(request, marathon_name):
+    marathon = get_object_or_404(Marathon, name=marathon_name)
+    context = {
+        'marathon': marathon,
+        'events': marathon.event_set.all().order_by('-date'),
+        'nomination_categories': Nomination.objects.all().values_list('category', flat=True).distinct(),
+        'images': Image.objects.filter(marathon=marathon, contestant=None),
 
-
-def table_view(request, species_id):
-    species_ids = {
-        'annarosa': 'L. hookeri var. dabneri cv. Annarosa',
-        'c188': 'L. werneri, C188',
-        'c262': 'L. gracilidelineata, C262'
     }
-    
-    if species_id not in species_ids:
-        return HttpResponseNotFound()
-    
-    rest_species_ids = list(species_ids.keys())
-    rest_species_ids.remove(species_id)
-    
+    return render(request, 'marathon/marathon.html', context=context)
+
+
+def contestant_view(request, contestant_short_name):
+    contestant = get_object_or_404(Contestant, short_name=contestant_short_name)
+    rest_contestants = (
+        Contestant.objects
+        .filter(marathon=contestant.marathon)
+        .exclude(id=contestant.id)
+    )
     context = { 
-        'species_id': species_id,
-        'species_full_name': species_ids[species_id],
-        'rest_species': rest_species_ids
+        'contestant': contestant,
+        'rest_contestants': rest_contestants,
     }
-    template = loader.get_template('marathon/species.html')
+    template = loader.get_template('marathon/contestant.html')
     return HttpResponse(template.render(context, request))
 
 
@@ -67,6 +61,11 @@ def knowledge(request):
     template = loader.get_template('marathon/knowledge.html')
     return HttpResponse(template.render(context, request))
 
+def rules(request):
+    context = {}
+    template = loader.get_template('marathon/rules.html')
+    return HttpResponse(template.render(context, request))
+
 def contacts(request):
     
     result = None
@@ -82,7 +81,7 @@ def contacts(request):
         message = request.POST.get('message', '')
 
         if email and subject and message:
-            send_mail(subject, message, settings.EMAIL_HOST_USER, settings.EMAIL_RECIPIENT)
+            send_mail(subject, message + '\n' + email, settings.EMAIL_HOST_USER, settings.EMAIL_RECIPIENT)
             result = 'success'
         else: 
             result = 'error'

@@ -12,7 +12,7 @@ from marathon.models import Marathon, Contestant, Nomination, Image
 
 def index_view(request):
     context = {
-        'images': Image.objects.all().order_by('?')[:5],
+        'images': Image.objects.filter(is_starred=True).order_by('?')[:5],
         'marathons': Marathon.objects.all(),
         'contestants': Contestant.objects.all(),
     }

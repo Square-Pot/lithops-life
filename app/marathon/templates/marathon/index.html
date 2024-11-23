@@ -45,7 +45,7 @@
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
           <div class="carousel-indicators">
             {% for img in images %}
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter }}" {% if forloop.first %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
             {% endfor %}
           </div>
           <div class="carousel-inner">
@@ -107,10 +107,12 @@
         {% for contestant in contestants %}
           <div class="col justify-content-center mb-3">
             <div class="card">
-              <img src="{{ contestant.title_image.url }}" class="card-img-top" alt="{{ contestant.full_botanic_name }}">
-              <div class="card-body">
-                <p class="card-text small text-center">{{ contestant.short_name }}</p>
-              </div>
+              <a href="{% url 'contestant' contestant.short_name %}">
+                <img src="{{ contestant.title_image.url }}" class="card-img-top" alt="{{ contestant.full_botanic_name }}">
+                <div class="card-body">
+                  <p class="card-text small text-center">{{ contestant.short_name }}</p>
+                </div>
+            </a>
             </div>
 
 

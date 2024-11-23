@@ -7,15 +7,23 @@ from django.template import loader
 from marathon.models import Marathon, Contestant, Nomination, Image
 
 
-def redirect_to_marathon(request):
-    return redirect('marathons') 
+# def redirect_to_marathon(request):
+#     return redirect('marathons') 
 
 def index_view(request):
+    context = {
+        'images': Image.objects.all().order_by('?')[:5],
+        'marathons': Marathon.objects.all(),
+        'contestants': Contestant.objects.all(),
+    }
+    return render(request, 'marathon/index.html', context=context)
+
+def marathons_view(request):
     marathons = Marathon.objects.all()
     context = {
         'marathons': marathons,
     }
-    return render(request, 'marathon/index.html', context=context)
+    return render(request, 'marathon/marathons.html', context=context)
 
 
 def marathon_view(request, marathon_name):

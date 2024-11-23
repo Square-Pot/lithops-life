@@ -1,0 +1,56 @@
+{% extends "main.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
+
+    <style>
+      .card-img-top {
+        height: 150px; /* Set your desired height */
+        object-fit: cover; /* This will ensure the image covers the area without distortion */
+      }
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+<main>
+
+  <div class="container marketing my-5">
+    <div class="row align-items-start mt-5 pt-5">
+      {% for marathon in marathons %}
+      <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="card shadow">
+          <img src="{{ marathon.title_image.url }}" class="card-img-top" height=200 alt="Lithops seedlings">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон <span class="fw-bolder">{{ marathon.name }}</span></h5>
+            <p class="card-text text-secondary">{{ marathon.description }}</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><small>Статус:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
+            <li class="list-group-item"><small>Возраст:</small>&nbsp; {{ marathon.age_days }} дней</li>
+            <li class="list-group-item"><small>Текущий этап: <em> {{ marathon.current_event.title }} </em></small></li>
+            <li class="list-group-item"><small>
+              Конкурсные виды:
+              <ul>
+                {% for contestant in marathon.contestant_set.all %}
+                <li><a href="{% url 'contestant' contestant.short_name  %}"> {{ contestant.full_botanic_name }} </a></li>
+                {% endfor %}
+                </br>
+              </ul>
+              </small>
+            </li>
+          </ul>
+          <div class="card-body text-center">
+            <a href="{% url 'marathon' marathon.name %}" class="btn btn-primary btn-sm">Подробней</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>  
+  </div>
+</main>
+
+{% endblock body %}

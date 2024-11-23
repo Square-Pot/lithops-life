@@ -7,9 +7,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"> 
 
     <style>
+      .card-img-left {
+        height: 100%;
+        object-fit: cover;
+      }
+
       .card-img-top {
-        height: 150px; /* Set your desired height */
-        object-fit: cover; /* This will ensure the image covers the area without distortion */
+        height: 120px;
+        object-fit: cover;
+      }
+
+      .carousel-item img {
+        width: 100%; /* Make the image take the full width of the container */
+        height: 300px; /* Set a fixed height */
+        object-fit: cover; /* This will crop the image to fit the container */
+      }
+      .card a {
+        display: block; /* Make the anchor fill the card */
+        color: inherit; /* Inherit text color */
+    }
+    
+      .card a:hover {
+          text-decoration: none; /* Remove underline on hover */
+          background-color: rgba(0, 0, 0, 0.1); /* Optional: Add a hover effect */
       }
     </style>
 {% endblock head %}
@@ -17,40 +37,108 @@
 {% block body %}
 
 <main>
-
   <div class="container marketing my-5">
-    <div class="row align-items-start mt-5 pt-5">
+
+    <!-- IMAGE CAROUSEL --> 
+    <div class="row justify-content-center mt-5 mb-3 py-2" >
+      <div class="col">
+        <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            {% for img in images %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" {% endif %} aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+          </div>
+          <div class="carousel-inner">
+            {% for img in images %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img src="{{ img.url }}" class="d-block .w-100 rounded-5" >
+            </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARATHONS --> 
+    <div class="row justify-content-center rounded-5 bg-light bg-gradient my-2 py-3" >
+      
+      <div class="row justify-content-between">
+        <div class="col-4">
+          <h3 class="ms-3 mb-3">Марафоны:</h3>
+        </div>
+        <div class="col-4 text-end">
+          <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">Еще ></a>
+        </div>
+      </div>
       {% for marathon in marathons %}
-      <div class="col-sm-6 mb-3 mb-sm-0">
-        <div class="card shadow">
-          <img src="{{ marathon.title_image.url }}" class="card-img-top" height=200 alt="Lithops seedlings">
-          <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон <span class="fw-bolder">{{ marathon.name }}</span></h5>
-            <p class="card-text text-secondary">{{ marathon.description }}</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><small>Статус:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
-            <li class="list-group-item"><small>Возраст:</small>&nbsp; {{ marathon.age_days }} дней</li>
-            <li class="list-group-item"><small>Текущий этап: <em> {{ marathon.current_event.title }} </em></small></li>
-            <li class="list-group-item"><small>
-              Конкурсные виды:
-              <ul>
-                {% for contestant in marathon.contestant_set.all %}
-                <li><a href="{% url 'contestant' contestant.short_name  %}"> {{ contestant.full_botanic_name }} </a></li>
-                {% endfor %}
-                </br>
-              </ul>
-              </small>
-            </li>
-          </ul>
-          <div class="card-body text-center">
-            <a href="{% url 'marathon' marathon.name %}" class="btn btn-primary btn-sm">Подробней</a>
-          </div>
+      <div class="col-12 col-md-6">
+        <div class="card mb-3">
+          <a href="{% url 'marathon' marathon.name %}" class="text-decoration-none">
+            <div class="row g-0">
+              <div class="col-md-2">
+                <img src="{{ marathon.title_image.url }}" class="img-fluid rounded-start card-img-left" alt="Lithops seedlings">
+              </div>
+              <div class="col-md-10">
+                <div class="card-body">
+                  <h5 class="card-title fw-bolder">Марафон {{ marathon.name }}</h5>
+                  <p class="card-text">{{ marathon.participants_number }} участников, {{ marathon.contestant_set.all.count }} конкурсантов, {{ marathon.age_days }} дней с начала посева.</p>
+                  <p class="card-text"><small class="text-muted">Дата посева: {{ marathon.seeding_date | date:"d.m.Y" }}</small></p>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
       {% endfor %}
-    </div>  
-  </div>
+
+    </div>
+
+    <!-- CONTESTANTS --> 
+    <div class="row my-3">
+        <h3 class="ms-3 mb-3">Конкурсанты:</h3>
+        {% for contestant in contestants %}
+          <div class="col justify-content-center mb-3">
+            <div class="card">
+              <a href="{% url 'contestant' contestant.short_name %}">
+                <img src="{{ contestant.title_image.url }}" class="card-img-top" alt="{{ contestant.full_botanic_name }}">
+                <div class="card-body">
+                  <p class="card-text small text-center">{{ contestant.short_name }}</p>
+                </div>
+            </a>
+            </div>
+
+
+            {% comment %} <a href="{% url 'contestant' contestant.short_name %}"><img src="{{ contestant.title_image.url }}" class="rounded-circle" width=100 alt="{{ contestant.full_name }}"></a>
+            <p class="text-center lead">{{ contestant.short_name }}</p> {% endcomment %}
+          </div>
+        {% endfor %}
+    </div>
+
+    <!-- ABOUT --> 
+    <div class="row my-3 py-4 rounded-5 bg-light bg-gradient">
+      <div class="col">
+          <h3 class="ms-3 mb-3">Что такое Марафон?</h3>
+          <p class="lead">Марафон — длительное мероприятие, в котором мы все вместе сеем семена в один день и наблюдаем за ростом и развитием растений в течение как минимум года, создавая вокруг этого процесса единое сообщество. Это не просто посев, а возможность глубже понять особенности этого семейства растений путем наблюдения, сравнения и обмена опытом.</p>
+          
+          <div class="text-end"> <!-- Aligns the button to the right -->
+              <a href="{% url 'marathon about' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">Узнать больше ></a>
+          </div>
+      </div>
+    </div>
+
+
+
+
+
+  
 </main>
 
 {% endblock body %}

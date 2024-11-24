@@ -25,6 +25,7 @@ urlpatterns = [
     # path('', marathon_views.redirect_to_marathon, name='redirect_to_marathon'),
     path('', marathon_views.index_view, name="index"),
     path("marathons", marathon_views.marathons_view, name="marathons"),
+    path("marathon/", marathon_views.redirect_to_main, name="redirect_to_main"),
     path("marathon/", include("marathon.urls")),
     path("about", marathon_views.about, name="marathon about"),
     path("partners", marathon_views.partners, name="marathon partners"),

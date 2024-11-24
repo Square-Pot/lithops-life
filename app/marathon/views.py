@@ -7,8 +7,8 @@ from django.template import loader
 from marathon.models import Marathon, Contestant, Nomination, Image
 
 
-# def redirect_to_marathon(request):
-#     return redirect('marathons') 
+def redirect_to_main(request):
+    return redirect('index') 
 
 def index_view(request):
     context = {

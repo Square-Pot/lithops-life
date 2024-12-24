@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,14 +19,14 @@
 
     <div class="row align-items-center  mt-5 pt-1 ">
       <div class="col">
-        <h1 class="mb-0 display-6">Знания</h1>
-        <p class="mt-3 mb-3 lead">Ниже приводятся материалы, накопленные участниками в свободное время между этапами Марафона, и другие полезные ссылки.</p>
+        <h1 class="mb-0 display-6">{% trans 'Знания' %}</h1>
+        <p class="mt-3 mb-3 lead">{% trans 'Ниже приводятся материалы, накопленные участниками в свободное время между этапами Марафона, и другие полезные ссылки.' %}</p>
       </div>
     </div>
 
     <div class="row justify-content-md-center mt-5 pt-1 mb-5 ">
       <div class="col-12 col-md-4">
-        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-flower2"></i></small>&nbsp; Виды:</h2>
+        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-flower2"></i></small>&nbsp; {% trans 'Виды' %}:</h2>
         <ul class="list-unstyled">
           <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Lithops-dorotheae-01-25">Lithops dorotheae</a></li>
           <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Lithops-otzeniana-02-26">Lithops otzeniana </a></li>
@@ -35,32 +36,32 @@
         </ul>
       </div>
       <div class="col-12 mt-5 mt-md-0 col-md-4">
-        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-bucket-fill"></i></small>&nbsp; Уход:</h2>
+        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-bucket-fill"></i></small>&nbsp; {% trans 'Уход' %}:</h2>
         <ul class="list-unstyled">
-          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Poliv-litopsov-01-24-2">Полив литопсов</a></li>
-          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Godovoj-cikl-litopsov-02-26">Годовой цикл литопсов</a></li>
-          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Substrat-03-30">Субстрат для литопсов</a></li>
+          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Poliv-litopsov-01-24-2">{% trans  'Полив литопсов'%}</a></li>
+          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Godovoj-cikl-litopsov-02-26">{% trans  'Годовой цикл литопсов' %}</a></li>
+          <li><i class="bi bi-link"></i> <a href="https://telegra.ph/Substrat-03-30">{% trans  'Субстрат для литопсов' %}</a></li>
         </ul>
       </div>
     </div>
 
     <div class="row align-items-center justify-content-md-center   mt-5 pt-1 ">
       <div class="col-8">
-        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-person-circle"></i></i></small>&nbsp; Авторские статьи:</h2>
+        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-person-circle"></i></i></small>&nbsp; {% trans  'Авторские статьи' %}:</h2>
         <ul class="list-unstyled">
-          <li><i class="bi bi-link"></i> <a href="https://vk.com/@-221111793-moi-opyt-poseva-litopsov">Мой опыт посева литопсов</a>, <em>Владимир Долгих</em></li>
-          <li><i class="bi bi-link"></i> <a href="https://pikabu.ru/story/litopsyi_dlya_chaynikov_voprosyi_na_otvetyi_8233884">Литопсы для чайников. Вопросы на ответы⁠⁠</a>, <em>krgplv, Евгения Каргаполова</em></li>
-          <li><i class="bi bi-link"></i> <a href="https://mesemb.ru/articles/cono">Выращивание конофитумов</a>, <em>Терри Смейл</em></li>
+          <li><i class="bi bi-link"></i> <a href="https://vk.com/@-221111793-moi-opyt-poseva-litopsov">{% trans  'Мой опыт посева литопсов' %}</a>, <em>{% trans  'Владимир Долгих' %}</em></li>
+          <li><i class="bi bi-link"></i> <a href="https://pikabu.ru/story/litopsyi_dlya_chaynikov_voprosyi_na_otvetyi_8233884">{% trans  'Литопсы для чайников. Вопросы на ответы⁠⁠' %}</a>, <em>{% trans  'krgplv, Евгения Каргаполова' %}</em></li>
+          <li><i class="bi bi-link"></i> <a href="https://mesemb.ru/articles/cono">{% trans  'Выращивание конофитумов' %}</a>, <em>{% trans  'Терри Смейл' %}</em></li>
         </ul>
       </div>
     </div> 
 
     <div class="row align-items-center justify-content-md-center   my-5 pt-1 ">
       <div class="col-8">
-        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-info-square"></i></i></small>&nbsp; Прочие полезные ресурсы:</h2>
+        <h2 class="display-6 mb-4 text-start"><small><i class="bi bi-info-square"></i></i></small>&nbsp; {% trans 'Прочие полезные ресурсы' %}:</h2>
         <ul class="list-unstyled">
           <li><i class="bi bi-pin-map"></i>  <a href="https://www.google.com/maps/d/u/0/edit?mid=1dDYbJ43isGRc0T2Y8cD2-0bi1GMwG0Y&usp=sharing">Lithops Locality Data</a>
-<em>Desmond T. Cole</em> October 2002, C001 - C400, локации на Google Map</li>
+<em>Desmond T. Cole</em> October 2002, C001 - C400, {% trans 'локации на Google Map'%}</li>
         </ul>
       </div>
     </div> 

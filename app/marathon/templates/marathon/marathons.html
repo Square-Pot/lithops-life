@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,15 +26,15 @@
         <div class="card shadow">
           <img src="{{ marathon.title_image.url }}" class="card-img-top" height=200 alt="Lithops seedlings">
           <div class="card-body">
-            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;Меземб Марафон <span class="fw-bolder">{{ marathon.name }}</span></h5>
+            <h5 class="card-title"><i class="bi bi-flower3"></i>&nbsp;{% trans 'Меземб Марафон' %} <span class="fw-bolder">{{ marathon.name }}</span></h5>
             <p class="card-text text-secondary">{{ marathon.description }}</p>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><small>Статус:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
-            <li class="list-group-item"><small>Возраст:</small>&nbsp; {{ marathon.age_days }} дней</li>
-            <li class="list-group-item"><small>Текущий этап: <em> {{ marathon.current_event.title }} </em></small></li>
+            <li class="list-group-item"><small>{% trans 'Статус' %}:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
+            <li class="list-group-item"><small>{% trans 'Возраст' %}:</small>&nbsp; {{ marathon.age_days }} {% trans 'дней' %}</li>
+            <li class="list-group-item"><small>{% trans 'Текущий этап'%}: <em> {{ marathon.current_event.title }} </em></small></li>
             <li class="list-group-item"><small>
-              Конкурсные виды:
+              {% trans 'Конкурсанты' %}:
               <ul>
                 {% for contestant in marathon.contestant_set.all %}
                 <li><a href="{% url 'contestant' contestant.short_name  %}"> {{ contestant.full_botanic_name }} </a></li>
@@ -44,7 +45,7 @@
             </li>
           </ul>
           <div class="card-body text-center">
-            <a href="{% url 'marathon' marathon.name %}" class="btn btn-primary btn-sm">Подробней</a>
+            <a href="{% url 'marathon' marathon.name %}" class="btn btn-primary btn-sm">{% trans 'Подробней' %}</a>
           </div>
         </div>
       </div>

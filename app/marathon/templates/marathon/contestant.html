@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <script type="text/javascript" src="{% static 'marathon/js/jquery-1.9.1.min.js' %}" ></script>
@@ -30,7 +31,7 @@
           {% comment %} <h1 class="display-6 my-5 text-center">Конкурсная таблица {{ species_full_name }}</h1> {% endcomment %}
           <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{% url 'marathons' %}">Марафон</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'marathons' %}">{% trans 'Марафон' %}</a></li>
               <li class="breadcrumb-item"><a href="{% url 'marathon' contestant.marathon.name %}">{{ contestant.marathon.name }}</a></li>
               <li class="breadcrumb-item active" aria-current="page">{{ contestant.full_botanic_name }}</li>
             </ol>
@@ -44,13 +45,13 @@
     </div>
     <div class="row justify-content-center">
       <div class="col">
-          <p class="small">Используйе кнопку <img src="{% static "marathon/js/openseadragon-bin-4.1.1/images/fullpage_rest.png" %}"> <strong>Развернуть на весь экран</strong> в верхнем левом углу для более удобного просмотра</p>
+          <p class="small">{% trans 'Используйе кнопку' %} <img src="{% static "marathon/js/openseadragon-bin-4.1.1/images/fullpage_rest.png" %}"> <strong>{% trans 'Развернуть во весь экран' %}</strong> {% trans 'в верхнем левом углу для более удобного просмотра' %}</p>
       </div>
     </div>
     
     {% if contestant.images.all %}
     <div class="row justify-content-center my-5" >
-      <h3 class="text-center">Сеянцы через 1 год после посева</h3>
+      <h3 class="text-center">{% trans 'Сеянцы через 1 год после посева' %}</h3>
       <div class="col-lg-6 col-sm-12 p-4 border">
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
           <div class="carousel-indicators">
@@ -80,13 +81,13 @@
 
   </div>
     <div class="row justify-content-center my-5">
-      <h3 class="text-center my-5">Другие сеянцы этого марафона:</h3>
+      <h3 class="text-center my-5">{% trans 'Другие сеянцы этого марафона' %}:</h3>
       {% for another_cont in rest_contestants %}
       <div class="col-lg-4  d-flex flex-column align-items-center mb-5 mb-lg-0">
         <a href="{% url 'contestant' another_cont.short_name %}"><img src="{{ another_cont.title_image.url }}" class="rounded-circle" width=140 alt="{{ another_cont.full_name }}"></a>
         <h2>{{ another_cont.short_name }}</h2>
         <p class="text-center">{{ another_cont.full_botanic_name }}</p>
-        <p><a class="btn btn-secondary" href="{% url 'contestant' another_cont.short_name %}">Таблица &raquo;</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'contestant' another_cont.short_name %}">{% trans 'Таблица' %} &raquo;</a></p>
       </div>
       {% endfor %}
     </div>

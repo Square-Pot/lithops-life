@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,10 +73,10 @@
       
       <div class="row justify-content-between">
         <div class="col-4">
-          <h3 class="ms-3 mb-3">Марафоны:</h3>
+          <h3 class="ms-3 mb-3">{% trans 'Марафоны' %}:</h3>
         </div>
         <div class="col-4 text-end">
-          <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">Еще ></a>
+          <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">{% trans 'Еще' %} ></a>
         </div>
       </div>
       {% for marathon in marathons %}
@@ -88,9 +89,9 @@
               </div>
               <div class="col-md-10">
                 <div class="card-body">
-                  <h5 class="card-title fw-bolder">Марафон {{ marathon.name }}</h5>
-                  <p class="card-text">{{ marathon.participants_number }} участников, {{ marathon.contestant_set.all.count }} конкурсантов, {{ marathon.age_days }} дней с начала посева.</p>
-                  <p class="card-text"><small class="text-muted">Дата посева: {{ marathon.seeding_date | date:"d.m.Y" }}</small></p>
+                  <h5 class="card-title fw-bolder">{% trans 'Марафон' %} {{ marathon.name }}</h5>
+                  <p class="card-text">{{ marathon.participants_number }} {% trans 'участников' %}, {{ marathon.contestant_set.all.count }} {% trans 'конкурсантов' %}, {{ marathon.age_days }} {% trans 'дней с начала посева' %}.</p>
+                  <p class="card-text"><small class="text-muted">{% trans 'Дата посева' %}: {{ marathon.seeding_date | date:"d.m.Y" }}</small></p>
                 </div>
               </div>
             </div>
@@ -103,7 +104,7 @@
 
     <!-- CONTESTANTS --> 
     <div class="row my-3">
-        <h3 class="ms-3 mb-3">Конкурсанты:</h3>
+        <h3 class="ms-3 mb-3">{% trans 'Конкурсанты' %}:</h3>
         {% for contestant in contestants %}
           <div class="col justify-content-center mb-3">
             <div class="card">
@@ -114,10 +115,6 @@
                 </div>
             </a>
             </div>
-
-
-            {% comment %} <a href="{% url 'contestant' contestant.short_name %}"><img src="{{ contestant.title_image.url }}" class="rounded-circle" width=100 alt="{{ contestant.full_name }}"></a>
-            <p class="text-center lead">{{ contestant.short_name }}</p> {% endcomment %}
           </div>
         {% endfor %}
     </div>
@@ -125,11 +122,11 @@
     <!-- ABOUT --> 
     <div class="row my-3 py-4 rounded-5 bg-light bg-gradient">
       <div class="col">
-          <h3 class="ms-3 mb-3">Что такое Марафон?</h3>
-          <p class="lead">Марафон — длительное мероприятие, в котором мы все вместе сеем семена в один день и наблюдаем за ростом и развитием растений в течение как минимум года, создавая вокруг этого процесса единое сообщество. Это не просто посев, а возможность глубже понять особенности этого семейства растений путем наблюдения, сравнения и обмена опытом.</p>
+          <h3 class="ms-3 mb-3">{% trans 'Что такое Марафон?' %}</h3>
+          <p class="lead">{% trans 'определение_марафона' %}</p>
           
           <div class="text-end"> <!-- Aligns the button to the right -->
-              <a href="{% url 'marathon about' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">Узнать больше ></a>
+              <a href="{% url 'marathon about' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">{% trans 'Узнать больше' %} ></a>
           </div>
       </div>
     </div>

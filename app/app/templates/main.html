@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 
 <!doctype html>
 <html lang="en">
@@ -58,7 +59,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle {% if '/marathon/20' in request.path %}active{% endif %}" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Марафоны 
+                  {% trans "Марафоны" %} 
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   {% for marathon in marathons %}
@@ -68,26 +69,32 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon about' %}active{% endif %}" href="{% url 'marathon about' %}" tabindex="-1" aria-disabled="true">О проекте</a>
+                <a class="nav-link {% if url_name == 'marathon about' %}active{% endif %}" href="{% url 'marathon about' %}" tabindex="-1" aria-disabled="true">{% trans 'О проекте' %}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon rules' %}active{% endif %}" href="{% url 'marathon rules' %}" tabindex="-1" aria-disabled="true">Правила</a>
+                <a class="nav-link {% if url_name == 'marathon rules' %}active{% endif %}" href="{% url 'marathon rules' %}" tabindex="-1" aria-disabled="true">{% trans 'Правила' %}</a>
               </li>  
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Публикации</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{% trans 'Публикации' %}</a>
               </li>  
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon knowledge' %}active{% endif %}" href="{% url 'marathon knowledge' %}" tabindex="-1" aria-disabled="true">Знания</a>
+                <a class="nav-link {% if url_name == 'marathon knowledge' %}active{% endif %}" href="{% url 'marathon knowledge' %}" tabindex="-1" aria-disabled="true">{% trans 'Знания' %}</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">Партнеры</a>
+                <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">{% trans 'Партнеры' %}</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon contacts' %}active{% endif %}" href="{% url 'marathon contacts' %}" tabindex="-1" aria-disabled="true">Контакты</a>
+                <a class="nav-link {% if url_name == 'marathon contacts' %}active{% endif %}" href="{% url 'marathon contacts' %}" tabindex="-1" aria-disabled="true">{% trans 'Контакты' %}</a>
               </li> 
             </ul>
             {% endwith %}
-            <img class="d-flex me-4" src="{% static 'img/flags/gb.svg' %}" style="height: 20px;">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_language_info for LANGUAGE_CODE as lang %}
+            <ul class="navbar-nav small me-2 mb-2 mb-md-0">
+              <li class="nav-item"><a class="nav-link {% if lang.code  == 'en' %}active{% endif %}" href="{% url 'set_lang' %}?language=en"> EN</a> </li>
+              {% comment %} <li class="nav-item"><a class="nav-link {% if lang.code  == 'de' %}active{% endif %}" href="{% url 'set_lang' %}?language=de">DE</a> </li> {% endcomment %}
+              <li class="nav-item"><a class="nav-link {% if lang.code  == 'ru' %}active{% endif %}" href="{% url 'set_lang' %}?language=ru">RU</a></li>
+            </ul>
           </div>
         </div>
       </nav> 
@@ -104,7 +111,7 @@
                 <img src="{% static 'img/masemb_marathon_logo_300p.png' %}" class="img-fluid" alt="Mesemb Marathon Logo">
             </div>
         </div>
-        <p class="float-end"><a href="#">В начало &nbsp;<i class="bi bi-arrow-up"></i></a></p>
+        <p class="float-end"><a href="#">{%  trans 'В начало' %} &nbsp;<i class="bi bi-arrow-up"></i></a></p>
         <p>&copy; 2023–2024 &middot; Mesemb Marathon  &middot;</p>
       </footer>
 

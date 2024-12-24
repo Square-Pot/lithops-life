@@ -1,5 +1,6 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     <style type="text/css">
@@ -15,7 +16,7 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col">
-                <p class="lead my-4">Главные партнеры нашего Марафона — это его участники. Именно благодаря их внимательным наблюдениям и активному участию создаются все материалы и отчеты. Однако у нас есть и другие важные партнеры, которые сопровождают Марафон: предоставляют площадку для общения, поддерживают порядок в чате, снабжают посевным материалом, обеспечивают информационную поддержку, а также выступают спонсорами призов и подарков. Без их помощи Марафон, безусловно, состоялся бы, но был бы немного скучнее.</p>
+                <p class="lead my-4">{% trans 'about_partners' %}</p>
             </div>
         </div>
         <div class="row">
@@ -70,7 +71,7 @@
         
         <div class="row justify-content-center my-5 py-5">
             <div class="col-10 border border-success py-3 px-5 text-center">
-                <p class="lead"><small>Чтобы стать партнером Марафона - воспользуйтесь формой обратной связи на странице <a href="{% url 'marathon contacts' %}?subject=partnership">Контакты</a>.</small></p>
+                <p class="lead"><small>{% trans 'how_to_be_a_partner' %} <a href="{% url 'marathon contacts' %}?subject=partnership">{% trans 'Контакты' %}</a>.</small></p>
             </div>
         </div>
     </div>

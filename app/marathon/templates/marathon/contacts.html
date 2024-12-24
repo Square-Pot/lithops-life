@@ -1,7 +1,15 @@
 {% extends "main.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("recaptchaResponse").value = token;
+            document.getElementById("submitBtn").click();
+        }
+    </script>
     <style type="text/css">
         h3 {
             padding-top: 0.7em
@@ -17,7 +25,7 @@
         <div class="row">
             <div class="col">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Успех!</strong> Ваше сообщение отправлено.
+                    {% trans '<strong>Успех!</strong> Ваше сообщение отправлено.' %}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
             </div>
@@ -27,7 +35,7 @@
         <div class="row">
             <div class="col">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Неуспешно!</strong> Что-то пошло не так. 
+                    {% trans '<strong>Неуспешно!</strong> Что-то пошло не так.' %}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
@@ -38,22 +46,30 @@
                 <form action="{% url 'marathon contacts' %}" method="POST">
                     {% csrf_token %}
                     <div class="mb-3">
-                        <label for="email" class="form-label">Ваша почта для обратной связи:</label>
+                        <label for="email" class="form-label">{% trans 'Ваша почта для обратной связи' %}:</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
                     </div>
                     
-                    <label class="form-label">Тема:</label>
+                    <label class="form-label">{% trans 'Тема' %}:</label>
                     <select class="form-select mb-3" name="subject" aria-label="Default select example" required>
-                        <option {% if subject == 'membership' %}selected{% endif %} value="membership">Заявка на участие в Марафоне</option>
-                        <option {% if subject == 'partnership' %}selected{% endif %} value="partnership">Партнерство</option>
-                        <option {% if subject == 'etc' %}selected{% endif %} value="etc">Прочее</option>
+                        <option {% if subject == 'membership' %}selected{% endif %} value="membership">{% trans 'Заявка на участие в Марафоне' %}</option>
+                        <option {% if subject == 'partnership' %}selected{% endif %} value="partnership">{% trans 'Партнерство' %}</option>
+                        <option {% if subject == 'etc' %}selected{% endif %} value="etc">{% trans 'Прочее' %}</option>
                     </select>
                     
                     <div class="mb-3">
-                        <label for="message" class="form-label">Сообщение:</label>
+                        <label for="message" class="form-label">{% trans 'Сообщение' %}:</label>
                         <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                     </div>
-                    <input class="btn btn-success" type="submit" value="Отправить">
+                    <div class="g-recaptcha" 
+                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3" 
+                        data-callback="onSubmit" 
+                        data-action="submit"></div>
+                    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
+                    <input class="btn btn-success" type="submit" value="{% trans 'Отправить' %}" id="submitBtn">
+
+
+
                 </form>
             </div>
         </div>

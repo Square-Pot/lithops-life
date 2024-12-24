@@ -1,14 +1,15 @@
 import datetime
 from django.db import models
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 
 class Marathon(models.Model):
     STATUS_CHOICES = [
-        ('pending', 'Ожидание'),
-        ('in_progress', 'В процессе'),
-        ('final', 'Финал'),
-        ('completed', 'Завершен'),
+        ('pending', _('Ожидание')),
+        ('in_progress', _('В процессе')),
+        ('final', _('Финал')),
+        ('completed', _('Завершен')),
     ]
     
     name = models.CharField(max_length=255)
@@ -39,7 +40,9 @@ class Marathon(models.Model):
     def current_event(self):
         return self.event_set.filter(
             date__lt=datetime.date.today()
-        ).first()
+        ).order_by('date').last()
+
+
 
 class Contestant(models.Model):
     genus = models.CharField(max_length=100)
@@ -97,7 +100,7 @@ class Event(models.Model):
     published = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.date.strftime("%d.%m.%Y")} - {self.title}'
+        return f'[{ self.marathon.name }] {self.date.strftime("%d.%m.%Y")} - {self.title}'
     
     @property
     def color(self):
@@ -138,4 +141,5 @@ class Image(models.Model):
             data.append(f"{self.contestant.short_name}")
         data.append(self.url.split('/')[-1])
         return " - ".join(data)
+
 

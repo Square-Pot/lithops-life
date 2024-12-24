@@ -36,6 +36,7 @@ ALLOWED_HOSTS = [] if DEBUG else os.environ.get("DJANGO_ALLOWED_HOSTS").split(',
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,7 +123,7 @@ USE_TZ = True
 LANGUAGES = [
     ('ru', 'Русский'), 
     ('en', 'English'),
-    ('de', 'Deutsch'),
+    # ('de', 'Deutsch'),
 ]
 LOCALE_PATHS = [
     BASE_DIR / "locale",
@@ -154,3 +155,6 @@ EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_FROM_SITE_PASSWD")  # Your email pas
 EMAIL_RECIPIENT = [os.environ.get("EMAIL_FROM_SITE_TO")]
 
 CSRF_TRUSTED_ORIGINS = [f'https://{ os.environ.get("DOMAIN") }', f'http://{ os.environ.get("DOMAIN") }' ]
+
+
+RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")

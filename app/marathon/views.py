@@ -88,7 +88,6 @@ def rules(request):
     return HttpResponse(template.render(context, request))
 
 def contacts(request):
-    
     result = None
     subject = request.GET.get('subject', 'None')
     if not subject:
@@ -102,10 +101,8 @@ def contacts(request):
             'secret': settings.RECAPTCHA_SECRET_KEY,
             'response': recaptcha_response
         }
-        print(f"{data=}")
         response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
         result = response.json()
-        print(f"{response=}")
         if result['success']:
     
             email = request.POST.get('email', '')
@@ -119,8 +116,6 @@ def contacts(request):
                 result = 'error'
         else: 
             result = 'error'
-    
-    
     
     context = {
         'subject': subject,

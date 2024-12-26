@@ -102,9 +102,10 @@ def contacts(request):
             'secret': settings.RECAPTCHA_SECRET_KEY,
             'response': recaptcha_response
         }
+        print(f"{data=}")
         response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
         result = response.json()
-
+        print(f"{response=}")
         if result['success']:
     
             email = request.POST.get('email', '')

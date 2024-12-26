@@ -97,8 +97,7 @@ def contacts(request):
         subject = 'etc'
 
     if request.method == 'POST':
-        print(f"{request.POST}")
-        recaptcha_response = request.POST.get('recaptcha_response')
+        recaptcha_response = request.POST.get('g-recaptcha-response')
         data = {
             'secret': settings.RECAPTCHA_SECRET_KEY,
             'response': recaptcha_response

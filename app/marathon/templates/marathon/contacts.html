@@ -6,9 +6,8 @@
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script>
         function onSubmit(token) {
-            document.getElementById("recaptchaResponse").value = token;
-            document.getElementById("submitBtn").click();
-        }
+            document.getElementById("feedback-form").submit();
+          }
     </script>
     <style type="text/css">
         h3 {
@@ -43,7 +42,7 @@
         {% endif %}
         <div class="row justify-content-center my-5">
             <div class="col-10">
-                <form action="{% url 'marathon contacts' %}" method="POST">
+                <form action="{% url 'marathon contacts' %}" method="POST" id='feedback_form'>
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="email" class="form-label">{% trans 'Ваша почта для обратной связи' %}:</label>
@@ -61,13 +60,16 @@
                         <label for="message" class="form-label">{% trans 'Сообщение' %}:</label>
                         <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                     </div>
-                    <div class="g-recaptcha" 
-                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3" 
+                    {% comment %} <div class="g-recaptcha" 
+                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3"
                         data-callback="onSubmit" 
                         data-action="submit"></div>
                     <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-                    <input class="btn btn-success" type="submit" value="{% trans 'Отправить' %}" id="submitBtn">
-
+                    <input class="btn btn-success" type="submit" value="{% trans 'Отправить' %}" id="submitBtn"> {% endcomment %}
+                    <button class="g-recaptcha" 
+                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3" 
+                        data-callback='onSubmit' 
+                        data-action='submit'>{% trans 'Отправить' %}</button>
 
 
                 </form>

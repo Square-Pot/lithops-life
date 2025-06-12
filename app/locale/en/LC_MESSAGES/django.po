@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-24 20:38+0000\n"
+"POT-Creation-Date: 2025-06-12 08:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgstr "Knowledge"
 msgid "Партнеры"
 msgstr "Partners"
 
-#: app/templates/main.html:87 marathon/templates/marathon/partners.html:75
+#: app/templates/main.html:87 marathon/templates/marathon/partners.html:92
 msgid "Контакты"
 msgstr "Contacts"
 
@@ -168,39 +168,39 @@ msgstr ""
 "`Клуб любителей живых камней`. To join, please follow the appropriate link "
 "on the Marathon page."
 
-#: marathon/templates/marathon/contacts.html:28
+#: marathon/templates/marathon/contacts.html:27
 msgid "<strong>Успех!</strong> Ваше сообщение отправлено."
 msgstr "<strong>Success!</strong> Your message has been sent."
 
-#: marathon/templates/marathon/contacts.html:38
+#: marathon/templates/marathon/contacts.html:37
 msgid "<strong>Неуспешно!</strong> Что-то пошло не так."
 msgstr "<strong>Unsuccessful!</strong> Something went wrong."
 
-#: marathon/templates/marathon/contacts.html:49
+#: marathon/templates/marathon/contacts.html:48
 msgid "Ваша почта для обратной связи"
 msgstr "Your email for feedback"
 
-#: marathon/templates/marathon/contacts.html:53
+#: marathon/templates/marathon/contacts.html:52
 msgid "Тема"
 msgstr "Subject"
 
-#: marathon/templates/marathon/contacts.html:55
+#: marathon/templates/marathon/contacts.html:54
 msgid "Заявка на участие в Марафоне"
 msgstr "Application to participate in the Marathon"
 
-#: marathon/templates/marathon/contacts.html:56
+#: marathon/templates/marathon/contacts.html:55
 msgid "Партнерство"
 msgstr "Partnership"
 
-#: marathon/templates/marathon/contacts.html:57
+#: marathon/templates/marathon/contacts.html:56
 msgid "Прочее"
 msgstr "Other"
 
-#: marathon/templates/marathon/contacts.html:61
+#: marathon/templates/marathon/contacts.html:60
 msgid "Сообщение"
 msgstr "Message"
 
-#: marathon/templates/marathon/contacts.html:69
+#: marathon/templates/marathon/contacts.html:73
 msgid "Отправить"
 msgstr "Send"
 
@@ -440,7 +440,15 @@ msgstr ""
 "support, and sponsor prizes and gifts. While the Marathon would still happen "
 "without their help, it would definitely be a lot less exciting."
 
-#: marathon/templates/marathon/partners.html:75
+#: marathon/templates/marathon/partners.html:29
+msgid "marathon_2024_sponsors"
+msgstr "Marathon 2024 Sponsors"
+
+#: marathon/templates/marathon/partners.html:44
+msgid "marathon_2023_sponsors_and_partners"
+msgstr "Marathon 2023 Sponsors and partners"
+
+#: marathon/templates/marathon/partners.html:92
 msgid "how_to_be_a_partner"
 msgstr ""
 "To become a partner of the Marathon, please use the feedback form on the "

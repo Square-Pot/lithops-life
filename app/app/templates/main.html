@@ -64,7 +64,7 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   {% for marathon in marathons %}
                   {% url 'marathon' marathon.name as marathon_url %}
-                  <li><a class="dropdown-item {% if request.get_full_path == marathon_url %}active{% endif %}" href="{% url 'marathon' marathon.name %}">{{ marathon.name }}</a></li>
+                  <li><a class="dropdown-item {% if request.get_full_path == marathon_url %}active{% endif %}{% if marathon.age_days < 0 %}disabled{% endif %}" href="{% url 'marathon' marathon.name %}">{{ marathon.name }}</a></li>
                   {% endfor %}
                 </ul>
               </li>

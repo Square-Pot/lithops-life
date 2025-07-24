@@ -80,17 +80,17 @@
         </div>
       </div>
       {% for marathon in marathons %}
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-lg-4">
         <div class="card mb-3">
-          <a href="{% url 'marathon' marathon.name %}" class="text-decoration-none">
+          <a href="{% if marathon.age_days > 0 %}{% url 'marathon' marathon.name %}{%else%}#{% endif %}" class="text-decoration-none" disabled>
             <div class="row g-0">
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <img src="{{ marathon.title_image.url }}" class="img-fluid rounded-start card-img-left" alt="Lithops seedlings">
               </div>
-              <div class="col-md-10">
+              <div class="col-md-9">
                 <div class="card-body">
                   <h5 class="card-title fw-bolder">{% trans 'Марафон' %} {{ marathon.name }}</h5>
-                  <p class="card-text">{{ marathon.participants_number }} {% trans 'участников' %}, {{ marathon.contestant_set.all.count }} {% trans 'конкурсантов' %}, {{ marathon.age_days }} {% trans 'дней с начала посева' %}.</p>
+                  <p class="card-text">{{ marathon.participants_number }} {% trans 'участников' %}{% if marathon.contestant_set.all.count > 0 %}, {{ marathon.contestant_set.all.count }} {% trans 'конкурсантов' %}{% endif %}{% if marathon.age_days > 0 %}, {{ marathon.age_days }} {% trans 'дней с начала посева' %}{% endif %}.</p>
                   <p class="card-text"><small class="text-muted">{% trans 'Дата посева' %}: {{ marathon.seeding_date | date:"d.m.Y" }}</small></p>
                 </div>
               </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 08:50+0300\n"
+"POT-Creation-Date: 2025-07-22 20:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,7 +42,7 @@ msgstr "Knowledge"
 msgid "Партнеры"
 msgstr "Partners"
 
-#: app/templates/main.html:87 marathon/templates/marathon/partners.html:92
+#: app/templates/main.html:87 marathon/templates/marathon/partners.html:100
 msgid "Контакты"
 msgstr "Contacts"
 
@@ -89,11 +89,11 @@ msgstr ""
 "plant family through observation, comparison, and sharing experiences."
 
 #: marathon/templates/marathon/about.html:33
-msgid "Какие семена сять в Марафон?"
+msgid "Какие семена сеять в Марафоне?"
 msgstr "What seeds to sow in the Marathon?"
 
 #: marathon/templates/marathon/about.html:34
-msgid "Какие семена сять в Марафон? - Ответ"
+msgid "Какие семена сеять в Марафоне? - Ответ"
 msgstr ""
 "The marathon does not define lists of seeds for sowing and does not impose "
 "restrictions on sources. What and in what quantity to sow is determined by "
@@ -440,15 +440,19 @@ msgstr ""
 "support, and sponsor prizes and gifts. While the Marathon would still happen "
 "without their help, it would definitely be a lot less exciting."
 
-#: marathon/templates/marathon/partners.html:29
+#: marathon/templates/marathon/partners.html:28
+msgid "marathon_2025_sponsors"
+msgstr "Marathon 2025 Sponsors and Partners"
+
+#: marathon/templates/marathon/partners.html:37
 msgid "marathon_2024_sponsors"
 msgstr "Marathon 2024 Sponsors"
 
-#: marathon/templates/marathon/partners.html:44
+#: marathon/templates/marathon/partners.html:52
 msgid "marathon_2023_sponsors_and_partners"
 msgstr "Marathon 2023 Sponsors and partners"
 
-#: marathon/templates/marathon/partners.html:92
+#: marathon/templates/marathon/partners.html:100
 msgid "how_to_be_a_partner"
 msgstr ""
 "To become a partner of the Marathon, please use the feedback form on the "

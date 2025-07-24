@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-12 08:50+0300\n"
+"POT-Creation-Date: 2025-07-22 20:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,7 @@ msgstr "Знания"
 msgid "Партнеры"
 msgstr "Партнеры"
 
-#: app/templates/main.html:87 marathon/templates/marathon/partners.html:92
+#: app/templates/main.html:87 marathon/templates/marathon/partners.html:100
 msgid "Контакты"
 msgstr "Контакты"
 
@@ -88,18 +88,18 @@ msgid "Что такое Марафон? - Ответ"
 msgstr ""
 "Марафон — это долгосрочное событие, в рамках которого мы все сеем семена в "
 "один день и наблюдаем за ростом и развитием растений как минимум в течение "
-"года, создавая вокруг этого процесса единую сообщества. Это не просто посев, "
+"года, создавая вокруг этого процесса единое сообщество. Это не просто посев, "
 "а возможность глубже понять особенности этого семейства растений через "
 "наблюдение, сравнение и обмен опытом."
 
 #: marathon/templates/marathon/about.html:33
 #, fuzzy
 #| msgid "Другие сеянцы этого марафона"
-msgid "Какие семена сять в Марафон?"
-msgstr "Какие семена сять в Марафон?"
+msgid "Какие семена сеять в Марафоне?"
+msgstr "Какие семена сеять в Марафоне?"
 
 #: marathon/templates/marathon/about.html:34
-msgid "Какие семена сять в Марафон? - Ответ"
+msgid "Какие семена сеять в Марафоне? - Ответ"
 msgstr ""
 "Марафон не устанавливает списков семян для посева и не накладывает "
 "ограничений на их источники. Что и в каком количестве сеять — каждый "
@@ -456,15 +456,19 @@ msgstr ""
 "Марафон мог бы состояться и без их помощи, с ними он становится намного "
 "интереснее."
 
-#: marathon/templates/marathon/partners.html:29
+#: marathon/templates/marathon/partners.html:28
+msgid "marathon_2025_sponsors"
+msgstr "Партнеры и спонсоры Марафона 2025"
+
+#: marathon/templates/marathon/partners.html:37
 msgid "marathon_2024_sponsors"
 msgstr "Спонсоры призов Марафона 2024"
 
-#: marathon/templates/marathon/partners.html:44
+#: marathon/templates/marathon/partners.html:52
 msgid "marathon_2023_sponsors_and_partners"
 msgstr "Спонсоры призов и партнеры Марафона 2023"
 
-#: marathon/templates/marathon/partners.html:92
+#: marathon/templates/marathon/partners.html:100
 msgid "how_to_be_a_partner"
 msgstr ""
 "Чтобы стать партнёром Марафона, пожалуйста, воспользуйтесь формой обратной "

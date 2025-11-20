@@ -14,7 +14,8 @@ WORKDIR /app
 
 RUN adduser --disabled-password --no-create-home django &&\
     chown -R django:django /vol && \
-    chmod -R 755 /vol
+    chmod -R 755 /vol && \
+    chown -R django:django /app
 
 USER django
 

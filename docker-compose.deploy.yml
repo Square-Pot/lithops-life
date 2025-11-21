@@ -7,6 +7,7 @@ services:
     restart: always
     volumes:
       - /static/lithops-life:/vol/static
+      - ./app/db.sqlite3:/app/db.sqlite3
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}

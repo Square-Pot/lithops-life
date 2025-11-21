@@ -32,6 +32,7 @@ urlpatterns = [
     path("contacts", marathon_views.contacts, name="marathon contacts"),
     path("knowledge", marathon_views.knowledge, name="marathon knowledge"),
     path("rules", marathon_views.rules, name="marathon rules"),
+    path("publications", marathon_views.publications, name="marathon publications"),
     path('set_language/', marathon_views.set_language, name='set_lang'),
     # path('i18n/', include('django.conf.urls.i18n')),
 ] 

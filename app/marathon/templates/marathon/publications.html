@@ -1,0 +1,38 @@
+{% extends "main.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block head %}
+    <style type="text/css">
+        h3 {
+            padding-top: 0.7em
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col text-center">
+                <h3>
+                    Mesemb Study Group Bulletin 
+                    <br/><small class="text-muted">Volume 40 Number 3</small>
+                </h3>
+                <a href="https://storage.yandexcloud.net/lithops.life/etc/MSGB40-3_62-65_RU.pdf" class="btn btn-dark btn-lg mt-4 mb-0" role="button" ><i class="bi bi-filetype-pdf"></i> Download</a>
+                <p class="fst-italic fw-lighter">(русский перевод)</p>
+            </div>
+        </div>
+        <div class="row my-5">
+            <div class="col text-center">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/REtBW2axV4A?si=pP3ztEshy9ppVVmW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+        
+
+
+    </div>
+</main>
+
+{% endblock  %}

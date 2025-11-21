@@ -75,7 +75,7 @@
                 <a class="nav-link {% if url_name == 'marathon rules' %}active{% endif %}" href="{% url 'marathon rules' %}" tabindex="-1" aria-disabled="true">{% trans 'Правила' %}</a>
               </li>  
               <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{% trans 'Публикации' %}</a>
+                <a class="nav-link {% if url_name == 'marathon publications' %}active{% endif %}" href="{% url 'marathon publications' %}" tabindex="-1" aria-disabled="true">{% trans 'Публикации' %}</a>
               </li>  
               <li class="nav-item">
                 <a class="nav-link {% if url_name == 'marathon knowledge' %}active{% endif %}" href="{% url 'marathon knowledge' %}" tabindex="-1" aria-disabled="true">{% trans 'Знания' %}</a>

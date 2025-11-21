@@ -82,6 +82,11 @@ def knowledge(request):
     template = loader.get_template('marathon/knowledge.html')
     return HttpResponse(template.render(context, request))
 
+def publications(request):
+    context = {}
+    template = loader.get_template('marathon/publications.html')
+    return HttpResponse(template.render(context, request))
+
 def rules(request):
     context = {}
     template = loader.get_template('marathon/rules.html')

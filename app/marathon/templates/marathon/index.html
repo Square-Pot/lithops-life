@@ -106,7 +106,7 @@
     <div class="row my-3">
         <h3 class="ms-3 mb-3">{% trans 'Конкурсанты' %}:</h3>
         {% for contestant in contestants %}
-          <div class="col-2 justify-content-center mb-3">
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2 justify-content-center mb-3">
             <div class="card">
               <a href="{% url 'contestant' contestant.short_name %}">
                 <img src="{{ contestant.title_image.url }}" class="card-img-top" alt="{{ contestant.full_botanic_name }}">

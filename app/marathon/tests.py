@@ -75,3 +75,14 @@ class WatermarkDownloadTest(TestCase):
         foreign = Image.objects.create(url='http://169.254.169.254/latest', marathon=self.marathon)
         self.assertEqual(self.client.get(f'/photo/{title.id}/download').status_code, 404)
         self.assertEqual(self.client.get(f'/photo/{foreign.id}/download').status_code, 404)
+
+
+class CarouselTest(TestCase):
+    def test_carousel_prefers_starred_then_winners(self):
+        from marathon.views import _carousel_images
+        m = Marathon.objects.create(name='2024', description='', seeding_date=datetime.date(2024, 10, 1))
+        winner = Image.objects.create(url='https://storage.yandexcloud.net/a.jpg', marathon=m, is_winner=True)
+        Image.objects.create(url='https://storage.yandexcloud.net/b.jpg', marathon=m)
+        self.assertEqual(list(_carousel_images(m)), [winner])
+        starred = Image.objects.create(url='https://storage.yandexcloud.net/c.jpg', marathon=m, is_starred=True)
+        self.assertEqual(list(_carousel_images(m)), [starred])

@@ -51,6 +51,13 @@ def marathons_view(request):
 FINAL_PHOTOS = Q(participant__isnull=False) | Q(nomination__isnull=False) | Q(marathon__isnull=False, contestant__isnull=True)
 
 
+def _carousel_images(marathon, limit=20):
+    """Карусель на странице марафона: избранные финальные фото, если их нет — фото победителей."""
+    finals = Image.objects.filter(FINAL_PHOTOS, marathon=marathon)
+    starred = finals.filter(is_starred=True)
+    return (starred if starred.exists() else finals.filter(is_winner=True)).order_by('?')[:limit]
+
+
 def marathon_view(request, marathon_name):
     marathon = get_object_or_404(Marathon, name=marathon_name)
     context = {
@@ -60,7 +67,7 @@ def marathon_view(request, marathon_name):
         'nominations': marathon.nomination_set.prefetch_related(
             Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))
         ),
-        'images': Image.objects.filter(marathon=marathon, contestant=None),
+        'images': _carousel_images(marathon),
         'final_photos_count': Image.objects.filter(FINAL_PHOTOS, marathon=marathon).count(),
 
     }

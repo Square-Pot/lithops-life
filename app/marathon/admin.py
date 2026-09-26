@@ -35,11 +35,12 @@ class BoundFilter(admin.SimpleListFilter):
     parameter_name = 'bound'
 
     def lookups(self, request, model_admin):
-        return (('no', 'без участника'), ('yes', 'с участником'))
+        return (('no', 'без участника (кроме обложек)'), ('yes', 'с участником'))
 
     def queryset(self, request, queryset):
         if self.value() == 'no':
-            return queryset.filter(participant__isnull=True)
+            # title_img/ — обложки видов и марафонов, их не привязываем
+            return queryset.filter(participant__isnull=True).exclude(url__contains='/title_img/')
         if self.value() == 'yes':
             return queryset.filter(participant__isnull=False)
 

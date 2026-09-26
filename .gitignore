@@ -175,3 +175,6 @@ cython_debug/
 
 # exports with participants personal data (tg ids)
 data/
+
+# watermarked photo cache
+app/wm_cache/

@@ -737,3 +737,6 @@ msgstr "all"
 
 msgid "Галерея финальных фото"
 msgstr "Final photos gallery"
+
+msgid "Скачать"
+msgstr "Download"

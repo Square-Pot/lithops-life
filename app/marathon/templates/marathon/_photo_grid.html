@@ -3,7 +3,7 @@
   {% for img in images %}
   <div class="col">
     <figure class="card h-100 shadow-sm mb-0 photo-card">
-      <a href="{{ img.url }}" data-lightbox data-caption="{% if img.participant %}{{ img.participant.display_name }} · {% endif %}{% if img.contestant %}{{ img.contestant.full_name }} · {% endif %}{% trans 'Марафон' %} {{ img.marathon.name }}">
+      <a href="{{ img.url }}" data-lightbox data-download="{% url 'photo_download' img.id %}" data-caption="{% if img.participant %}{{ img.participant.display_name }} · {% endif %}{% if img.contestant %}{{ img.contestant.full_name }} · {% endif %}{% trans 'Марафон' %} {{ img.marathon.name }}">
         <img src="{{ img.url }}" class="card-img-top" loading="lazy" alt="{% if img.contestant %}{{ img.contestant.full_name }}{% else %}Lithops{% endif %}">
       </a>
       {% if img.is_winner %}<span class="badge text-bg-warning position-absolute top-0 end-0 m-2"><i class="bi bi-trophy-fill"></i></span>{% endif %}
@@ -31,7 +31,7 @@
         <img id="lightbox-img" src="" class="img-fluid" style="max-height:85vh" alt="">
       </div>
       <div class="modal-footer border-0 py-2">
-        <a id="lightbox-open" href="" target="_blank" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-up-right"></i> {% trans 'Оригинал' %}</a>
+        <a id="lightbox-download" href="" class="btn btn-sm btn-light"><i class="bi bi-download"></i> {% trans 'Скачать' %}</a>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
     if (!link) return;
     e.preventDefault();
     document.getElementById('lightbox-img').src = link.href;
-    document.getElementById('lightbox-open').href = link.href;
+    document.getElementById('lightbox-download').href = link.dataset.download;
     document.getElementById('lightbox-caption').textContent = link.dataset.caption;
     bootstrap.Modal.getOrCreateInstance(document.getElementById('lightbox')).show();
   });

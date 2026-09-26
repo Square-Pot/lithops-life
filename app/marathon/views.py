@@ -1,15 +1,20 @@
 import datetime
+import hashlib
+from pathlib import Path
+from urllib.parse import urlparse
+
 import requests
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import FileResponse, HttpResponse, HttpResponseNotFound, Http404
 from django.template import loader
 from django.utils import translation
 from django.utils.translation import gettext
 
 from django.db.models import Q, Prefetch
 
+from marathon import watermark
 from marathon.models import Marathon, Contestant, Image, Nominee, Participant
 
 
@@ -80,6 +85,32 @@ def gallery_view(request):
         'gallery_marathons': Marathon.objects.filter(images__in=Image.objects.filter(FINAL_PHOTOS)).distinct().order_by('-seeding_date'),
     }
     return render(request, 'marathon/gallery.html', context=context)
+
+
+WATERMARK_HOSTS = ('storage.yandexcloud.net',)
+
+
+def photo_download(request, image_id):
+    """Финальное фото с водяным знаком марафона — для промо, отдаём всем."""
+    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS).select_related('marathon'), pk=image_id)
+    if urlparse(img.url).hostname not in WATERMARK_HOSTS:
+        raise Http404
+    marathon_name = img.marathon.name if img.marathon else ''
+    key = hashlib.sha1(f'{img.url}|{marathon_name}|{watermark.VERSION}'.encode()).hexdigest()[:16]
+    cache_dir = Path(settings.WATERMARK_CACHE_DIR)
+    cached = cache_dir / f'{img.pk}-{key}.jpg'
+    if not cached.exists():
+        try:
+            response = requests.get(img.url, timeout=20)
+            response.raise_for_status()
+        except requests.RequestException:
+            return HttpResponse(status=502)
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        tmp = cached.with_suffix('.tmp')
+        tmp.write_bytes(watermark.apply(response.content, marathon_name))
+        tmp.replace(cached)
+    filename = f'lithops.life_marathon{marathon_name}_{img.pk}.jpg'
+    return FileResponse(open(cached, 'rb'), as_attachment=True, filename=filename, content_type='image/jpeg')
 
 
 def participant_view(request, slug):

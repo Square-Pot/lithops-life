@@ -1,0 +1,35 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Финальные фото' %} · Mesemb Marathon{% endblock title %}
+{% block og %}
+  <meta property="og:title" content="{% trans 'Финальные фото' %} · Mesemb Marathon">
+  {% with images|first as cover %}{% if cover %}<meta property="og:image" content="{{ cover.url }}">{% endif %}{% endwith %}
+{% endblock og %}
+
+{% block head %}
+  <style>
+    .photo-card .card-img-top { aspect-ratio: 1; object-fit: cover; }
+  </style>
+{% endblock head %}
+
+{% block body %}
+<main class="container mt-5 pt-4">
+  <h1 class="display-6 mb-3"><i class="bi bi-images"></i>&nbsp;{% trans 'Финальные фото' %}</h1>
+  <p class="text-secondary">{% trans 'Растения участников в финале марафона — после года с посева.' %}</p>
+
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <a href="{% url 'gallery' %}{% if winners_only %}?winners=1{% endif %}" class="btn btn-sm {% if not selected_marathon %}btn-dark{% else %}btn-outline-dark{% endif %}">{% trans 'Все' %}</a>
+    {% for m in gallery_marathons %}
+    <a href="?marathon={{ m.name }}{% if winners_only %}&winners=1{% endif %}" class="btn btn-sm {% if selected_marathon == m.name %}btn-dark{% else %}btn-outline-dark{% endif %}">{{ m.name }}</a>
+    {% endfor %}
+    <a href="?{% if selected_marathon %}marathon={{ selected_marathon }}{% endif %}{% if not winners_only %}{% if selected_marathon %}&{% endif %}winners=1{% endif %}" class="btn btn-sm ms-auto {% if winners_only %}btn-warning{% else %}btn-outline-warning{% endif %}"><i class="bi bi-trophy"></i> {% trans 'Победители' %}</a>
+  </div>
+
+  {% if images %}
+    {% include 'marathon/_photo_grid.html' %}
+  {% else %}
+    <p class="text-secondary">{% trans 'Пока нет фото.' %}</p>
+  {% endif %}
+</main>
+{% endblock body %}

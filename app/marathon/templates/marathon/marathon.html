@@ -121,12 +121,34 @@
               <td colspan=2 class="text-center"><strong>{{ nom_category}}</strong></td>
               <td></td>
             </tr>
-            {% for nomination in marathon.nomination_set.all %}
+            {% for nomination in nominations %}
             {% if nom_category == nomination.category %}
             <tr>
               <th scope="row"></th>
-              <td>{{ nomination.title }}</td>
-              <td>{{ nomination.winner_name }}<br/><span class="fw-light small">{{ nomination.winner_username }}</span></td>
+              <td>
+                {{ nomination.title }}
+                {% if nomination.nominees.all %}
+                <br><a class="small text-decoration-none" data-bs-toggle="collapse" href="#nom-{{ nomination.id }}" role="button" aria-expanded="false">
+                  {% trans 'Финалисты' %} ({{ nomination.nominees.all|length }}) <i class="bi bi-chevron-down"></i>
+                </a>
+                <ul class="collapse list-unstyled small mt-1 mb-0" id="nom-{{ nomination.id }}">
+                  {% for n in nomination.nominees.all %}
+                  <li>
+                    {% if n.is_winner %}<i class="bi bi-trophy-fill text-warning"></i>{% else %}<i class="bi bi-flag text-secondary"></i>{% endif %}
+                    <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a>
+                    {% if n.votes is not None %}<span class="text-secondary">· {{ n.votes }}</span>{% endif %}
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </td>
+              <td>
+                {% for n in nomination.nominees.all %}{% if n.is_winner %}
+                  <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a><br/><span class="fw-light small">{{ n.participant.tg_username }}</span><br/>
+                {% endif %}{% empty %}
+                  {{ nomination.winner_name }}<br/><span class="fw-light small">{{ nomination.winner_username }}</span>
+                {% endfor %}
+              </td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -139,7 +161,7 @@
 
     {% if images %}
     <div class="row justify-content-center my-5" >
-      <h3 class="text-center">{% trans 'Финальные фото' %}</h3>
+      <h3 class="text-center">{% trans 'Финальные фото' %} <a href="{% url 'gallery' %}?marathon={{ marathon.name }}" class="fs-6 text-decoration-none">{% trans 'все' %} <i class="bi bi-arrow-right"></i></a></h3>
       <div class="col-lg-6 col-sm-12 p-4 border">
         <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
           <div class="carousel-indicators">

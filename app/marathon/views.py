@@ -8,7 +8,9 @@ from django.template import loader
 from django.utils import translation
 from django.utils.translation import gettext
 
-from marathon.models import Marathon, Contestant, Image
+from django.db.models import Q, Prefetch
+
+from marathon.models import Marathon, Contestant, Image, Nominee, Participant
 
 
 def set_language(request):
@@ -46,10 +48,56 @@ def marathon_view(request, marathon_name):
         'marathon': marathon,
         'events': marathon.event_set.all().order_by('-date'),
         'nomination_categories': marathon.nomination_set.values_list('category', flat=True).distinct(),
+        'nominations': marathon.nomination_set.prefetch_related(
+            Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))
+        ),
         'images': Image.objects.filter(marathon=marathon, contestant=None),
 
     }
     return render(request, 'marathon/marathon.html', context=context)
+
+
+FINAL_PHOTOS = Q(participant__isnull=False) | Q(nomination__isnull=False) | Q(marathon__isnull=False, contestant__isnull=True)
+
+
+def gallery_view(request):
+    images = (
+        Image.objects.filter(FINAL_PHOTOS)
+        .select_related('marathon', 'contestant', 'participant', 'nomination')
+        .order_by('-marathon__seeding_date', '-is_winner', '-is_starred', 'id')
+    )
+    marathon_name = request.GET.get('marathon')
+    if marathon_name:
+        images = images.filter(marathon__name=marathon_name)
+    if request.GET.get('winners'):
+        images = images.filter(is_winner=True)
+    context = {
+        'images': images,
+        'selected_marathon': marathon_name,
+        'winners_only': bool(request.GET.get('winners')),
+        'gallery_marathons': Marathon.objects.filter(images__in=Image.objects.filter(FINAL_PHOTOS)).distinct().order_by('-seeding_date'),
+    }
+    return render(request, 'marathon/gallery.html', context=context)
+
+
+def participant_view(request, slug):
+    participant = get_object_or_404(Participant, slug=slug)
+    nominees = (
+        participant.nominations
+        .select_related('nomination', 'nomination__marathon')
+        .order_by('-nomination__marathon__seeding_date', '-is_winner', 'nomination__id')
+    )
+    by_marathon = {}
+    for nominee in nominees:
+        by_marathon.setdefault(nominee.nomination.marathon, []).append(nominee)
+    context = {
+        'participant': participant,
+        'by_marathon': by_marathon.items(),
+        'wins': sum(n.is_winner for n in nominees),
+        'finals': len(by_marathon),
+        'images': participant.images.select_related('marathon', 'contestant', 'nomination').order_by('-marathon__seeding_date', 'id'),
+    }
+    return render(request, 'marathon/participant.html', context=context)
 
 
 def contestant_view(request, contestant_short_name):

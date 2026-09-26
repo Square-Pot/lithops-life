@@ -159,6 +159,10 @@ class Participant(models.Model):
     def __str__(self):
         return f'{self.display_name} ({self.tg_username or self.slug})'
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('participant', args=[self.slug])
+
 
 class Nominee(models.Model):
     nomination = models.ForeignKey(Nomination, related_name='nominees', on_delete=models.CASCADE)

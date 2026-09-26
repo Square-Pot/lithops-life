@@ -698,3 +698,39 @@ msgstr "In case of a tie, another vote is initiated."
 #: marathon/templates/marathon/rules.html:88
 msgid "Примеры финальных фото"
 msgstr "Examples of final photos."
+
+msgid "Галерея"
+msgstr "Gallery"
+
+msgid "Растения участников в финале марафона — после года с посева."
+msgstr "Participants' plants at the marathon final, one year after sowing."
+
+msgid "Все"
+msgstr "All"
+
+msgid "Победители"
+msgstr "Winners"
+
+msgid "Пока нет фото."
+msgstr "No photos yet."
+
+msgid "Оригинал"
+msgstr "Original"
+
+msgid "Финалист"
+msgstr "Finalist"
+
+msgid "Побед"
+msgstr "Wins"
+
+msgid "голосов"
+msgstr "votes"
+
+msgid "Фото"
+msgstr "Photos"
+
+msgid "Финалисты"
+msgstr "Finalists"
+
+msgid "все"
+msgstr "all"

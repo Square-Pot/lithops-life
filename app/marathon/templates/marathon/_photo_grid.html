@@ -27,24 +27,74 @@
         <small class="modal-title" id="lightbox-caption"></small>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body p-0 text-center">
-        <img id="lightbox-img" src="" class="img-fluid" style="max-height:85vh" alt="">
+      <div class="modal-body p-0 text-center position-relative">
+        <img id="lightbox-img" src="" class="img-fluid" style="max-height:80vh" alt="">
+        <button type="button" class="lightbox-nav start-0" id="lightbox-prev" aria-label="Previous"><i class="bi bi-chevron-left"></i></button>
+        <button type="button" class="lightbox-nav end-0" id="lightbox-next" aria-label="Next"><i class="bi bi-chevron-right"></i></button>
       </div>
-      <div class="modal-footer border-0 py-2">
+      <div class="modal-footer border-0 py-2 justify-content-between">
+        <small class="text-secondary" id="lightbox-counter"></small>
         <a id="lightbox-download" href="" class="btn btn-sm btn-light"><i class="bi bi-download"></i> {% trans 'Скачать' %}</a>
       </div>
     </div>
   </div>
 </div>
 
+<style>
+  .lightbox-nav {
+    position: absolute; top: 0; bottom: 0; width: 15%; min-width: 48px;
+    border: 0; background: transparent; color: #fff; font-size: 2.5rem;
+    opacity: .6; text-shadow: 0 0 8px rgba(0,0,0,.8);
+  }
+  .lightbox-nav:hover, .lightbox-nav:focus-visible { opacity: 1; }
+</style>
+
 <script>
-  document.addEventListener('click', function (e) {
-    const link = e.target.closest('[data-lightbox]');
-    if (!link) return;
-    e.preventDefault();
-    document.getElementById('lightbox-img').src = link.href;
-    document.getElementById('lightbox-download').href = link.dataset.download;
-    document.getElementById('lightbox-caption').textContent = link.dataset.caption;
-    bootstrap.Modal.getOrCreateInstance(document.getElementById('lightbox')).show();
-  });
+  (function () {
+    const modalEl = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    let links = [], index = 0;
+
+    function show(i) {
+      index = (i + links.length) % links.length;
+      const link = links[index];
+      img.src = link.href;
+      document.getElementById('lightbox-download').href = link.dataset.download;
+      document.getElementById('lightbox-caption').textContent = link.dataset.caption;
+      document.getElementById('lightbox-counter').textContent = (index + 1) + ' / ' + links.length;
+      const single = links.length < 2;
+      document.getElementById('lightbox-prev').hidden = single;
+      document.getElementById('lightbox-next').hidden = single;
+      // подгружаем соседей, чтобы листалось без задержки
+      [index - 1, index + 1].forEach(function (j) {
+        if (links.length > 1) new Image().src = links[(j + links.length) % links.length].href;
+      });
+    }
+
+    document.addEventListener('click', function (e) {
+      const link = e.target.closest('[data-lightbox]');
+      if (!link) return;
+      e.preventDefault();
+      links = Array.from(document.querySelectorAll('[data-lightbox]'));
+      show(links.indexOf(link));
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    });
+    document.getElementById('lightbox-prev').addEventListener('click', function () { show(index - 1); });
+    document.getElementById('lightbox-next').addEventListener('click', function () { show(index + 1); });
+
+    document.addEventListener('keydown', function (e) {
+      if (!modalEl.classList.contains('show')) return;
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+
+    let touchX = null;
+    img.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    img.addEventListener('touchend', function (e) {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+      touchX = null;
+    });
+  })();
 </script>

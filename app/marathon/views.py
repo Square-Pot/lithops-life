@@ -68,15 +68,16 @@ def marathon_view(request, marathon_name):
             Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))
         ),
         'images': _carousel_images(marathon),
-        'final_photos_count': Image.objects.filter(FINAL_PHOTOS, marathon=marathon).count(),
+        'final_photos_count': Image.objects.filter(marathon=marathon, participant__isnull=False).count(),
 
     }
     return render(request, 'marathon/marathon.html', context=context)
 
 
 def gallery_view(request):
+    # в галерее только фото с автором; непривязанные etc/NN.jpg живут в карусели марафона
     images = (
-        Image.objects.filter(FINAL_PHOTOS)
+        Image.objects.filter(participant__isnull=False)
         .select_related('marathon', 'contestant', 'participant', 'nomination')
         .order_by('-marathon__seeding_date', '-is_winner', '-is_starred', 'id')
     )
@@ -89,7 +90,7 @@ def gallery_view(request):
         'images': images,
         'selected_marathon': marathon_name,
         'winners_only': bool(request.GET.get('winners')),
-        'gallery_marathons': Marathon.objects.filter(images__in=Image.objects.filter(FINAL_PHOTOS)).distinct().order_by('-seeding_date'),
+        'gallery_marathons': Marathon.objects.filter(images__participant__isnull=False).distinct().order_by('-seeding_date'),
     }
     return render(request, 'marathon/gallery.html', context=context)
 

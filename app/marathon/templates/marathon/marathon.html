@@ -40,6 +40,9 @@
           {% if marathon.nomination_set.all %}
           <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="#nominations">{% trans 'Номинации' %}</a></li>
           {% endif %}
+          {% if final_photos_count %}
+          <li class="list-inline-item"> <i class="bi bi-images h6 me-1"></i><a href="{% url 'gallery' %}?marathon={{ marathon.name }}">{% trans 'Финальные фото' %} ({{ final_photos_count }})</a></li>
+          {% endif %}
         </ul>
       </div>
 
@@ -106,6 +109,9 @@
       <!-- Right content -->
       <div class="col-lg-7 col-xl-6 text-center position-relative mb-4">
         <h2 class="display-6 mb-4 text-center" id="nominations"><small><i class="bi bi-trophy-fill"></i></small>&nbsp;{% trans 'Номинации' %}:</h2>
+        {% if final_photos_count %}
+        <p><a href="{% url 'gallery' %}?marathon={{ marathon.name }}" class="btn btn-sm btn-outline-dark"><i class="bi bi-images"></i> {% trans 'Галерея финальных фото' %}</a></p>
+        {% endif %}
         <table class="table table-striped text-start">
           <thead>
             <tr>

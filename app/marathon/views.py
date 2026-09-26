@@ -42,6 +42,10 @@ def marathons_view(request):
     return render(request, 'marathon/marathons.html', context=context)
 
 
+# финальные фото: привязаны к участнику или номинации, либо к марафону без вида (старые etc/NN.jpg)
+FINAL_PHOTOS = Q(participant__isnull=False) | Q(nomination__isnull=False) | Q(marathon__isnull=False, contestant__isnull=True)
+
+
 def marathon_view(request, marathon_name):
     marathon = get_object_or_404(Marathon, name=marathon_name)
     context = {
@@ -52,12 +56,10 @@ def marathon_view(request, marathon_name):
             Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))
         ),
         'images': Image.objects.filter(marathon=marathon, contestant=None),
+        'final_photos_count': Image.objects.filter(FINAL_PHOTOS, marathon=marathon).count(),
 
     }
     return render(request, 'marathon/marathon.html', context=context)
-
-
-FINAL_PHOTOS = Q(participant__isnull=False) | Q(nomination__isnull=False) | Q(marathon__isnull=False, contestant__isnull=True)
 
 
 def gallery_view(request):

@@ -734,3 +734,6 @@ msgstr "Finalists"
 
 msgid "все"
 msgstr "all"
+
+msgid "Галерея финальных фото"
+msgstr "Final photos gallery"

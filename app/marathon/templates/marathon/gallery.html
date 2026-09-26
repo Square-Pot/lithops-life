@@ -21,7 +21,7 @@
   <div class="d-flex flex-wrap gap-2 mb-4">
     <a href="{% url 'gallery' %}{% if winners_only %}?winners=1{% endif %}" class="btn btn-sm {% if not selected_marathon %}btn-dark{% else %}btn-outline-dark{% endif %}">{% trans 'Все' %}</a>
     {% for m in gallery_marathons %}
-    <a href="?marathon={{ m.name }}{% if winners_only %}&winners=1{% endif %}" class="btn btn-sm {% if selected_marathon == m.name %}btn-dark{% else %}btn-outline-dark{% endif %}">{{ m.name }}</a>
+    <a href="?marathon={{ m.name }}{% if winners_only %}&winners=1{% endif %}" class="btn btn-sm {% if selected_marathon == m.name %}btn-dark{% else %}btn-outline-dark{% endif %}">{% trans 'Марафон' %} {{ m.name }}</a>
     {% endfor %}
     <a href="?{% if selected_marathon %}marathon={{ selected_marathon }}{% endif %}{% if not winners_only %}{% if selected_marathon %}&{% endif %}winners=1{% endif %}" class="btn btn-sm ms-auto {% if winners_only %}btn-warning{% else %}btn-outline-warning{% endif %}"><i class="bi bi-trophy"></i> {% trans 'Победители' %}</a>
   </div>

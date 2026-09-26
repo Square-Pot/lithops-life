@@ -118,6 +118,8 @@ class Nomination(models.Model):
     marathon = models.ForeignKey(Marathon, on_delete=models.CASCADE)
     poll_image = models.OneToOneField('Image', related_name='nomination_poll_image', on_delete=models.SET_NULL, null=True, blank=True)
     poll_date = models.DateField(null=True, blank=True)
+    poll_url = models.URLField(blank=True)
+    total_voters = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -130,6 +132,7 @@ class Image(models.Model):
     contestant = models.ForeignKey(Contestant, related_name='images', on_delete=models.SET_NULL, null=True, blank=True)
     marathon = models.ForeignKey(Marathon, related_name='images', on_delete=models.SET_NULL, null=True, blank=True)
     nomination = models.ForeignKey(Nomination, related_name='images', on_delete=models.SET_NULL, null=True, blank=True)
+    participant = models.ForeignKey('Participant', related_name='images', on_delete=models.SET_NULL, null=True, blank=True)
     is_winner = models.BooleanField(default=False)
     is_starred = models.BooleanField(default=False)
 
@@ -143,3 +146,27 @@ class Image(models.Model):
         return " - ".join(data)
 
 
+
+
+class Participant(models.Model):
+    """Человек — участник марафона (в отличие от Contestant, который вид растения)."""
+    display_name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=100, unique=True)
+    tg_id = models.BigIntegerField(null=True, blank=True, unique=True)
+    tg_username = models.CharField(max_length=100, blank=True)
+    note = models.TextField(blank=True)
+
+    def __str__(self):
+        return f'{self.display_name} ({self.tg_username or self.slug})'
+
+
+class Nominee(models.Model):
+    nomination = models.ForeignKey(Nomination, related_name='nominees', on_delete=models.CASCADE)
+    participant = models.ForeignKey(Participant, related_name='nominations', on_delete=models.CASCADE)
+    plant = models.CharField(max_length=255, blank=True, help_text='Примечание к растению, если у участника их несколько')
+    is_winner = models.BooleanField(default=False)
+    votes = models.PositiveIntegerField(null=True, blank=True)
+    photo_msgs = models.TextField(blank=True, help_text='Ссылки на посты с фото в Telegram, по одной на строку')
+
+    def __str__(self):
+        return f'{self.nomination} — {self.participant.display_name}'

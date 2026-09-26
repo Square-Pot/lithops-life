@@ -8,12 +8,13 @@ from django.template import loader
 from django.utils import translation
 from django.utils.translation import gettext
 
-from marathon.models import Marathon, Contestant, Nomination, Image
+from marathon.models import Marathon, Contestant, Image
 
 
 def set_language(request):
     user_language = request.GET.get('language', 'en')
-    print('user_language=', user_language)
+    if user_language not in dict(settings.LANGUAGES):
+        user_language = settings.LANGUAGE_CODE
     translation.activate(user_language)
     response =  redirect(request.META.get('HTTP_REFERER', '/'))
     response.set_cookie(settings.LANGUAGE_COOKIE_NAME, user_language)
@@ -44,7 +45,7 @@ def marathon_view(request, marathon_name):
     context = {
         'marathon': marathon,
         'events': marathon.event_set.all().order_by('-date'),
-        'nomination_categories': Nomination.objects.all().values_list('category', flat=True).distinct(),
+        'nomination_categories': marathon.nomination_set.values_list('category', flat=True).distinct(),
         'images': Image.objects.filter(marathon=marathon, contestant=None),
 
     }
@@ -125,9 +126,6 @@ def contacts(request):
     context = {
         'subject': subject,
         'result': result,
-        'bla': settings.CSRF_TRUSTED_ORIGINS,
-        'host': settings.EMAIL_HOST_USER,
-        'rec': settings.EMAIL_RECIPIENT,
     }
     template = loader.get_template('marathon/contacts.html')
     return HttpResponse(template.render(context, request))

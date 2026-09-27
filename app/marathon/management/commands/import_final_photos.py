@@ -27,8 +27,12 @@ class Command(BaseCommand):
         with transaction.atomic():
             for row in rows:
                 marathon = self._get(Marathon, name=row['marathon'])
-                nomination = self._get(Nomination, marathon=marathon, title=row['nomination_title']) \
-                    if row.get('nomination_title') else None
+                nomination = None
+                if row.get('nomination_title'):
+                    found = Nomination.objects.filter(marathon=marathon).by_title(row['nomination_title'])
+                    if len(found) != 1:
+                        raise CommandError(f"Nomination не найдена: {marathon.name} «{row['nomination_title']}»")
+                    nomination = found[0]
                 participant = self._get(Participant, tg_id=row['tg_id']) if row.get('tg_id') else None
                 contestant = self._get(Contestant, marathon=marathon, short_name=row['contestant_short_name']) \
                     if row.get('contestant_short_name') else None

@@ -161,3 +161,5 @@ RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
 
 # скачиваемые финальные фото с водяным знаком (marathon/watermark.py)
 WATERMARK_CACHE_DIR = os.environ.get('WATERMARK_CACHE_DIR', BASE_DIR / 'wm_cache')
+
+FORMAT_MODULE_PATH = 'app.formats'

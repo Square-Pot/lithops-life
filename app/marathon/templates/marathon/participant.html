@@ -35,7 +35,7 @@
           {{ n.nomination.title }}
           {% if n.plant %}<div class="small text-secondary">{{ n.plant }}</div>{% endif %}
         </div>
-        {% if n.votes is not None %}<span class="badge text-bg-light">{{ n.votes }} {% trans 'голосов' %}</span>{% endif %}
+        {% if n.votes is not None %}<span class="badge text-bg-light">{% blocktrans count votes=n.votes %}{{ votes }} голос{% plural %}{{ votes }} голосов{% endblocktrans %}</span>{% endif %}
       </li>
       {% endfor %}
     </ul>

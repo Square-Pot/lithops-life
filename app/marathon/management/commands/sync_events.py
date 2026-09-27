@@ -22,6 +22,9 @@ class Command(BaseCommand):
         with transaction.atomic():
             for row in rows:
                 marathon = Marathon.objects.get(name=row['marathon'])
+                if row.get('old_date'):  # перенос события на другую дату
+                    Event.objects.filter(marathon=marathon, date=datetime.date.fromisoformat(row['old_date'])) \
+                        .update(date=datetime.date.fromisoformat(row['date']))
                 event, created = Event.objects.update_or_create(
                     marathon=marathon, date=datetime.date.fromisoformat(row['date']),
                     defaults={

@@ -21,7 +21,8 @@ class Command(BaseCommand):
         with transaction.atomic():
             for row in rows:
                 marathon = Marathon.objects.get(name=row['marathon'])
-                nomination = Nomination.objects.filter(marathon=marathon, title_ru=row['title_ru']).first()
+                found = Nomination.objects.filter(marathon=marathon).by_title(row['title_ru'])
+                nomination = found[0] if found else None
                 created = nomination is None
                 if created:
                     nomination = Nomination(marathon=marathon)

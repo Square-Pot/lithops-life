@@ -174,7 +174,12 @@ def participant_view(request, slug):
     return render(request, 'marathon/participant.html', context=context)
 
 
+LEGACY_SHORT_NAMES = {'C. angelica ssp. tetragonum': 'C. angelicae ssp. tetragonum'}
+
+
 def contestant_view(request, contestant_short_name):
+    if contestant_short_name in LEGACY_SHORT_NAMES:
+        return redirect('contestant', LEGACY_SHORT_NAMES[contestant_short_name], permanent=True)
     contestant = get_object_or_404(Contestant, short_name=contestant_short_name)
     rest_contestants = (
         Contestant.objects

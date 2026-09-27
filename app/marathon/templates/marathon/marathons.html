@@ -31,8 +31,8 @@
           </div>
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><small>{% trans 'Статус' %}:</small>&nbsp; <span class="badge text-bg-{{ marathon.get_state_color }}">{{ marathon.get_state_display }}</span></li>
-            <li class="list-group-item"><small>{% trans 'Возраст' %}:</small>&nbsp; {{ marathon.age_days }} {% trans 'дней' %}</li>
-            <li class="list-group-item"><small>{% trans 'Текущий этап'%}: <em> {{ marathon.current_event.title }} </em></small></li>
+            <li class="list-group-item"><small>{% trans 'Возраст' %}:</small>&nbsp; {% blocktrans count days=marathon.age_days %}{{ days }} день{% plural %}{{ days }} дней{% endblocktrans %}</li>
+            <li class="list-group-item"><small>{% if marathon.state == 'completed' %}{% trans 'Последний этап' %}{% else %}{% trans 'Текущий этап' %}{% endif %}: <em> {{ marathon.current_event.title }} </em></small></li>
             <li class="list-group-item"><small>
               {% trans 'Конкурсанты' %}:
               <ul>

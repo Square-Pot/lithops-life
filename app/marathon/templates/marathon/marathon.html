@@ -2,6 +2,13 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}{{ marathon.description }} · Mesemb Marathon{% endblock title %}
+{% block og %}
+    <meta property="og:title" content="{{ marathon.description }}">
+    <meta property="og:description" content="{% trans 'Ежегодный совместный посев аизовых' %}">
+    {% if marathon.title_image %}<meta property="og:image" content="{{ marathon.title_image.url }}">{% endif %}
+{% endblock og %}
+
 {% block head %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +38,7 @@
         <h1 class="mb-0 display-6">{{ marathon.description }}</h1>
         
         <!-- Content -->
-        <p class="mt-3 mb-5 lead">{% trans 'Стартовал' %} {{ marathon.seeding_date | date:"d.m.Y" }} {% trans 'года в составе' %} {{ marathon.participants_number }} {% trans 'активных участников' %}. {% trans 'Количество конкурсных сеянцев' %}: {{  marathon.contestant_set.all|length }}. {% trans 'Текущий возраст сеянцев' %}: {{ marathon.age_days }} {% trans 'дней' %}. {% trans 'Последнее событие в Марафоне' %}: {{ marathon.current_event.title }}</p>
+        <p class="mt-3 mb-5 lead">{% trans 'Стартовал' %} {{ marathon.seeding_date|date:"SHORT_DATE_FORMAT" }} {% trans 'года в составе' %} {{ marathon.participants_number }} {% trans 'активных участников' %}. {% trans 'Количество конкурсных сеянцев' %}: {{  marathon.contestant_set.all|length }}. {% trans 'Текущий возраст сеянцев' %}: {% blocktrans count days=marathon.age_days %}{{ days }} день{% plural %}{{ days }} дней{% endblocktrans %}. {% trans 'Последнее событие в Марафоне' %}: {{ marathon.current_event.title }}</p>
         
         <!-- Info -->
         <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
@@ -49,17 +56,8 @@
       <!-- Right content START -->
       <div class="col-lg-7 col-xl-6 text-center position-relative">
 
-        <img src="{{ marathon.title_image.url }}" class="img-fluid" alt="Lithops seedlings">
+        <img src="{{ marathon.title_image.url }}" class="img-fluid" alt="{{ marathon.description }}">
 
-        <div class="p-3 bg-blur border border-light shadow rounded-4 position-absolute bottom-0 start-0 z-index-9 d-none d-xl-block mb-5 ms-5">
-          <div class="d-flex justify-content-between align-items-center">
-            <span class="icon-lg bg-warning rounded-circle"><i class="fas fa-envelope text-white"></i></span>
-            <div class="text-start ms-3">
-              <h6 class="mb-0 text-white">{% trans 'Сеянцы Lithops' %} <span class="ms-4"><i class="fas fa-check-circle text-success"></i></span></h6>
-              <p class="mb-0 small text-white">≈{% trans '5 недель с дня посева' %}</p>
-            </div>
-          </div>
-        </div>
         
       </div>
 
@@ -97,7 +95,7 @@
             {% for event in events %}
               <tr >
                 <th scope="row"></th>
-                <td class="text-{{ event.color }}"><small>{{ event.date | date:"d.m.Y" }}</small></td>
+                <td class="text-{{ event.color }}"><small>{{ event.date|date:"SHORT_DATE_FORMAT" }}</small></td>
                 <td class="text-{{ event.color }}">{{ event.title }}</td>
               </tr>
             {% endfor %}

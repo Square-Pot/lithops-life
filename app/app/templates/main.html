@@ -30,9 +30,9 @@
     {% block og %}
     <meta property="og:title" content="Mesemb Marathon">
     <meta property="og:description" content="{% trans 'Ежегодный совместный посев аизовых' %}">
-    <meta property="og:image" content="{% static 'img/masemb_marathon_logo_300p.png' %}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/masemb_marathon_logo_300p.png' %}">
     {% endblock og %}
-    <meta property="og:url" content="{% url 'marathons' %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
     {% block head %}{% endblock head %}
     <style>
@@ -86,7 +86,7 @@
                 <a class="nav-link {% if url_name == 'marathon knowledge' %}active{% endif %}" href="{% url 'marathon knowledge' %}" tabindex="-1" aria-disabled="true">{% trans 'Знания' %}</a>
               </li> 
               <li class="nav-item">
-                <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">{% trans 'Партнеры' %}</a>
+                <a class="nav-link {% if url_name == 'marathon partners' %}active{% endif %}" href="{% url 'marathon partners' %}" tabindex="-1" aria-disabled="true">{% trans 'Партнёры' %}</a>
               </li> 
               <li class="nav-item">
                 <a class="nav-link {% if url_name == 'marathon contacts' %}active{% endif %}" href="{% url 'marathon contacts' %}" tabindex="-1" aria-disabled="true">{% trans 'Контакты' %}</a>
@@ -117,7 +117,7 @@
             </div>
         </div>
         <p class="float-end"><a href="#">{%  trans 'В начало' %} &nbsp;<i class="bi bi-arrow-up"></i></a></p>
-        <p>&copy; 2023–2025 &middot; Mesemb Marathon  &middot;</p>
+        <p>&copy; 2023–{% now "Y" %} &middot; Mesemb Marathon  &middot;</p>
       </footer>
 
     {% block foot %}{% endblock foot %}

@@ -2,6 +2,12 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}{{ contestant.full_name }} · Mesemb Marathon{% endblock title %}
+{% block og %}
+    <meta property="og:title" content="{{ contestant.full_name }} · {% trans 'Марафон' %} {{ contestant.marathon.name }}">
+    {% if contestant.title_image %}<meta property="og:image" content="{{ contestant.title_image.url }}">{% endif %}
+{% endblock og %}
+
 {% block head %}
     <style type="text/css">
         .openseadragon1 {
@@ -44,7 +50,7 @@
     </div>
     <div class="row justify-content-center">
       <div class="col">
-          <p class="small">{% trans 'Используйе кнопку' %} <img src="{% static "marathon/js/openseadragon-bin-4.1.1/images/fullpage_rest.png" %}"> <strong>{% trans 'Развернуть во весь экран' %}</strong> {% trans 'в верхнем левом углу для более удобного просмотра' %}</p>
+          <p class="small">{% trans 'Используйте кнопку' %} <img src="{% static "marathon/js/openseadragon-bin-4.1.1/images/fullpage_rest.png" %}"> <strong>{% trans 'Развернуть во весь экран' %}</strong> {% trans 'в верхнем левом углу для более удобного просмотра' %}</p>
       </div>
     </div>
     

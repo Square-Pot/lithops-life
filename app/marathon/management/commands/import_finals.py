@@ -27,10 +27,10 @@ class Command(BaseCommand):
                     stats['skipped: нет на сайте'] += 1
                     self.stdout.write(f"  пропуск: {item['marathon']} «{item.get('poll_question')}»")
                     continue
-                try:
-                    nomination = Nomination.objects.get(marathon__name=item['marathon'], title=item['title'])
-                except Nomination.DoesNotExist:
+                found = Nomination.objects.filter(marathon__name=item['marathon']).by_title(item['title'])
+                if len(found) != 1:
                     raise CommandError(f"Номинация не найдена: {item['marathon']} «{item['title']}»")
+                nomination = found[0]
 
                 nomination.poll_url = item.get('poll_msg') or ''
                 nomination.total_voters = item.get('total_voters')

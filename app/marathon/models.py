@@ -1,4 +1,5 @@
 import datetime
+import re
 from django.db import models
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
@@ -72,13 +73,14 @@ class Contestant(models.Model):
             parts.append(f"<small>var.</small>&nbsp;<em>{self.variety}</em>")
         if self.cultivar:
             parts.append(f"<small>cv.</small>&nbsp;'{self.cultivar}'")
+        name = " ".join(parts)
         if self.field_number:
-            parts.append(f", {self.field_number}")
-        return format_html(" ".join(parts))
+            name += f", {self.field_number}"
+        return format_html(name)
 
     @property
     def full_name(self):
-        parts = [self.genus[0]]
+        parts = [f"{self.genus[0]}."]
         if self.species:
             parts.append(self.species)
         if self.subspecies:
@@ -87,9 +89,10 @@ class Contestant(models.Model):
             parts.append(f"var. {self.variety}")
         if self.cultivar:
             parts.append(f"cv. '{self.cultivar}'")
+        name = " ".join(parts)
         if self.field_number:
-            parts.append(f", '{self.field_number}'")
-        return " ".join(parts)
+            name += f", {self.field_number}"
+        return name
 
 
 class Event(models.Model):
@@ -110,6 +113,18 @@ class Event(models.Model):
             return 'dark'
 
 
+def nomination_key(title):
+    """Ключ для сопоставления названий номинаций без учёта пробелов и пунктуации
+    («…pseudotruncatellavar.» == «…pseudotruncatella var.», хвостовая «;» и т. п.)."""
+    return re.sub(r'[\W_]+', '', title or '').lower()
+
+
+class NominationQuerySet(models.QuerySet):
+    def by_title(self, title):
+        key = nomination_key(title)
+        return [n for n in self if nomination_key(n.title_ru or n.title) == key]
+
+
 class Nomination(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=100)
@@ -120,6 +135,8 @@ class Nomination(models.Model):
     poll_date = models.DateField(null=True, blank=True)
     poll_url = models.URLField(blank=True)
     total_voters = models.PositiveIntegerField(null=True, blank=True)
+
+    objects = NominationQuerySet.as_manager()
 
     def __str__(self):
         return self.title

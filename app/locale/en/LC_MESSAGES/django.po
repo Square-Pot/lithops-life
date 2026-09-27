@@ -466,8 +466,7 @@ msgid ""
 "конкурсные виды должны быть посеяны в отдельные горшки "
 "(квадратной/круглой/многоугольной формы)"
 msgstr ""
-"Competitive species must be sown in separate pots (square/round/polygonal "
-"shape)"
+"Contest species must be sown in separate pots (square/round/polygonal shape)"
 
 #: marathon/templates/marathon/rules.html:25
 msgid ""

@@ -32,6 +32,8 @@ class Command(BaseCommand):
                 nomination.title_en = row['title_en']
                 nomination.category = nomination.category_ru = row['category_ru']
                 nomination.category_en = row['category_en']
+                if row.get('title_de'):
+                    nomination.title_de, nomination.category_de = row['title_de'], row['category_de']
                 nomination.save()
                 self.stdout.write(f"{'+' if created else '~'} [{marathon.name}] {row['title_ru']} / {row['title_en']}")
             if dry_run:

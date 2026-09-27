@@ -1,9 +1,4 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -12,475 +7,446 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app/templates/main.html:62 marathon/templates/marathon/index.html:76
 msgid "Марафоны"
-msgstr ""
+msgstr "Marathons"
 
-#: app/templates/main.html:72
 msgid "О проекте"
-msgstr ""
+msgstr "Über das Projekt"
 
-#: app/templates/main.html:75
 msgid "Правила"
-msgstr ""
+msgstr "Regeln"
 
-#: app/templates/main.html:78
 msgid "Публикации"
-msgstr ""
+msgstr "Publikationen"
 
-#: app/templates/main.html:81 marathon/templates/marathon/knowledge.html:22
 msgid "Знания"
-msgstr ""
+msgstr "Wissen"
 
-#: app/templates/main.html:84
 msgid "Партнёры"
-msgstr ""
+msgstr "Partner"
 
-#: app/templates/main.html:87 marathon/templates/marathon/partners.html:75
 msgid "Контакты"
-msgstr ""
+msgstr "Kontakt"
 
-#: app/templates/main.html:114
 msgid "В начало"
-msgstr ""
+msgstr "Nach oben"
 
-#: marathon/models.py:9
 msgid "Ожидание"
-msgstr ""
+msgstr "Ausstehend"
 
-#: marathon/models.py:10
 msgid "В процессе"
-msgstr ""
+msgstr "Läuft"
 
-#: marathon/models.py:11
 msgid "Финал"
-msgstr ""
+msgstr "Finale"
 
-#: marathon/models.py:12
 msgid "Завершен"
-msgstr ""
+msgstr "Abgeschlossen"
 
-#: marathon/templates/marathon/about.html:19
 msgid "Добро пожаловать в наше сообщество"
 msgstr ""
+"Willkommen in unserer Gemeinschaft von Sukkulentenfreunden, die Mesembs und "
+"andere Sukkulenten aus Samen ziehen! Wir freuen uns, Ihnen unseren jährlichen"
+" Aussaat-Marathon vorzustellen — eine besondere Aktion, die Menschen "
+"zusammenbringt, die sich für die Kultur dieser erstaunlichen Pflanzen "
+"begeistern"
 
-#: marathon/templates/marathon/about.html:31
-#: marathon/templates/marathon/index.html:125
 msgid "Что такое Марафон?"
-msgstr ""
+msgstr "Was ist ein Mesemb-Marathon?"
 
-#: marathon/templates/marathon/about.html:32
 msgid "Что такое Марафон? - Ответ"
 msgstr ""
+"Der Marathon ist eine langfristige Aktion: Wir alle säen am selben Tag aus "
+"und beobachten mindestens ein Jahr lang Wachstum und Entwicklung der Pflanzen"
+" — und bilden dabei eine gemeinsame Gemeinschaft. Es geht nicht nur ums "
+"Aussäen, sondern darum, die Besonderheiten dieser Pflanzenfamilie durch "
+"Beobachtung, Vergleich und Erfahrungsaustausch besser zu verstehen"
 
-#: marathon/templates/marathon/about.html:33
-msgid "Какие семена сять в Марафон?"
+msgid "Какие семена сеять в Марафоне?"
+msgstr "Welche Samen werden im Marathon ausgesät?"
+
+msgid "Какие семена сеять в Марафоне? - Ответ"
 msgstr ""
+"Der Marathon legt keine Saatgutlisten fest und schränkt die Bezugsquellen "
+"nicht ein. Was und wie viel ausgesät wird, entscheidet jede Teilnehmerin und "
+"jeder Teilnehmer selbst. Die Teilnahmebedingungen sind"
 
-#: marathon/templates/marathon/about.html:34
-msgid "Какие семена сять в Марафон? - Ответ"
-msgstr ""
-
-#: marathon/templates/marathon/about.html:36
 msgid "семена должны относиться к семейству Аизовых"
 msgstr ""
+"die Samen müssen zur Familie der Mittagsblumengewächse (Aizoaceae) gehören"
 
-#: marathon/templates/marathon/about.html:37
 msgid "дата посева должна соответствовать оговоренной"
-msgstr ""
+msgstr "das Aussaatdatum muss dem vereinbarten Termin entsprechen"
 
-#: marathon/templates/marathon/about.html:38
 msgid "список посева внесен в общую таблицу для всех участников"
 msgstr ""
+"die Aussaatliste ist in die gemeinsame Tabelle aller Teilnehmenden "
+"eingetragen"
 
-#: marathon/templates/marathon/about.html:40
 msgid "Конкурсные виды"
-msgstr ""
+msgstr "Wettbewerbsarten"
 
-#: marathon/templates/marathon/about.html:41
 msgid "Конкурсные виды - Ответ"
 msgstr ""
+"Vor dem Start des Marathons wählen wir aus den häufigsten Samen der bereits "
+"angemeldeten Teilnehmenden einige Arten aus und erklären sie zu "
+"Wettbewerbsarten. Diesen Arten gilt besondere Aufmerksamkeit, ihr Wachstum "
+"wird genau beobachtet. Wer am Wettbewerb teilnimmt, schickt in vereinbarten "
+"Abständen Fotos der Sämlinge für die Übersichtstabelle. An diese Sämlinge "
+"können höhere Anforderungen gestellt werden, die für jeden Marathon einzeln "
+"festgelegt werden"
 
-#: marathon/templates/marathon/about.html:42
 msgid "Подведение итогов"
-msgstr ""
+msgstr "Ergebnisse"
 
-#: marathon/templates/marathon/about.html:43
 msgid "Подведение итогов - Ответ"
 msgstr ""
+"Erste Ergebnisse werden genau ein Jahr nach der Aussaat gezogen. Die besten "
+"Pflanzen in verschiedenen Kategorien werden per Abstimmung ermittelt — sowohl"
+" unter den Wettbewerbs- als auch unter den übrigen Sämlingen. Diese "
+"Ergebnisse sind jedoch vorläufig: Als Reife einer Pflanze kann ihre Blüte "
+"gelten. Deshalb geht der Marathon weiter. Der Zeitpunkt für die endgültige "
+"Auswertung wird im Rahmen jedes einzelnen Marathons festgelegt"
 
-#: marathon/templates/marathon/about.html:44
 msgid "Наша философия"
-msgstr ""
+msgstr "Unsere Philosophie"
 
-#: marathon/templates/marathon/about.html:45
 msgid "Наша философия - Ответ"
 msgstr ""
+"Wir verfolgen keine kommerziellen Interessen; unser Ziel ist es, die "
+"Entwicklung der Pflanzen zu beobachten, Erfahrungen auszutauschen und das "
+"Hobby zu fördern. Deshalb bemühen wir uns um eine freundliche Atmosphäre "
+"sowie eine technische und theoretische Grundlage. Wir legen Wert auf "
+"Genauigkeit, Präzision und Pünktlichkeit — so werden die gesammelten "
+"Materialien nicht nur interessant, sondern auch für die Wissenschaft nützlich"
 
-#: marathon/templates/marathon/about.html:46
 msgid "Где проходит Марафон и как присоединиться"
-msgstr ""
+msgstr "Wo der Marathon stattfindet und wie man mitmacht"
 
-#: marathon/templates/marathon/about.html:47
 msgid "Где проходит Марафон - Ответ"
 msgstr ""
+"Der Marathon findet derzeit auf Telegram in einem der Threads des „Clubs der "
+"Lebende-Steine-Freunde“ (Клуб любителей живых камней) statt. Um mitzumachen, "
+"senden Sie eine Anfrage über das Formular auf der Seite"
 
-#: marathon/templates/marathon/contacts.html:21
 msgid "<strong>Успех!</strong> Ваше сообщение отправлено."
-msgstr ""
+msgstr "<strong>Erfolg!</strong> Ihre Nachricht wurde gesendet."
 
-#: marathon/templates/marathon/contacts.html:31
 msgid "<strong>Неуспешно!</strong> Что-то пошло не так."
-msgstr ""
+msgstr "<strong>Fehlgeschlagen!</strong> Etwas ist schiefgelaufen."
 
-#: marathon/templates/marathon/contacts.html:42
 msgid "Ваша почта для обратной связи"
-msgstr ""
+msgstr "Ihre E-Mail-Adresse für die Antwort"
 
-#: marathon/templates/marathon/contacts.html:46
 msgid "Тема"
-msgstr ""
+msgstr "Betreff"
 
-#: marathon/templates/marathon/contacts.html:48
 msgid "Заявка на участие в Марафоне"
-msgstr ""
+msgstr "Anmeldung zum Marathon"
 
-#: marathon/templates/marathon/contacts.html:49
 msgid "Партнёрство"
-msgstr ""
+msgstr "Partnerschaft"
 
-#: marathon/templates/marathon/contacts.html:50
 msgid "Прочее"
-msgstr ""
+msgstr "Sonstiges"
 
-#: marathon/templates/marathon/contacts.html:54
 msgid "Сообщение"
-msgstr ""
+msgstr "Nachricht"
 
-#: marathon/templates/marathon/contacts.html:57
 msgid "Отправить"
-msgstr ""
+msgstr "Senden"
 
-#: marathon/templates/marathon/contestant.html:35
-#: marathon/templates/marathon/index.html:92
 msgid "Марафон"
-msgstr ""
+msgstr "Marathon"
 
-#: marathon/templates/marathon/contestant.html:49
 msgid "Используйте кнопку"
-msgstr ""
+msgstr "Für eine bequemere Ansicht nutzen Sie die Schaltfläche"
 
-#: marathon/templates/marathon/contestant.html:49
 msgid "Развернуть во весь экран"
-msgstr ""
+msgstr "Vollbild"
 
-#: marathon/templates/marathon/contestant.html:49
 msgid "в верхнем левом углу для более удобного просмотра"
-msgstr ""
+msgstr "oben links"
 
-#: marathon/templates/marathon/contestant.html:55
 msgid "Сеянцы через 1 год после посева"
-msgstr ""
+msgstr "Sämlinge ein Jahr nach der Aussaat"
 
-#: marathon/templates/marathon/contestant.html:85
 msgid "Другие сеянцы этого марафона"
-msgstr ""
+msgstr "Weitere Sämlinge dieses Marathons"
 
-#: marathon/templates/marathon/contestant.html:91
-#: marathon/templates/marathon/marathon.html:75
 msgid "Таблица"
-msgstr ""
+msgstr "Tabelle"
 
-#: marathon/templates/marathon/index.html:79
 msgid "Еще"
-msgstr ""
+msgstr "Mehr"
 
-#: marathon/templates/marathon/index.html:93
 msgid "участников"
-msgstr ""
+msgstr "Teilnehmende"
 
-#: marathon/templates/marathon/index.html:93
 msgid "конкурсантов"
-msgstr ""
+msgstr "Wettbewerbsarten"
 
-#: marathon/templates/marathon/index.html:93
 msgid "дней с начала посева"
-msgstr ""
+msgstr "Tage seit der Aussaat"
 
-#: marathon/templates/marathon/index.html:94
 msgid "Дата посева"
-msgstr ""
+msgstr "Aussaatdatum"
 
-#: marathon/templates/marathon/index.html:107
-#: marathon/templates/marathon/marathons.html:37
 msgid "Конкурсанты"
-msgstr ""
+msgstr "Wettbewerbsarten"
 
-#: marathon/templates/marathon/index.html:126
 msgid "определение_марафона"
 msgstr ""
+"Der Marathon ist eine langfristige Aktion: Wir alle säen am selben Tag aus "
+"und beobachten mindestens ein Jahr lang Wachstum und Entwicklung der Pflanzen"
+" — und bilden dabei eine gemeinsame Gemeinschaft. Es geht nicht nur ums "
+"Aussäen, sondern darum, die Besonderheiten dieser Pflanzenfamilie durch "
+"Beobachtung, Vergleich und Erfahrungsaustausch besser zu verstehen"
 
-#: marathon/templates/marathon/index.html:129
 msgid "Узнать больше"
-msgstr ""
+msgstr "Mehr erfahren"
 
-#: marathon/templates/marathon/knowledge.html:23
 msgid ""
 "Ниже приводятся материалы, накопленные участниками в свободное время между "
 "этапами Марафона, и другие полезные ссылки."
 msgstr ""
+"Hier finden Sie Materialien, die die Teilnehmenden in ihrer Freizeit zwischen"
+" den Marathon-Etappen zusammengetragen haben, sowie weitere nützliche Links."
 
-#: marathon/templates/marathon/knowledge.html:29
 msgid "Виды"
-msgstr ""
+msgstr "Arten"
 
-#: marathon/templates/marathon/knowledge.html:39
 msgid "Уход"
-msgstr ""
+msgstr "Pflege"
 
-#: marathon/templates/marathon/knowledge.html:41
 msgid "Полив литопсов"
-msgstr ""
+msgstr "Lithops gießen"
 
-#: marathon/templates/marathon/knowledge.html:42
 msgid "Годовой цикл литопсов"
-msgstr ""
+msgstr "Jahreszyklus von Lithops"
 
-#: marathon/templates/marathon/knowledge.html:43
 msgid "Субстрат для литопсов"
-msgstr ""
+msgstr "Substrat für Lithops"
 
-#: marathon/templates/marathon/knowledge.html:50
 msgid "Авторские статьи"
-msgstr ""
+msgstr "Artikel von Autoren"
 
-#: marathon/templates/marathon/knowledge.html:52
 msgid "Мой опыт посева литопсов"
-msgstr ""
+msgstr "Meine Erfahrungen mit der Aussaat von Lithops"
 
-#: marathon/templates/marathon/knowledge.html:52
 msgid "Владимир Долгих"
-msgstr ""
+msgstr "Wladimir Dolgich"
 
-#: marathon/templates/marathon/knowledge.html:53
 msgid "Литопсы для чайников. Вопросы на ответы⁠⁠"
-msgstr ""
+msgstr "Lithops für Einsteiger. Fragen und Antworten"
 
-#: marathon/templates/marathon/knowledge.html:53
 msgid "krgplv, Евгения Каргаполова"
-msgstr ""
+msgstr "krgplv, Jewgenija Kargapolowa"
 
-#: marathon/templates/marathon/knowledge.html:54
 msgid "Выращивание конофитумов"
-msgstr ""
+msgstr "Conophytum-Kultur"
 
-#: marathon/templates/marathon/knowledge.html:54
 msgid "Терри Смейл"
-msgstr ""
+msgstr "Terry Smale"
 
-#: marathon/templates/marathon/knowledge.html:61
 msgid "Прочие полезные ресурсы"
-msgstr ""
+msgstr "Weitere nützliche Ressourcen"
 
-#: marathon/templates/marathon/knowledge.html:64
 msgid "локации на Google Map"
-msgstr ""
+msgstr "Standorte auf Google Maps"
 
-#: marathon/templates/marathon/marathon.html:34
 msgid "Стартовал"
-msgstr ""
+msgstr "Gestartet am"
 
-#: marathon/templates/marathon/marathon.html:34
 msgid "года в составе"
-msgstr ""
+msgstr "mit"
 
-#: marathon/templates/marathon/marathon.html:34
 msgid "активных участников"
-msgstr ""
+msgstr "aktiven Teilnehmenden"
 
-#: marathon/templates/marathon/marathon.html:34
+msgid "Количество конкурсных сеянцев"
+msgstr "Anzahl der Wettbewerbssämlinge"
+
 msgid "Текущий возраст сеянцев"
-msgstr ""
+msgstr "Aktuelles Alter der Sämlinge"
 
-#: marathon/templates/marathon/marathon.html:34
-#: marathon/templates/marathon/marathons.html:34
 msgid "дней"
-msgstr ""
+msgstr "Tage"
 
-#: marathon/templates/marathon/marathon.html:34
 msgid "Последнее событие в Марафоне"
-msgstr ""
+msgstr "Letztes Ereignis"
 
-#: marathon/templates/marathon/marathon.html:38
-#: marathon/templates/marathon/marathon.html:67
 msgid "Конкурсные сеянцы"
-msgstr ""
+msgstr "Wettbewerbssämlinge"
 
-#: marathon/templates/marathon/marathon.html:39
-#: marathon/templates/marathon/marathon.html:84
 msgid "Календарь"
-msgstr ""
+msgstr "Kalender"
 
-#: marathon/templates/marathon/marathon.html:41
-#: marathon/templates/marathon/marathon.html:108
 msgid "Номинации"
-msgstr ""
+msgstr "Nominierungen"
 
-#: marathon/templates/marathon/marathon.html:55
 msgid "Сеянцы Lithops"
-msgstr ""
+msgstr "Lithops-Sämlinge"
 
-#: marathon/templates/marathon/marathon.html:56
 msgid "5 недель с дня посева"
-msgstr ""
+msgstr "5 Wochen seit der Aussaat"
 
-#: marathon/templates/marathon/marathon.html:89
 msgid "Дата"
-msgstr ""
+msgstr "Datum"
 
-#: marathon/templates/marathon/marathon.html:90
 msgid "Событие"
-msgstr ""
+msgstr "Ereignis"
 
-#: marathon/templates/marathon/marathon.html:113
 msgid "Номинация"
-msgstr ""
+msgstr "Nominierung"
 
-#: marathon/templates/marathon/marathon.html:114
 msgid "Победитель"
-msgstr ""
+msgstr "Sieger"
 
-#: marathon/templates/marathon/marathon.html:142
 msgid "Финальные фото"
-msgstr ""
+msgstr "Finalfotos"
 
-#: marathon/templates/marathon/marathons.html:29
 msgid "Меземб Марафон"
-msgstr ""
+msgstr "Mesemb Marathon"
 
-#: marathon/templates/marathon/marathons.html:33
 msgid "Статус"
-msgstr ""
+msgstr "Status"
 
-#: marathon/templates/marathon/marathons.html:34
 msgid "Возраст"
-msgstr ""
+msgstr "Alter"
 
-#: marathon/templates/marathon/marathons.html:35
 msgid "Текущий этап"
-msgstr ""
+msgstr "Aktuelle Etappe"
 
-#: marathon/templates/marathon/marathons.html:48
 msgid "Подробней"
-msgstr ""
+msgstr "Mehr"
 
-#: marathon/templates/marathon/partners.html:19
 msgid "about_partners"
 msgstr ""
+"Die wichtigsten Partner unseres Marathons sind die Teilnehmenden selbst: Ihre"
+" genauen Beobachtungen und ihr Engagement machen alle Materialien und "
+"Berichte erst möglich. Wir haben aber auch weitere wichtige Partner, die den "
+"Marathon unterstützen. Sie stellen eine Kommunikationsplattform bereit, "
+"halten den Chat in Ordnung, liefern Materialien, unterstützen uns informativ "
+"und stiften Preise und Geschenke. Der Marathon fände auch ohne sie statt — "
+"aber er wäre deutlich weniger spannend"
 
-#: marathon/templates/marathon/partners.html:75
+msgid "marathon_2025_sponsors"
+msgstr "Sponsoren und Partner des Marathons 2025"
+
+msgid "marathon_2024_sponsors"
+msgstr "Sponsoren des Marathons 2024"
+
+msgid "marathon_2023_sponsors_and_partners"
+msgstr "Sponsoren und Partner des Marathons 2023"
+
 msgid "how_to_be_a_partner"
 msgstr ""
+"Um Partner des Marathons zu werden, nutzen Sie bitte das Kontaktformular auf "
+"der Seite"
 
-#: marathon/templates/marathon/rules.html:22
 msgid "Требования к участникам конкурса"
-msgstr ""
+msgstr "Anforderungen an die Wettbewerbsteilnehmenden"
 
-#: marathon/templates/marathon/rules.html:24
 msgid ""
 "конкурсные виды должны быть посеяны в отдельные горшки "
 "(квадратной/круглой/многоугольной формы)"
 msgstr ""
+"Wettbewerbsarten müssen in separate Töpfe (quadratisch/rund/mehreckig) gesät "
+"werden"
 
-#: marathon/templates/marathon/rules.html:25
 msgid ""
 "наличие фотоаппарата — примерно раз в месяц необходимо делать фото конкурсных"
 " сеянцев"
 msgstr ""
+"eine Kamera — etwa einmal im Monat müssen die Wettbewerbssämlinge "
+"fotografiert werden"
 
-#: marathon/templates/marathon/rules.html:26
 msgid "наличие линейки с миллиметровой шкалой"
-msgstr ""
+msgstr "ein Lineal mit Millimeterskala"
 
-#: marathon/templates/marathon/rules.html:27
 msgid "наличие информации об источнике семян и их точном количестве в посеве"
-msgstr ""
+msgstr "Angaben zur Herkunft der Samen und ihrer genauen Anzahl in der Aussaat"
 
-#: marathon/templates/marathon/rules.html:34
 msgid "Требования к конкурсным фото"
-msgstr ""
+msgstr "Anforderungen an die Wettbewerbsfotos"
 
-#: marathon/templates/marathon/rules.html:36
 msgid "Ракурс: вертикально сверху или под небольшим углом"
-msgstr ""
+msgstr "Perspektive: senkrecht von oben oder leicht schräg"
 
-#: marathon/templates/marathon/rules.html:37
 msgid ""
 "Освещение: лучше искусственное, т.к. оно не меняется в зависимости от сезона"
 msgstr ""
+"Beleuchtung: am besten künstlich, da sie sich nicht mit den Jahreszeiten "
+"ändert"
 
-#: marathon/templates/marathon/rules.html:38
 msgid ""
 "Ракурс и освещение должны быть по возможности одинаковые на протяжении всего "
 "марафона"
 msgstr ""
+"Perspektive und Beleuchtung sollten während des gesamten Marathons möglichst "
+"gleich bleiben"
 
-#: marathon/templates/marathon/rules.html:39
 msgid ""
 "Позиционирование: горшок на фото должен стоять всегда одной и той же стороной"
 " (можно сделать метку на одном из бортов)"
 msgstr ""
+"Ausrichtung: Der Topf sollte auf dem Foto immer mit derselben Seite nach vorn"
+" stehen (man kann eine Seite markieren)"
 
-#: marathon/templates/marathon/rules.html:40
 msgid ""
 "Вдоль нижнего борта должна быть видна шкала линейки (только на первом фото + "
 "после каждой смены горшка)"
 msgstr ""
+"Entlang des unteren Topfrands muss die Linealskala zu sehen sein (nur auf dem"
+" ersten Foto und nach jedem Topfwechsel)"
 
-#: marathon/templates/marathon/rules.html:41
 msgid "Борта горшка должны попадать в кадр"
-msgstr ""
+msgstr "Die Topfränder müssen im Bild sein"
 
-#: marathon/templates/marathon/rules.html:42
 msgid "Фото не обязательно должно быть кадрировано — всё лишнее будет обрезано"
 msgstr ""
+"Das Foto muss nicht zugeschnitten sein — alles Überflüssige wird entfernt"
 
-#: marathon/templates/marathon/rules.html:43
 msgid "Отправлять фото в чат необходимо \"как файл\", а не \"как фото\""
-msgstr ""
+msgstr "Fotos im Chat bitte „als Datei“ und nicht „als Foto“ senden"
 
-#: marathon/templates/marathon/rules.html:50
 msgid "Зачем нужна линейка?"
-msgstr ""
+msgstr "Wozu ein Lineal?"
 
-#: marathon/templates/marathon/rules.html:60
 msgid ""
 "Линейка на фото необходима для понимания масштаба на фото в конкурсной "
 "таблице. При пикировке в другой (более крупный) горшок — из-за большей "
 "площади растения на фото после пикировки становятся мелкими"
 msgstr ""
+"Das Lineal auf dem Foto zeigt den Maßstab in der Wettbewerbstabelle. Beim "
+"Umtopfen in einen größeren Topf wirken die Pflanzen auf dem Foto wegen der "
+"größeren Fläche kleiner"
 
-#: marathon/templates/marathon/rules.html:61
 msgid ""
 "Линейка может быть любая: распечатанная на принтере, гостированная, школьная,"
 " главное чтобы на ней была шкала миллиметров. Для распечатанных на принтере "
 "линеек следует проверить, что миллиметры соответствуют своему размеру"
 msgstr ""
+"Jedes Lineal ist geeignet: ausgedruckt, genormt oder ein Schullineal — "
+"Hauptsache, es hat eine Millimeterskala. Bei ausgedruckten Linealen sollte "
+"man prüfen, dass die Millimeter ihrer echten Größe entsprechen"
 
-#: marathon/templates/marathon/rules.html:62
 msgid ""
 "Линейку нужно приложить к горшку вдоль нижнего борта, чтобы она попадала в "
 "кадр. Не имеет значения, куда прикладывать ноль, главное чтобы была видна "
 "шкала"
 msgstr ""
+"Das Lineal wird entlang des unteren Rands an den Topf gelegt, sodass es im "
+"Bild ist. Wo die Null liegt, spielt keine Rolle — wichtig ist, dass die Skala"
+" zu sehen ist"
 
-#: marathon/templates/marathon/rules.html:63
 msgid ""
 "Если не хочется каждый раз возиться с линейкой, то это можно сделать только "
 "на первом фото. На последующих фото ориентиром для выравнивания масштаба "
@@ -488,96 +454,228 @@ msgid ""
 "фото!). Ещё раз прикладывать линейку будет нужно в случае смены горшка (при "
 "пересадке растений), чтобы сохранить масштаб"
 msgstr ""
+"Wer nicht jedes Mal mit dem Lineal hantieren möchte, kann es nur beim ersten "
+"Foto verwenden. Auf den folgenden Fotos dient dann der Topf als Maßstab (der "
+"Topf muss dafür auf allen Fotos im Bild sein!). Nach einem Topfwechsel (beim "
+"Umpflanzen) muss das Lineal erneut angelegt werden, damit der Maßstab "
+"erhalten bleibt"
 
-#: marathon/templates/marathon/rules.html:64
 msgid ""
 "Наличие масштаба и возможность понять размер сеянцев — повышает качество "
 "данных и научную ценность материалов, получаемых в результате проведения "
 "Марафона"
 msgstr ""
+"Ein Maßstab und die Möglichkeit, die Größe der Sämlinge einzuschätzen, "
+"verbessern die Datenqualität und den wissenschaftlichen Wert der im Marathon "
+"gewonnenen Materialien"
 
-#: marathon/templates/marathon/rules.html:70
 msgid "Выбор победителей: Правила проведения голосований"
-msgstr ""
+msgstr "Wahl der Sieger: Abstimmungsregeln"
 
-#: marathon/templates/marathon/rules.html:71
 msgid ""
 "Чтобы стать номинантом нужно предоставить от 1 до 3 фото ваших сеянцев, "
 "соответствующих данной номинации"
 msgstr ""
+"Für eine Nominierung reichen Sie 1 bis 3 Fotos Ihrer Sämlinge ein, die zu "
+"dieser Nominierung passen"
 
-#: marathon/templates/marathon/rules.html:72
 msgid ""
 "Для финальных фото разрешается использовать выигрышный ракурс, дополнительный"
 " свет, фон, т.е. проявить фантазию. Единственное требование: хотя бы одно "
 "фото из предоставленных должно быть общего плана, т.е. целиком вмещать "
 "растения и горшок"
 msgstr ""
+"Für die Finalfotos sind vorteilhafte Perspektiven, zusätzliches Licht und "
+"Hintergründe erlaubt — Kreativität ist willkommen. Einzige Bedingung: "
+"Mindestens ein Foto muss eine Gesamtansicht sein, also Pflanzen und Topf "
+"vollständig zeigen"
 
-#: marathon/templates/marathon/rules.html:73
 msgid ""
 "Для номинаций, в которых участвует более одного растения (N растений), "
 "количество фотографий может быть от 1 до N+1 (например для номинации "
 "<strong>Лучшая тройка</strong> можно предоставить от 1 до 4 фото)"
 msgstr ""
+"Bei Nominierungen mit mehr als einer Pflanze (N Pflanzen) können 1 bis N+1 "
+"Fotos eingereicht werden (zum Beispiel bei der Nominierung <strong>Bestes "
+"Trio</strong> 1 bis 4 Fotos)"
 
-#: marathon/templates/marathon/rules.html:74
 msgid ""
 "Фото для номинации не обязательно делать в день голосования, их можно сделать"
 " заранее, начиная с 16 сентября"
 msgstr ""
+"Die Fotos für die Nominierung müssen nicht am Abstimmungstag entstehen, sie "
+"können schon ab dem 16. September gemacht werden"
 
-#: marathon/templates/marathon/rules.html:75
 msgid ""
 "Каждый зарегистрированный участник может участвовать в нескольких номинациях"
 msgstr ""
+"Alle angemeldeten Teilnehmenden können an mehreren Nominierungen teilnehmen"
 
-#: marathon/templates/marathon/rules.html:76
 msgid "Голосование проходит в Telegram в открытом режиме"
-msgstr ""
+msgstr "Die Abstimmung findet offen auf Telegram statt"
 
-#: marathon/templates/marathon/rules.html:77
 msgid ""
 "Оставить свой голос может любой участник чата, в том числе не являющийся "
 "участником марафона"
 msgstr ""
+"Abstimmen kann jedes Chatmitglied, auch wer nicht am Marathon teilnimmt"
 
-#: marathon/templates/marathon/rules.html:78
 msgid "Голосовать за себя не разрешается"
-msgstr ""
+msgstr "Für sich selbst abzustimmen ist nicht erlaubt"
 
-#: marathon/templates/marathon/rules.html:79
 msgid ""
 "На голосование в каждой номинации отводится 1–2 дня, но этот период может "
 "быть скорректирован в процессе"
 msgstr ""
+"Für jede Nominierung sind 1–2 Tage Abstimmung vorgesehen, dieser Zeitraum "
+"kann aber angepasst werden"
 
-#: marathon/templates/marathon/rules.html:80
 msgid ""
 "Голосование за следующую номинацию возможно только после окончания "
 "голосования за предыдущую"
 msgstr ""
+"Die Abstimmung über die nächste Nominierung beginnt erst nach Ende der "
+"vorherigen"
 
-#: marathon/templates/marathon/rules.html:81
 msgid "Общий порядок проведения голосования за номинацию"
-msgstr ""
+msgstr "Allgemeiner Ablauf einer Abstimmung"
 
-#: marathon/templates/marathon/rules.html:83
 msgid "Объявление номинации (в соответствии с графиком)"
-msgstr ""
+msgstr "Ankündigung der Nominierung (laut Zeitplan)"
 
-#: marathon/templates/marathon/rules.html:84
 msgid "Сбор фото от номинантов"
-msgstr ""
+msgstr "Sammeln der Fotos der Nominierten"
 
-#: marathon/templates/marathon/rules.html:85
 msgid "Проведение голосования"
-msgstr ""
+msgstr "Durchführung der Abstimmung"
 
-#: marathon/templates/marathon/rules.html:86
 msgid "В случае ничьей запускается еще одно голосование"
-msgstr ""
+msgstr "Bei Stimmengleichheit wird erneut abgestimmt"
 
-#: marathon/templates/marathon/rules.html:88
 msgid "Примеры финальных фото"
+msgstr "Beispiele für Finalfotos"
+
+msgid "Галерея"
+msgstr "Galerie"
+
+msgid "Растения участников в финале марафона — после года с посева."
 msgstr ""
+"Pflanzen der Teilnehmenden im Marathon-Finale, ein Jahr nach der Aussaat."
+
+msgid "Все"
+msgstr "Alle"
+
+msgid "Победители"
+msgstr "Sieger"
+
+msgid "Пока нет фото."
+msgstr "Noch keine Fotos."
+
+msgid "Оригинал"
+msgstr "Original"
+
+msgid "Финалист"
+msgstr "Finalist"
+
+msgid "Побед"
+msgstr "Siege"
+
+msgid "голосов"
+msgstr "Stimmen"
+
+msgid "Фото"
+msgstr "Fotos"
+
+msgid "Финалисты"
+msgstr "Finalisten"
+
+msgid "все"
+msgstr "alle"
+
+msgid "Галерея финальных фото"
+msgstr "Galerie der Finalfotos"
+
+msgid "Скачать"
+msgstr "Herunterladen"
+
+msgid "Ежегодный совместный посев аизовых (литопсов и др.)"
+msgstr "Jährliche gemeinsame Aussaat von Mesembs (Lithops und andere)"
+
+msgid "Ежегодный совместный посев аизовых"
+msgstr "Jährliche gemeinsame Aussaat von Mesembs"
+
+msgid ""
+"Публикация дополнительных фото конкурсанта в период проведения голосования не"
+" допускается."
+msgstr ""
+"Während der Abstimmung dürfen keine zusätzlichen Fotos der nominierten "
+"Pflanze veröffentlicht werden."
+
+msgid "(русский перевод)"
+msgstr "(russische Übersetzung)"
+
+msgid "Рим Сагманов"
+msgstr "Rim Sagmanow"
+
+msgid "Товары для ситифермеров"
+msgstr "Produkte für Stadtgärtner"
+
+msgid "Литопсы? Не, не слышал"
+msgstr "Lithops? Nie gehört"
+
+msgid "Стильные суккуленты Анет"
+msgstr "Anets stilvolle Sukkulenten"
+
+msgid "Клуб \"Любители живых камней\""
+msgstr "„Lebende-Steine-Freunde“-Club"
+
+msgid "Клуб Любители живых камней"
+msgstr "„Lebende-Steine-Freunde“-Club"
+
+msgid "Горшки и растения от Виктора Было"
+msgstr "Töpfe und Pflanzen von Viktor Bylo"
+
+msgid "%(days)s день"
+msgid_plural "%(days)s дней"
+msgstr[0] "%(days)s Tag"
+msgstr[1] "%(days)s Tage"
+
+msgid "%(n)s участник"
+msgid_plural "%(n)s участников"
+msgstr[0] "%(n)s Teilnehmende(r)"
+msgstr[1] "%(n)s Teilnehmende"
+
+msgid "%(n)s конкурсант"
+msgid_plural "%(n)s конкурсантов"
+msgstr[0] "%(n)s Wettbewerbsart"
+msgstr[1] "%(n)s Wettbewerbsarten"
+
+msgid "%(days)s день с начала посева"
+msgid_plural "%(days)s дней с начала посева"
+msgstr[0] "%(days)s Tag seit der Aussaat"
+msgstr[1] "%(days)s Tage seit der Aussaat"
+
+msgid "%(votes)s голос"
+msgid_plural "%(votes)s голосов"
+msgstr[0] "%(votes)s Stimme"
+msgstr[1] "%(votes)s Stimmen"
+
+msgid "Последний этап"
+msgstr "Letzte Etappe"
+
+msgid "Таблица посевов"
+msgstr "Aussaattabelle"
+
+msgid "Данные конкурсного посева"
+msgstr "Daten der Wettbewerbsaussaat"
+
+msgid "тема"
+msgstr "Betreff"
+
+msgid "%(n)s конкурсный вид"
+msgid_plural "%(n)s конкурсных видов"
+msgstr[0] "%(n)s Wettbewerbsart"
+msgstr[1] "%(n)s Wettbewerbsarten"
+
+msgid "тема «Заявка на участие в Марафоне»"
+msgstr "Betreff „Anmeldung zum Marathon“"

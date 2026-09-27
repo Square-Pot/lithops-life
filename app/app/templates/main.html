@@ -86,7 +86,7 @@
             {% get_language_info for LANGUAGE_CODE as lang %}
             <ul class="navbar-nav small me-2 mb-2 mb-md-0">
               <li class="nav-item"><a class="nav-link {% if lang.code  == 'en' %}active{% endif %}" href="{% url 'set_lang' %}?language=en"> EN</a> </li>
-              {% comment %} <li class="nav-item"><a class="nav-link {% if lang.code  == 'de' %}active{% endif %}" href="{% url 'set_lang' %}?language=de">DE</a> </li> {% endcomment %}
+              <li class="nav-item"><a class="nav-link {% if lang.code  == 'de' %}active{% endif %}" href="{% url 'set_lang' %}?language=de">DE</a> </li>
               <li class="nav-item"><a class="nav-link {% if lang.code  == 'ru' %}active{% endif %}" href="{% url 'set_lang' %}?language=ru">RU</a></li>
             </ul>
           </div>

@@ -33,6 +33,7 @@ urlpatterns = [
     path("knowledge", marathon_views.knowledge, name="marathon knowledge"),
     path("rules", marathon_views.rules, name="marathon rules"),
     path("gallery", marathon_views.gallery_view, name="gallery"),
+    path("photo/<int:image_id>/thumb", marathon_views.photo_thumb, name="photo_thumb"),
     path("photo/<int:image_id>/download", marathon_views.photo_download, name="photo_download"),
     path("participant/<slug:slug>", marathon_views.participant_view, name="participant"),
     path("publications", marathon_views.publications, name="marathon publications"),

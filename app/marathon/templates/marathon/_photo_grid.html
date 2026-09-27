@@ -4,7 +4,7 @@
   <div class="col">
     <figure class="card h-100 shadow-sm mb-0 photo-card">
       <a href="{{ img.url }}" data-lightbox data-download="{% url 'photo_download' img.id %}" data-caption="{% if img.participant %}{{ img.participant.display_name }} · {% endif %}{% if img.contestant %}{{ img.contestant.full_name }} · {% endif %}{% trans 'Марафон' %} {{ img.marathon.name }}">
-        <img src="{{ img.url }}" class="card-img-top" loading="lazy" alt="{% if img.contestant %}{{ img.contestant.full_name }}{% else %}Lithops{% endif %}">
+        <img src="{% url 'photo_thumb' img.id %}" class="card-img-top" loading="lazy" alt="{% if img.contestant %}{{ img.contestant.full_name }}{% else %}Lithops{% endif %}">
       </a>
       {% if img.is_winner %}<span class="badge text-bg-warning position-absolute top-0 end-0 m-2"><i class="bi bi-trophy-fill"></i></span>{% endif %}
       <figcaption class="card-body p-2 small">

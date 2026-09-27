@@ -58,6 +58,10 @@ class WatermarkDownloadTest(TestCase):
         fake = mock.Mock(content=self._jpeg(), raise_for_status=lambda: None)
         with tempfile.TemporaryDirectory() as cache, override_settings(WATERMARK_CACHE_DIR=cache), \
                 mock.patch('marathon.views.requests.get', return_value=fake) as get:
+            thumb = self.client.get(f'/photo/{img.id}/thumb')
+            self.assertEqual(PILImage.open(io.BytesIO(b''.join(thumb.streaming_content))).size, (600, 400))
+            thumb.close()
+            get.reset_mock()
             for _ in range(2):
                 r = self.client.get(f'/photo/{img.id}/download')
                 self.assertEqual(r.status_code, 200)
@@ -75,6 +79,15 @@ class WatermarkDownloadTest(TestCase):
         foreign = Image.objects.create(url='http://169.254.169.254/latest', marathon=self.marathon)
         self.assertEqual(self.client.get(f'/photo/{title.id}/download').status_code, 404)
         self.assertEqual(self.client.get(f'/photo/{foreign.id}/download').status_code, 404)
+        self.assertEqual(self.client.get(f'/photo/{foreign.id}/thumb').status_code, 404)
+
+    def test_thumb_falls_back_to_original_when_s3_fails(self):
+        import requests
+        img = Image.objects.create(url='https://storage.yandexcloud.net/lithops.life/etc/02.jpg', marathon=self.marathon)
+        with tempfile.TemporaryDirectory() as cache, override_settings(WATERMARK_CACHE_DIR=cache), \
+                mock.patch('marathon.views.requests.get', side_effect=requests.ConnectionError):
+            r = self.client.get(f'/photo/{img.id}/thumb')
+        self.assertRedirects(r, img.url, fetch_redirect_response=False)
 
 
 class CarouselTest(TestCase):

@@ -1,9 +1,12 @@
 import datetime
 import hashlib
+import io
+import os
 from pathlib import Path
 from urllib.parse import urlparse
 
 import requests
+from PIL import Image as PILImage, ImageOps
 from django.core.mail import send_mail
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -95,30 +98,60 @@ def gallery_view(request):
     return render(request, 'marathon/gallery.html', context=context)
 
 
-WATERMARK_HOSTS = ('storage.yandexcloud.net',)
+PHOTO_HOSTS = ('storage.yandexcloud.net',)
+THUMB_SIZE = 600  # по длинной стороне; плитка ~300px, хватает и для retina
 
 
-def photo_download(request, image_id):
-    """Финальное фото с водяным знаком марафона — для промо, отдаём всем."""
-    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS).select_related('marathon'), pk=image_id)
-    if urlparse(img.url).hostname not in WATERMARK_HOSTS:
+def _derived_photo(img, kind, version, render):
+    """Производная от фото из S3 (знак, миниатюра): рендерится при первом запросе и кэшируется на диске.
+    Возвращает путь к файлу или None, если S3 не ответил."""
+    if urlparse(img.url).hostname not in PHOTO_HOSTS:
         raise Http404
-    marathon_name = img.marathon.name if img.marathon else ''
-    key = hashlib.sha1(f'{img.url}|{marathon_name}|{watermark.VERSION}'.encode()).hexdigest()[:16]
-    cache_dir = Path(settings.WATERMARK_CACHE_DIR)
+    key = hashlib.sha1(f'{img.url}|{version}'.encode()).hexdigest()[:16]
+    cache_dir = Path(settings.WATERMARK_CACHE_DIR) / kind
     cached = cache_dir / f'{img.pk}-{key}.jpg'
     if not cached.exists():
         try:
             response = requests.get(img.url, timeout=20)
             response.raise_for_status()
         except requests.RequestException:
-            return HttpResponse(status=502)
+            return None
         cache_dir.mkdir(parents=True, exist_ok=True)
-        tmp = cached.with_suffix('.tmp')
-        tmp.write_bytes(watermark.apply(response.content, marathon_name))
+        tmp = cached.with_suffix(f'.{os.getpid()}.tmp')
+        tmp.write_bytes(render(response.content))
         tmp.replace(cached)
+    return cached
+
+
+def _thumbnail(data):
+    photo = ImageOps.exif_transpose(PILImage.open(io.BytesIO(data))).convert('RGB')
+    photo.thumbnail((THUMB_SIZE, THUMB_SIZE), PILImage.LANCZOS)
+    out = io.BytesIO()
+    photo.save(out, 'JPEG', quality=80, optimize=True)
+    return out.getvalue()
+
+
+def photo_download(request, image_id):
+    """Финальное фото с водяным знаком марафона — для промо, отдаём всем."""
+    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS).select_related('marathon'), pk=image_id)
+    marathon_name = img.marathon.name if img.marathon else ''
+    cached = _derived_photo(img, 'watermark', f'{marathon_name}|{watermark.VERSION}',
+                            lambda data: watermark.apply(data, marathon_name))
+    if cached is None:
+        return HttpResponse(status=502)
     filename = f'lithops.life_marathon{marathon_name}_{img.pk}.jpg'
     return FileResponse(open(cached, 'rb'), as_attachment=True, filename=filename, content_type='image/jpeg')
+
+
+def photo_thumb(request, image_id):
+    """Миниатюра для плитки галереи; при сбое S3 — редирект на оригинал, чтобы плитка не пустела."""
+    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS), pk=image_id)
+    cached = _derived_photo(img, 'thumb', THUMB_SIZE, _thumbnail)
+    if cached is None:
+        return redirect(img.url)
+    response = FileResponse(open(cached, 'rb'), content_type='image/jpeg')
+    response['Cache-Control'] = 'public, max-age=86400'
+    return response
 
 
 def participant_view(request, slug):

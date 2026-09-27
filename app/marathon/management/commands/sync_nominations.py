@@ -22,6 +22,8 @@ class Command(BaseCommand):
             for row in rows:
                 marathon = Marathon.objects.get(name=row['marathon'])
                 found = Nomination.objects.filter(marathon=marathon).by_title(row['title_ru'])
+                if not found and row.get('old_title_ru'):  # переименование
+                    found = Nomination.objects.filter(marathon=marathon).by_title(row['old_title_ru'])
                 nomination = found[0] if found else None
                 created = nomination is None
                 if created:

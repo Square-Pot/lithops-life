@@ -2,52 +2,49 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}{% trans 'О проекте' %} · Mesemb Marathon{% endblock title %}
+
 {% block head %}
-    <style type="text/css">
-        h3 {
-            padding-top: 0.7em
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
 {% endblock %}
 
 {% block body %}
 
-<main>
-    <div class="container mt-5">
-        <div class="row align-items-center  mt-5 pt-1 ">
-            <div class="col-lg-5 col-xl-8 text-center text-lg-start mb-7 mb-sm-0">
-                <p class="lead my-4">{% trans "Добро пожаловать в наше сообщество" %} </p>
-            </div>
-            <div class="col-lg-7 col-xl-4 text-center position-relative">
-                <img src="{% static 'marathon/img/about.jpg' %}" class="img-fluid" alt="Lithops seedlings">
-            </div
+<main class="container static-page">
+    <div class="row align-items-center page-header g-4">
+        <div class="col-md-7">
+            <h1 class="display-6">{% trans 'О проекте' %}</h1>
+            <p class="lead mb-0">{% trans "Добро пожаловать в наше сообщество" %}</p>
         </div>
-    </div>    
-
-        <div class="row  mt-4">
-            <div class="col">
-                
-
-                <h3>{% trans 'Что такое Марафон?' %}</h3>
-                <p>{% trans 'Что такое Марафон? - Ответ' %}</p>
-                <h3>{% trans 'Какие семена сеять в Марафоне?' %}</h3>
-                <p>{% trans 'Какие семена сеять в Марафоне? - Ответ' %}</p>
-                <ul>
-                    <li>{% trans 'семена должны относиться к семейству Аизовых' %}; </li>
-                    <li>{% trans 'дата посева должна соответствовать оговоренной' %};</li>
-                    <li>{% trans 'список посева внесен в общую таблицу для всех участников' %}.</li>
-                </ul>
-                <h3>{% trans 'Конкурсные виды' %}</h3>
-                <p>{% trans 'Конкурсные виды - Ответ' %}</p>
-                <h3>{% trans 'Подведение итогов' %}</h3>
-                <p>{% trans 'Подведение итогов - Ответ' %}</p>
-                <h3>{% trans 'Наша философия' %}</h3>
-                <p>{% trans 'Наша философия - Ответ' %}</p>
-                <h3>{% trans 'Где проходит Марафон и как присоединиться' %}</h3>
-                <p class="mb-5">{% trans 'Где проходит Марафон - Ответ' %} <a href="{% url 'marathon contacts' %}?subject=membership">{% trans 'Контакты' %}</a> ({% trans 'тема «Заявка на участие в Марафоне»' %}).</p>
-            </div>
+        <div class="col-md-5 text-center">
+            <img src="{% static 'marathon/img/about.jpg' %}" class="img-fluid rounded-4" alt="Lithops seedlings">
         </div>
+    </div>
+
+    <div class="prose">
+        <h2>{% trans 'Что такое Марафон?' %}</h2>
+        <p>{% trans 'Что такое Марафон? - Ответ' %}</p>
+
+        <h2>{% trans 'Какие семена сеять в Марафоне?' %}</h2>
+        <p>{% trans 'Какие семена сеять в Марафоне? - Ответ' %}</p>
+        <ul>
+            <li>{% trans 'семена должны относиться к семейству Аизовых' %};</li>
+            <li>{% trans 'дата посева должна соответствовать оговоренной' %};</li>
+            <li>{% trans 'список посева внесен в общую таблицу для всех участников' %}.</li>
+        </ul>
+
+        <h2>{% trans 'Конкурсные виды' %}</h2>
+        <p>{% trans 'Конкурсные виды - Ответ' %}</p>
+
+        <h2>{% trans 'Подведение итогов' %}</h2>
+        <p>{% trans 'Подведение итогов - Ответ' %}</p>
+
+        <h2>{% trans 'Наша философия' %}</h2>
+        <p>{% trans 'Наша философия - Ответ' %}</p>
+
+        <h2>{% trans 'Где проходит Марафон и как присоединиться' %}</h2>
+        <p>{% trans 'Где проходит Марафон - Ответ' %} <a href="{% url 'marathon contacts' %}?subject=membership">{% trans 'Контакты' %}</a> ({% trans 'тема «Заявка на участие в Марафоне»' %}).</p>
     </div>
 </main>
 
-{% endblock  %}
+{% endblock %}

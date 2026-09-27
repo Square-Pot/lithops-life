@@ -529,9 +529,9 @@ msgid "Борта горшка должны попадать в кадр"
 msgstr "The edges of the pot must be in the frame"
 
 #: marathon/templates/marathon/rules.html:42
-msgid "Фото не обязательно должно быть кадрировано - все лишнее будет обрезано"
+msgid "Фото не обязательно должно быть кадрировано — всё лишнее будет обрезано"
 msgstr ""
-"The photo does not have to be cropped - everything unnecessary will be "
+"The photo does not have to be cropped — everything unnecessary will be "
 "trimmed"
 
 #: marathon/templates/marathon/rules.html:43
@@ -576,9 +576,9 @@ msgstr ""
 #: marathon/templates/marathon/rules.html:63
 msgid ""
 "Если не хочется каждый раз возиться с линейкой, то это можно сделать только "
-"на первом фото. На последующих  фото - ориентиром для выравнивания масштаба "
+"на первом фото. На последующих фото ориентиром для выравнивания масштаба "
 "будет служить горшок (в этом случае горшок должен попадать в кадр на всех "
-"фото!).  Еще раз прикладывать линейку будет нужно в случае смены горшка (при "
+"фото!). Ещё раз прикладывать линейку будет нужно в случае смены горшка (при "
 "пересадке растений), чтобы сохранить масштаб"
 msgstr ""
 "If you don't want to deal with the ruler every time, you can do this only in "
@@ -641,7 +641,7 @@ msgstr ""
 
 #: marathon/templates/marathon/rules.html:75
 msgid ""
-"Каждый зарегистрированный участник может участвовать  в нескольких номинациях"
+"Каждый зарегистрированный участник может участвовать в нескольких номинациях"
 msgstr "Each registered participant can participate in several nominations"
 
 #: marathon/templates/marathon/rules.html:76
@@ -662,7 +662,7 @@ msgstr "Voting for oneself is not allowed"
 
 #: marathon/templates/marathon/rules.html:79
 msgid ""
-"На голосование в каждой номинации отводится 1-2 дня, но этот период может "
+"На голосование в каждой номинации отводится 1–2 дня, но этот период может "
 "быть скорректирован в процессе"
 msgstr ""
 "Voting for each nomination is allocated 1-2 days, but this period may be "
@@ -749,8 +749,8 @@ msgid "Ежегодный совместный посев аизовых"
 msgstr "Annual joint sowing of mesembs"
 
 msgid ""
-"Публикация дополнительных фото конкурсанта в период проведения голосования - "
-"не допускается."
+"Публикация дополнительных фото конкурсанта в период проведения голосования не"
+" допускается."
 msgstr ""
 "Posting additional photos of a nominee while voting is in progress is not "
 "allowed."

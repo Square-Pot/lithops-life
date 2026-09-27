@@ -740,3 +740,12 @@ msgstr "Final photos gallery"
 
 msgid "Скачать"
 msgstr "Download"
+
+msgid "Ежегодный совместный посев аизовых (литопсов и др.)"
+msgstr "Annual joint sowing of mesembs (lithops and others)"
+
+msgid "Ежегодный совместный посев аизовых"
+msgstr "Annual joint sowing of mesembs"
+
+msgid "Публикация дополнительных фото конкурсанта в период проведения голосования - не допускается."
+msgstr "Posting additional photos of a nominee while voting is in progress is not allowed."

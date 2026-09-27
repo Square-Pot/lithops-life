@@ -24,12 +24,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{% block title %}Mesemb Marathon{% endblock title %}</title>
-    <meta name="description" content="Ежегодный совместный посев аизовых (литопсов и др.)">
+    <meta name="description" content="{% trans 'Ежегодный совместный посев аизовых (литопсов и др.)' %}">
     <meta name="keywords" content="lithops, conophytum, mesemb">
     <meta name="author" content="Dmitry N.">
     {% block og %}
     <meta property="og:title" content="Mesemb Marathon">
-    <meta property="og:description" content="Ежегодный совместный посев аизовых">
+    <meta property="og:description" content="{% trans 'Ежегодный совместный посев аизовых' %}">
     <meta property="og:image" content="{% static 'img/masemb_marathon_logo_300p.png' %}">
     {% endblock og %}
     <meta property="og:url" content="{% url 'marathons' %}">

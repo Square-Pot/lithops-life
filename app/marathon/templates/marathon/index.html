@@ -82,7 +82,7 @@
       {% for marathon in marathons %}
       <div class="col-12 col-lg-4">
         <div class="card mb-3">
-          <a href="{% if marathon.age_days > 0 %}{% url 'marathon' marathon.name %}{%else%}#{% endif %}" class="text-decoration-none" disabled>
+          <a href="{% url 'marathon' marathon.name %}" class="text-decoration-none">
             <div class="row g-0">
               <div class="col-md-3">
                 <img src="{% if marathon.title_image %}{{ marathon.title_image.url }}{% else %}{% static 'img/masemb_marathon_logo_300p.png' %}{% endif %}" class="img-fluid rounded-start card-img-left" alt="{{ marathon.description }}">

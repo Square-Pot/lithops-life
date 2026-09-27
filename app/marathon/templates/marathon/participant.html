@@ -1,0 +1,49 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block title %}{{ participant.display_name }} · Mesemb Marathon{% endblock title %}
+{% block og %}
+  <meta property="og:title" content="{{ participant.display_name }} · Mesemb Marathon">
+  {% with images|first as cover %}{% if cover %}<meta property="og:image" content="{{ cover.url }}">{% endif %}{% endwith %}
+{% endblock og %}
+
+{% block head %}
+  <style>
+    .photo-card .card-img-top { aspect-ratio: 1; object-fit: cover; }
+  </style>
+{% endblock head %}
+
+{% block body %}
+<main class="container mt-5 pt-4">
+  <h1 class="display-6 mb-1">{{ participant.display_name }}</h1>
+  <p class="text-secondary mb-3">
+  </p>
+  <p class="mb-4">
+    {% if finals %}<span class="badge rounded-pill text-bg-success"><i class="bi bi-flag-fill"></i> {% trans 'Финалист' %} × {{ finals }}</span>{% endif %}
+    {% if wins %}<span class="badge rounded-pill text-bg-warning"><i class="bi bi-trophy-fill"></i> {% trans 'Побед' %}: {{ wins }}</span>{% endif %}
+  </p>
+
+  {% for marathon, nominees in by_marathon %}
+  <section class="mb-4">
+    <h2 class="h5"><a href="{% url 'marathon' marathon.name %}#nominations" class="text-decoration-none">{% trans 'Марафон' %} {{ marathon.name }}</a></h2>
+    <ul class="list-group">
+      {% for n in nominees %}
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div>
+          {% if n.is_winner %}<i class="bi bi-trophy-fill text-warning"></i>{% else %}<i class="bi bi-flag text-secondary"></i>{% endif %}
+          {{ n.nomination.title }}
+          {% if n.plant %}<div class="small text-secondary">{{ n.plant }}</div>{% endif %}
+        </div>
+        {% if n.votes is not None %}<span class="badge text-bg-light">{% blocktrans count votes=n.votes %}{{ votes }} голос{% plural %}{{ votes }} голосов{% endblocktrans %}</span>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  {% if images %}
+  <h2 class="h5 mt-5 mb-3"><i class="bi bi-images"></i> {% trans 'Фото' %}</h2>
+  {% include 'marathon/_photo_grid.html' with hide_participant=True %}
+  {% endif %}
+</main>
+{% endblock body %}

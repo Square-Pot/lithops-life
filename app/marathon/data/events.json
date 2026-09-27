@@ -1,0 +1,206 @@
+[
+ {
+  "marathon": "2023",
+  "date": "2023-10-01",
+  "title_ru": "Посев",
+  "title_en": "Sowing",
+  "published": true
+ },
+ {
+  "marathon": "2023",
+  "date": "2023-11-12",
+  "title_ru": "Этап 5. Возраст - 1,5 месяца",
+  "title_en": "Stage 5. Age - 1.5 months",
+  "published": true
+ },
+ {
+  "marathon": "2023",
+  "date": "2023-12-01",
+  "title_ru": "Этап 6. Возраст - 2 месяца",
+  "title_en": "Stage 6. Age - 2 months",
+  "published": true
+ },
+ {
+  "marathon": "2023",
+  "date": "2024-02-01",
+  "title_ru": "Этап 8. Возраст - 4 месяца",
+  "title_en": "Stage 8. Age - 4 months",
+  "published": true
+ },
+ {
+  "marathon": "2023",
+  "date": "2024-10-09",
+  "title_ru": "Финал: сбор фото финалистов",
+  "title_en": "Finale: collecting finalists' photos",
+  "published": true
+ },
+ {
+  "marathon": "2023",
+  "date": "2024-10-24",
+  "title_ru": "Финал: голосования",
+  "title_en": "Finale: voting",
+  "published": true,
+  "old_date": "2024-11-12"
+ },
+ {
+  "marathon": "2023",
+  "date": "2025-04-01",
+  "title_ru": "Этап 17. Возраст - 1,5 года",
+  "title_en": "Stage 17. Age - 1.5 years",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2024-11-10",
+  "title_ru": "Этап 5. Возраст - 1,5 месяца",
+  "title_en": "Stage 5. Age - 1.5 months",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2025-05-01",
+  "title_ru": "Этап 11. Возраст - 7 месяцев",
+  "title_en": "Stage 11. Age - 7 months",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2025-10-11",
+  "title_ru": "Финал: сбор фото финалистов",
+  "title_en": "Finale: collecting finalists' photos",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2025-10-29",
+  "title_ru": "Финал: голосования",
+  "title_en": "Finale: voting",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2025-12-07",
+  "title_ru": "Финал: итоги и призы",
+  "title_en": "Finale: results and prizes",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2025-11-15",
+  "title_ru": "Этап 5. Возраст - 1,5 месяца",
+  "title_en": "Stage 5. Age - 1.5 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2025-11-30",
+  "title_ru": "Этап 6. Возраст - 2 месяца",
+  "title_en": "Stage 6. Age - 2 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-01-01",
+  "title_ru": "Этап 7. Возраст - 3 месяца",
+  "title_en": "Stage 7. Age - 3 months",
+  "published": true
+ },
+ {
+  "marathon": "2024",
+  "date": "2024-10-08",
+  "title_ru": "Этап 1. Возраст - 1 неделя",
+  "title_en": "Stage 1. Age - 1 week",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2025-10-22",
+  "title_ru": "Этап 3. Возраст - 3 недели",
+  "title_en": "Stage 3. Age - 3 weeks",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-02-01",
+  "title_ru": "Этап 8. Возраст - 4 месяца",
+  "title_en": "Stage 8. Age - 4 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-03-01",
+  "title_ru": "Этап 9. Возраст - 5 месяцев",
+  "title_en": "Stage 9. Age - 5 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-04-01",
+  "title_ru": "Этап 10. Возраст - полгода",
+  "title_en": "Stage 10. Age - half a year",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-05-01",
+  "title_ru": "Этап 11. Возраст - 7 месяцев",
+  "title_en": "Stage 11. Age - 7 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-06-01",
+  "title_ru": "Этап 12. Возраст - 8 месяцев",
+  "title_en": "Stage 12. Age - 8 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-07-01",
+  "title_ru": "Этап 13. Возраст - 9 месяцев",
+  "title_en": "Stage 13. Age - 9 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-08-01",
+  "title_ru": "Этап 14. Возраст - 10 месяцев",
+  "title_en": "Stage 14. Age - 10 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-09-01",
+  "title_ru": "Этап 15. Возраст - 11 месяцев",
+  "title_en": "Stage 15. Age - 11 months",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-10-04",
+  "title_ru": "Этап 16. Возраст - 1 год",
+  "title_en": "Stage 16. Age - 1 year",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-10-05",
+  "title_ru": "Финал: сбор фото финалистов",
+  "title_en": "Finale: collecting finalists' photos",
+  "published": true
+ },
+ {
+  "marathon": "2025",
+  "date": "2026-11-01",
+  "title_ru": "Финал: голосования (ориентировочно)",
+  "title_en": "Finale: voting (tentative)",
+  "published": true
+ },
+ {
+  "marathon": "2026",
+  "date": "2026-10-01",
+  "title_ru": "Посев",
+  "title_en": "Sowing",
+  "published": true
+ }
+]

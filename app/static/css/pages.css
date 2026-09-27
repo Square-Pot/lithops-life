@@ -1,0 +1,74 @@
+/* Общий каркас текстовых страниц: О проекте, Правила, Партнёры, Публикации, Контакты, Знания */
+
+.static-page {
+  padding-top: 2.5rem;
+  padding-bottom: 2rem;
+}
+
+.static-page .page-header {
+  margin-bottom: 2rem;
+}
+
+.static-page .page-header h1 {
+  margin-bottom: .75rem;
+}
+
+/* ~70 знаков в строке — комфортная длина для чтения */
+.static-page .prose {
+  max-width: 44rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.static-page .prose h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-top: 2.25rem;
+  margin-bottom: .75rem;
+}
+
+.static-page .prose p,
+.static-page .prose li {
+  line-height: 1.65;
+}
+
+.static-page .prose ul,
+.static-page .prose ol {
+  padding-left: 1.25rem;
+}
+
+.static-page .prose li + li {
+  margin-top: .35rem;
+}
+
+.static-page .callout {
+  background: var(--bs-light);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .static-page .callout {
+    padding: 2rem 2.5rem;
+  }
+}
+
+/* Партнёры */
+.partner {
+  text-align: center;
+}
+
+.partner img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.partner img.contain {
+  object-fit: contain;
+}
+
+.partner p {
+  margin-top: .75rem;
+  font-size: .875rem;
+}

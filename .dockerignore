@@ -1,0 +1,7 @@
+data/
+app/wm_cache/
+app/db.sqlite3*
+**/__pycache__/
+.venv/
+venv/
+.git/

@@ -2,80 +2,72 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}{% trans 'Контакты' %} · Mesemb Marathon{% endblock title %}
+
 {% block head %}
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script>
         function onSubmit(token) {
-            document.getElementById("feedback-form").submit();
-          }
-    </script>
-    <style type="text/css">
-        h3 {
-            padding-top: 0.7em
+            const form = document.getElementById("feedback-form");
+            // form.submit() пропускает проверку required — проверяем сами
+            if (form.reportValidity()) {
+                form.submit();
+            } else {
+                grecaptcha.reset();
+            }
         }
-    </style>
+    </script>
 {% endblock %}
 
 {% block body %}
 
-<main>
-    <div class="container mt-5">
+<main class="container static-page">
+    <div class="prose">
+        <header class="page-header">
+            <h1 class="display-6">{% trans 'Контакты' %}</h1>
+        </header>
+
         {% if result == 'success' %}
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {% trans '<strong>Успех!</strong> Ваше сообщение отправлено.' %}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-            </div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {% trans '<strong>Успех!</strong> Ваше сообщение отправлено.' %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
         {% if result == 'error' %}
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {% trans '<strong>Неуспешно!</strong> Что-то пошло не так.' %}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {% trans '<strong>Неуспешно!</strong> Что-то пошло не так.' %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endif %}
-        <div class="row justify-content-center my-5">
-            <div class="col-10">
-                <form action="{% url 'marathon contacts' %}" method="POST" id='feedback-form'>
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="email" class="form-label">{% trans 'Ваша почта для обратной связи' %}:</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
-                    </div>
-                    
-                    <label class="form-label">{% trans 'Тема' %}:</label>
-                    <select class="form-select mb-3" name="subject" aria-label="Default select example" required>
-                        <option {% if subject == 'membership' %}selected{% endif %} value="membership">{% trans 'Заявка на участие в Марафоне' %}</option>
-                        <option {% if subject == 'partnership' %}selected{% endif %} value="partnership">{% trans 'Партнерство' %}</option>
-                        <option {% if subject == 'etc' %}selected{% endif %} value="etc">{% trans 'Прочее' %}</option>
-                    </select>
-                    
-                    <div class="mb-3">
-                        <label for="message" class="form-label">{% trans 'Сообщение' %}:</label>
-                        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
-                    </div>
-                    {% comment %} <div class="g-recaptcha" 
-                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3"
-                        data-callback="onSubmit" 
-                        data-action="submit"></div>
-                    <input type="hidden" name="recaptcha_response" id="recaptchaResponse">
-                    <input class="btn btn-success" type="submit" value="{% trans 'Отправить' %}" id="submitBtn"> {% endcomment %}
-                    <button class="g-recaptcha" 
-                        data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3" 
-                        data-callback='onSubmit' 
-                        data-action='submit'>{% trans 'Отправить' %}</button>
 
-
-                </form>
+        <form action="{% url 'marathon contacts' %}" method="POST" id="feedback-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="email" class="form-label">{% trans 'Ваша почта для обратной связи' %}</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" autocomplete="email" required>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="subject" class="form-label">{% trans 'Тема' %}</label>
+                <select class="form-select" id="subject" name="subject" required>
+                    <option {% if subject == 'membership' %}selected{% endif %} value="membership">{% trans 'Заявка на участие в Марафоне' %}</option>
+                    <option {% if subject == 'partnership' %}selected{% endif %} value="partnership">{% trans 'Партнёрство' %}</option>
+                    <option {% if subject == 'etc' %}selected{% endif %} value="etc">{% trans 'Прочее' %}</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="message" class="form-label">{% trans 'Сообщение' %}</label>
+                <textarea class="form-control" id="message" name="message" rows="6" required></textarea>
+            </div>
+
+            <button class="g-recaptcha btn btn-success px-4"
+                data-sitekey="6LdgTKQqAAAAAGp_mlo6E6RZ8VGLRTr6FvpZ7gb3"
+                data-callback="onSubmit"
+                data-action="submit">{% trans 'Отправить' %}</button>
+        </form>
     </div>
 </main>
 
-{% endblock  %}
+{% endblock %}

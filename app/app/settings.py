@@ -123,7 +123,7 @@ USE_TZ = True
 LANGUAGES = [
     ('ru', 'Русский'), 
     ('en', 'English'),
-    # ('de', 'Deutsch'),
+    ('de', 'Deutsch'),
 ]
 LOCALE_PATHS = [
     BASE_DIR / "locale",
@@ -158,3 +158,11 @@ CSRF_TRUSTED_ORIGINS = [f'https://{ os.environ.get("DOMAIN") }', f'http://{ os.e
 
 
 RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+
+# скачиваемые финальные фото с водяным знаком (marathon/watermark.py)
+WATERMARK_CACHE_DIR = os.environ.get('WATERMARK_CACHE_DIR', BASE_DIR / 'wm_cache')
+
+FORMAT_MODULE_PATH = 'app.formats'
+
+# немецкий переведён не во всех полях базы — сначала английский, потом русский
+MODELTRANSLATION_FALLBACK_LANGUAGES = {'default': ('ru',), 'de': ('en', 'ru')}

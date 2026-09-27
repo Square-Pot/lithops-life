@@ -52,7 +52,7 @@
           <div class="carousel-inner">
             {% for img in images %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <img src="{{ img.url }}" class="d-block .w-100 rounded-5" >
+              <img src="{{ img.url }}" class="d-block w-100 rounded-5" >
             </div>
             {% endfor %}
           </div>
@@ -71,13 +71,9 @@
     <!-- MARATHONS --> 
     <div class="row justify-content-center rounded-5 bg-light bg-gradient my-2 py-3" >
       
-      <div class="row justify-content-between">
-        <div class="col-4">
-          <h3 class="ms-3 mb-3">{% trans 'Марафоны' %}:</h3>
-        </div>
-        <div class="col-4 text-end">
-          <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">{% trans 'Еще' %} ></a>
-        </div>
+      <div class="col-12 d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">{% trans 'Марафоны' %}:</h3>
+        <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm">{% trans 'Еще' %} ></a>
       </div>
       {% for marathon in recent_marathons %}
       <div class="col-12 col-lg-4">
@@ -104,7 +100,7 @@
 
     <!-- CONTESTANTS --> 
     <div class="row my-3">
-        <h3 class="ms-3 mb-3">{% trans 'Конкурсные виды' %}:</h3>
+        <div class="col-12"><h3 class="mb-3">{% trans 'Конкурсные виды' %}:</h3></div>
         {% for contestant in contestants %}
           <div class="col-6 col-sm-4 col-md-3 col-lg-2 justify-content-center mb-3">
             <div class="card">
@@ -131,11 +127,7 @@
       </div>
     </div>
 
-
-
-
-
-  
+  </div>
 </main>
 
 {% endblock body %}

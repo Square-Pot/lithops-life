@@ -11,8 +11,9 @@
         {% if img.participant and not hide_participant %}
           <a href="{{ img.participant.get_absolute_url }}" class="fw-semibold text-decoration-none">{{ img.participant.display_name }}</a><br>
         {% endif %}
-        {% if img.contestant %}<span class="text-secondary">{{ img.contestant.full_botanic_name }}</span><br>{% endif %}
-        {% if img.nomination %}<span class="text-secondary"><i class="bi bi-award"></i> {{ img.nomination.title }}</span><br>{% endif %}
+        {# название номинации обычно уже содержит вид — показываем что-то одно #}
+        {% if img.nomination %}<span class="text-secondary"><i class="bi bi-award"></i> {{ img.nomination.title }}</span><br>
+        {% elif img.contestant %}<span class="text-secondary">{{ img.contestant.full_botanic_name }}</span><br>{% endif %}
         {% if img.marathon %}<a href="{% url 'marathon' img.marathon.name %}" class="badge text-bg-light text-decoration-none">{% trans 'Марафон' %} {{ img.marathon.name }}</a>{% endif %}
       </figcaption>
     </figure>

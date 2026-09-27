@@ -174,7 +174,7 @@ cython_debug/
 #.idea/
 
 # exports with participants personal data (tg ids)
-data/
+/data/
 
 # watermarked photo cache
 app/wm_cache/

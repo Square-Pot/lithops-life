@@ -201,5 +201,19 @@
   "category_en": "Non-contest",
   "title_ru": "Лучший внеконкурсный аизовый",
   "title_en": "Best non-contest mesemb"
+ },
+ {
+  "marathon": "2023",
+  "category_ru": "Специальные",
+  "category_en": "Special",
+  "title_ru": "Лучшие среди новичков (до 3 лет опыта)",
+  "title_en": "Best newcomers (up to 3 years of experience)"
+ },
+ {
+  "marathon": "2023",
+  "category_ru": "Специальные",
+  "category_en": "Special",
+  "title_ru": "Приз зрительских симпатий",
+  "title_en": "Audience choice award"
  }
 ]

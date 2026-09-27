@@ -4,7 +4,7 @@ from .models import Marathon, Event, Nomination
 
 @register(Marathon)
 class MarathonTranslationOptions(TranslationOptions):
-    fields = ('description', )
+    fields = ('description', 'details', 'format_note')
     
 @register(Event)
 class EventTranslationOptions(TranslationOptions):

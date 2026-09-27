@@ -38,14 +38,26 @@
         <h1 class="mb-0 display-6">{{ marathon.description }}</h1>
         
         <!-- Content -->
+        {% if marathon.details %}
+        <div class="mt-3 mb-4 lead">{{ marathon.details|linebreaks }}</div>
+        {% else %}
         <p class="mt-3 mb-5 lead">{% trans 'Стартовал' %} {{ marathon.seeding_date|date:"SHORT_DATE_FORMAT" }} {% trans 'года в составе' %} {{ marathon.participants_number }} {% trans 'активных участников' %}. {% trans 'Количество конкурсных сеянцев' %}: {{  marathon.contestant_set.all|length }}. {% trans 'Текущий возраст сеянцев' %}: {% blocktrans count days=marathon.age_days %}{{ days }} день{% plural %}{{ days }} дней{% endblocktrans %}. {% trans 'Последнее событие в Марафоне' %}: {{ marathon.current_event.title }}</p>
+        {% endif %}
         
         <!-- Info -->
         <ul class="list-inline position-relative justify-content-center justify-content-lg-start mb-4">
+          {% if marathon.contestant_set.exists %}
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#contest">{% trans 'Конкурсные сеянцы' %}</a></li>
+          {% endif %}
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#calendar">{% trans 'Календарь' %}</a></li>
           {% if marathon.nomination_set.all %}
           <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="#nominations">{% trans 'Номинации' %}</a></li>
+          {% endif %}
+          {% if marathon.sowing_table_url %}
+          <li class="list-inline-item me-2"> <i class="bi bi-table h6 me-1"></i><a href="{{ marathon.sowing_table_url }}" target="_blank" rel="noopener">{% trans 'Таблица посевов' %}</a></li>
+          {% endif %}
+          {% if marathon.data_table_url %}
+          <li class="list-inline-item me-2"> <i class="bi bi-table h6 me-1"></i><a href="{{ marathon.data_table_url }}" target="_blank" rel="noopener">{% trans 'Данные конкурсного посева' %}</a></li>
           {% endif %}
           {% if final_photos_count %}
           <li class="list-inline-item"> <i class="bi bi-images h6 me-1"></i><a href="{% url 'gallery' %}?marathon={{ marathon.name }}">{% trans 'Финальные фото' %} ({{ final_photos_count }})</a></li>
@@ -56,13 +68,14 @@
       <!-- Right content START -->
       <div class="col-lg-7 col-xl-6 text-center position-relative">
 
-        <img src="{{ marathon.title_image.url }}" class="img-fluid" alt="{{ marathon.description }}">
+        <img src="{% if marathon.title_image %}{{ marathon.title_image.url }}{% else %}{% static 'img/masemb_marathon_logo_300p.png' %}{% endif %}" class="img-fluid" alt="{{ marathon.description }}">
 
         
       </div>
 
     </div> 
 
+    {% if marathon.contestant_set.exists %}
     <div class="row my-4 bg-light ">
       <div class="col-12">
           <h1 class="display-6 my-4 text-center" id="contest">{% trans 'Конкурсные сеянцы' %}</h1>
@@ -76,8 +89,8 @@
         <p><a class="btn btn-secondary" href="{% url 'contestant' contestant.short_name %}">{% trans 'Таблица' %} &raquo;</a></p>
       </div><!-- /.col-lg-4 -->
       {% endfor %}
-      
-    
+    </div>
+    {% endif %}
 
     <div class="row mt-5 pt-5 justify-content-center">
       <!-- Left content START -->
@@ -148,9 +161,9 @@
               </td>
               <td>
                 {% for n in nomination.nominees.all %}{% if n.is_winner %}
-                  <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a><br/><span class="fw-light small">{{ n.participant.tg_username }}</span><br/>
+                  <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a><br/>
                 {% endif %}{% empty %}
-                  {{ nomination.winner_name }}<br/><span class="fw-light small">{{ nomination.winner_username }}</span>
+                  {{ nomination.winner_name }}
                 {% endfor %}
               </td>
             </tr>

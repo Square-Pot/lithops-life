@@ -85,12 +85,12 @@
           <a href="{% if marathon.age_days > 0 %}{% url 'marathon' marathon.name %}{%else%}#{% endif %}" class="text-decoration-none" disabled>
             <div class="row g-0">
               <div class="col-md-3">
-                <img src="{{ marathon.title_image.url }}" class="img-fluid rounded-start card-img-left" alt="Lithops seedlings">
+                <img src="{% if marathon.title_image %}{{ marathon.title_image.url }}{% else %}{% static 'img/masemb_marathon_logo_300p.png' %}{% endif %}" class="img-fluid rounded-start card-img-left" alt="{{ marathon.description }}">
               </div>
               <div class="col-md-9">
                 <div class="card-body">
                   <h5 class="card-title fw-bolder">{% trans 'Марафон' %} {{ marathon.name }}</h5>
-                  <p class="card-text">{% blocktrans count n=marathon.participants_number %}{{ n }} участник{% plural %}{{ n }} участников{% endblocktrans %}{% if marathon.contestant_set.all.count > 0 %}, {% blocktrans count n=marathon.contestant_set.all.count %}{{ n }} конкурсант{% plural %}{{ n }} конкурсантов{% endblocktrans %}{% endif %}{% if marathon.age_days > 0 %}, {% blocktrans count days=marathon.age_days %}{{ days }} день с начала посева{% plural %}{{ days }} дней с начала посева{% endblocktrans %}{% endif %}.</p>
+                  <p class="card-text">{% if marathon.participants_number %}{% blocktrans count n=marathon.participants_number %}{{ n }} участник{% plural %}{{ n }} участников{% endblocktrans %}, {% endif %}{% if marathon.contestant_set.all.count > 0 %}{% blocktrans count n=marathon.contestant_set.all.count %}{{ n }} конкурсный вид{% plural %}{{ n }} конкурсных видов{% endblocktrans %}{% elif marathon.format_note %}{{ marathon.format_note }}{% endif %}{% if marathon.age_days > 0 %}, {% blocktrans count days=marathon.age_days %}{{ days }} день с начала посева{% plural %}{{ days }} дней с начала посева{% endblocktrans %}{% endif %}.</p>
                   <p class="card-text"><small class="text-muted">{% trans 'Дата посева' %}: {{ marathon.seeding_date|date:"SHORT_DATE_FORMAT" }}</small></p>
                 </div>
               </div>
@@ -104,7 +104,7 @@
 
     <!-- CONTESTANTS --> 
     <div class="row my-3">
-        <h3 class="ms-3 mb-3">{% trans 'Конкурсанты' %}:</h3>
+        <h3 class="ms-3 mb-3">{% trans 'Конкурсные виды' %}:</h3>
         {% for contestant in contestants %}
           <div class="col-6 col-sm-4 col-md-3 col-lg-2 justify-content-center mb-3">
             <div class="card">

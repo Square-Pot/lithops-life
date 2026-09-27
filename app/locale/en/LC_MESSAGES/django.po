@@ -115,7 +115,7 @@ msgstr ""
 
 #: marathon/templates/marathon/about.html:40
 msgid "Конкурсные виды"
-msgstr "Contestants"
+msgstr "Contest species"
 
 #: marathon/templates/marathon/about.html:41
 msgid "Конкурсные виды - Ответ"
@@ -164,8 +164,8 @@ msgstr "Where the Marathon takes place and how to join"
 msgid "Где проходит Марафон - Ответ"
 msgstr ""
 "Currently, the Marathon takes place on Telegram in one of the threads of the "
-"“Living Stones Lovers Club” (Клуб любителей живых камней). To join, please "
-"follow the appropriate link on the Marathon page"
+"“Living Stones Lovers Club” (Клуб любителей живых камней). To join, submit a "
+"request using the form on the page"
 
 #: marathon/templates/marathon/contacts.html:27
 msgid "<strong>Успех!</strong> Ваше сообщение отправлено."
@@ -243,7 +243,7 @@ msgstr "participants"
 
 #: marathon/templates/marathon/index.html:93
 msgid "конкурсантов"
-msgstr "contestants"
+msgstr "contest species"
 
 #: marathon/templates/marathon/index.html:93
 msgid "дней с начала посева"
@@ -256,7 +256,7 @@ msgstr "Sowing Date"
 #: marathon/templates/marathon/index.html:107
 #: marathon/templates/marathon/marathons.html:37
 msgid "Конкурсанты"
-msgstr "Contestants"
+msgstr "Contest species"
 
 #: marathon/templates/marathon/index.html:126
 msgid "определение_марафона"
@@ -326,7 +326,7 @@ msgstr "Growing Conophytums"
 
 #: marathon/templates/marathon/knowledge.html:54
 msgid "Терри Смейл"
-msgstr "Terry Smail"
+msgstr "Terry Smale"
 
 #: marathon/templates/marathon/knowledge.html:61
 msgid "Прочие полезные ресурсы"
@@ -368,7 +368,7 @@ msgstr "Last event"
 #: marathon/templates/marathon/marathon.html:38
 #: marathon/templates/marathon/marathon.html:67
 msgid "Конкурсные сеянцы"
-msgstr "Contestants"
+msgstr "Contest seedlings"
 
 #: marathon/templates/marathon/marathon.html:39
 #: marathon/templates/marathon/marathon.html:84
@@ -806,3 +806,20 @@ msgstr[1] "%(votes)s votes"
 
 msgid "Последний этап"
 msgstr "Last stage"
+
+msgid "Таблица посевов"
+msgstr "Sowing table"
+
+msgid "Данные конкурсного посева"
+msgstr "Contest sowing data"
+
+msgid "тема"
+msgstr "subject"
+
+msgid "%(n)s конкурсный вид"
+msgid_plural "%(n)s конкурсных видов"
+msgstr[0] "%(n)s contest species"
+msgstr[1] "%(n)s contest species"
+
+msgid "тема «Заявка на участие в Марафоне»"
+msgstr "subject “Application to join the Marathon”"

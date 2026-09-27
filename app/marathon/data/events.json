@@ -195,5 +195,12 @@
   "title_ru": "Финал: голосования (ориентировочно)",
   "title_en": "Finale: voting (tentative)",
   "published": true
+ },
+ {
+  "marathon": "2026",
+  "date": "2026-10-01",
+  "title_ru": "Посев",
+  "title_en": "Sowing",
+  "published": true
  }
 ]

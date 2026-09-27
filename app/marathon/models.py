@@ -19,6 +19,10 @@ class Marathon(models.Model):
     state = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
     title_image = models.OneToOneField('Image', related_name='marathon_title_image', on_delete=models.SET_NULL, null=True, blank=True)
     participants_number = models.PositiveIntegerField(default=0)
+    details = models.TextField(blank=True, help_text='Формат сезона, если он отличается от обычного (например, «год качества»)')
+    format_note = models.CharField(max_length=255, blank=True, help_text='Коротко для карточки вместо числа конкурсных видов')
+    sowing_table_url = models.URLField(blank=True, help_text='Таблица посевов')
+    data_table_url = models.URLField(blank=True, help_text='Таблица данных конкурсного посева (всхожесть, грунт, свет)')
 
     def __str__(self):
         return f'{self.name} ({self.seeding_date})'

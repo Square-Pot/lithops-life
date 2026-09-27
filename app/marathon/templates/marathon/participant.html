@@ -17,7 +17,6 @@
 <main class="container mt-5 pt-4">
   <h1 class="display-6 mb-1">{{ participant.display_name }}</h1>
   <p class="text-secondary mb-3">
-    {% if participant.tg_username %}<i class="bi bi-telegram"></i> {{ participant.tg_username }} &nbsp;{% endif %}
   </p>
   <p class="mb-4">
     {% if finals %}<span class="badge rounded-pill text-bg-success"><i class="bi bi-flag-fill"></i> {% trans 'Финалист' %} × {{ finals }}</span>{% endif %}

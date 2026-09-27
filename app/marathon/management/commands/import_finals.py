@@ -23,13 +23,15 @@ class Command(BaseCommand):
         stats = Counter()
         with transaction.atomic():
             for item in data:
-                if not item.get('title'):
-                    stats['skipped: нет на сайте'] += 1
-                    self.stdout.write(f"  пропуск: {item['marathon']} «{item.get('poll_question')}»")
-                    continue
-                found = Nomination.objects.filter(marathon__name=item['marathon']).by_title(item['title'])
+                # номинации, которых не было на сайте, приходят без title — ищем по тексту опроса (эмодзи отбросятся)
+                title = item.get('title') or item.get('poll_question')
+                found = Nomination.objects.filter(marathon__name=item['marathon']).by_title(title)
                 if len(found) != 1:
-                    raise CommandError(f"Номинация не найдена: {item['marathon']} «{item['title']}»")
+                    if item.get('title'):
+                        raise CommandError(f"Номинация не найдена: {item['marathon']} «{title}»")
+                    stats['skipped: нет на сайте'] += 1
+                    self.stdout.write(f"  пропуск: {item['marathon']} «{title}»")
+                    continue
                 nomination = found[0]
 
                 nomination.poll_url = item.get('poll_msg') or ''

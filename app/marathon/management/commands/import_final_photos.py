@@ -16,22 +16,31 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('manifest')
         parser.add_argument('--prefix', required=True, help='папка в бакете, например finals/2024/')
+        parser.add_argument('--finals', help='finals_*.json: найти номинацию по посту, если в manifest нет nomination_title')
         parser.add_argument('--dry-run', action='store_true')
 
-    def handle(self, manifest, prefix, dry_run, **options):
+    def handle(self, manifest, prefix, dry_run, finals=None, **options):
         prefix = prefix.strip('/') + '/'
         with open(manifest, encoding='utf-8') as f:
             rows = json.load(f)
+        poll_by_msg = {}
+        if finals:
+            with open(finals, encoding='utf-8') as f:
+                for item in json.load(f):
+                    for nominee in item['nominees']:
+                        for msg in nominee['photo_msgs']:
+                            poll_by_msg[msg] = item.get('title') or item.get('poll_question')
 
         stats = Counter()
         with transaction.atomic():
             for row in rows:
                 marathon = self._get(Marathon, name=row['marathon'])
                 nomination = None
-                if row.get('nomination_title'):
-                    found = Nomination.objects.filter(marathon=marathon).by_title(row['nomination_title'])
+                title = row.get('nomination_title') or poll_by_msg.get(row.get('msg'))
+                if title:
+                    found = Nomination.objects.filter(marathon=marathon).by_title(title)
                     if len(found) != 1:
-                        raise CommandError(f"Nomination не найдена: {marathon.name} «{row['nomination_title']}»")
+                        raise CommandError(f"Nomination не найдена: {marathon.name} «{title}»")
                     nomination = found[0]
                 participant = self._get(Participant, tg_id=row['tg_id']) if row.get('tg_id') else None
                 contestant = self._get(Contestant, marathon=marathon, short_name=row['contestant_short_name']) \

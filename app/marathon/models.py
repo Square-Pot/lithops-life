@@ -16,7 +16,6 @@ class Marathon(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     seeding_date = models.DateField()
-    state = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
     title_image = models.OneToOneField('Image', related_name='marathon_title_image', on_delete=models.SET_NULL, null=True, blank=True)
     participants_number = models.PositiveIntegerField(default=0)
     details = models.TextField(blank=True, help_text='Формат сезона, если он отличается от обычного (например, «год качества»)')
@@ -27,6 +26,32 @@ class Marathon(models.Model):
     def __str__(self):
         return f'{self.name} ({self.seeding_date})'
     
+
+    COMPLETED_AFTER_FINALE = datetime.timedelta(days=45)  # если в календаре нет события «Финал: итоги…»
+
+    def state_on(self, day):
+        """Статус по календарю: посев → в процессе; год с посева или первое событие «Финал…» → финал;
+        «Финал: итоги…» (или 45 дней после последнего финального события) → завершён."""
+        if day < self.seeding_date:
+            return 'pending'
+        finale = [e for e in self.event_set.all() if (e.title_ru or e.title or '').startswith('Финал')]
+        results = [e.date for e in finale if 'итоги' in (e.title_ru or e.title or '')]
+        if results:
+            if day >= min(results):
+                return 'completed'
+        elif finale and day >= max(e.date for e in finale) + self.COMPLETED_AFTER_FINALE:
+            return 'completed'
+        one_year = self.seeding_date.replace(year=self.seeding_date.year + 1)
+        if day >= one_year or any(day >= e.date for e in finale):
+            return 'final'
+        return 'in_progress'
+
+    @property
+    def state(self):
+        return self.state_on(datetime.date.today())
+
+    def get_state_display(self):
+        return dict(self.STATUS_CHOICES)[self.state]
 
     def get_state_color(self):
         COLORS = {

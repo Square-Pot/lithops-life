@@ -99,3 +99,18 @@ class CarouselTest(TestCase):
         self.assertEqual(list(_carousel_images(m)), [winner])
         starred = Image.objects.create(url='https://storage.yandexcloud.net/c.jpg', marathon=m, is_starred=True)
         self.assertEqual(list(_carousel_images(m)), [starred])
+
+
+class MarathonStateTest(TestCase):
+    def test_state_follows_calendar(self):
+        from marathon.models import Event
+        m = Marathon.objects.create(name='2025', description='', seeding_date=datetime.date(2025, 10, 1))
+        d = datetime.date
+        self.assertEqual(m.state_on(d(2025, 9, 30)), 'pending')
+        self.assertEqual(m.state_on(d(2026, 5, 1)), 'in_progress')
+        self.assertEqual(m.state_on(d(2026, 10, 1)), 'final')  # год с посева
+        Event.objects.create(marathon=m, date=d(2026, 11, 1), title='Финал: голосования')
+        self.assertEqual(m.state_on(d(2026, 12, 16)), 'completed')  # 45 дней без события итогов
+        Event.objects.create(marathon=m, date=d(2026, 12, 20), title='Финал: итоги и призы')
+        self.assertEqual(m.state_on(d(2026, 12, 19)), 'final')
+        self.assertEqual(m.state_on(d(2026, 12, 20)), 'completed')

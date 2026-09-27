@@ -1,7 +1,7 @@
 from .models import Marathon
 
 def marathon_list(request):
-    marathons = Marathon.objects.all()
+    # отдельное имя, чтобы страницы со своим списком marathons не подменяли меню
     return {
-        'marathons': marathons
+        'menu_marathons': Marathon.objects.order_by('seeding_date'),
     }

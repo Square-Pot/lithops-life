@@ -37,7 +37,7 @@ def redirect_to_main(request):
 def index_view(request):
     context = {
         'images': Image.objects.filter(is_starred=True).order_by('?')[:5],
-        'marathons': Marathon.objects.all().order_by('-seeding_date')[:3],  # остальные — по кнопке «Еще»
+        'recent_marathons': Marathon.objects.order_by('-seeding_date')[:3],  # остальные — по кнопке «Еще»
         'contestants': Contestant.objects.all(),
     }
     return render(request, 'marathon/index.html', context=context)

@@ -79,7 +79,7 @@
           <a href="{% url 'marathons' %}" role="button" class="btn btn-outline-secondary btn-sm me-4">{% trans 'Еще' %} ></a>
         </div>
       </div>
-      {% for marathon in marathons %}
+      {% for marathon in recent_marathons %}
       <div class="col-12 col-lg-4">
         <div class="card mb-3">
           <a href="{% url 'marathon' marathon.name %}" class="text-decoration-none">

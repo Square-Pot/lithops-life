@@ -214,6 +214,14 @@
  {
   "marathon": "2026",
   "date": "2026-11-01",
+  "title_ru": "Посев (вторая дата)",
+  "title_en": "Sowing (second date)",
+  "title_de": "Aussaat (zweiter Termin)",
+  "published": true
+ },
+ {
+  "marathon": "2026",
+  "date": "2026-11-01",
   "title_ru": "Неделя 1: конкурсный вид — C188",
   "title_en": "Week 1: contest species — C188",
   "title_de": "Woche 1: Wettbewerbsart — C188",

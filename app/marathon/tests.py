@@ -117,7 +117,7 @@ class MarathonStateTest(TestCase):
 
 
 class Schedule2026Test(TestCase):
-    """Расписание Марафона 2026 из data/events.json: октябрь + 4 недели × 11 месяцев, ru/en/de."""
+    """Расписание Марафона 2026 из data/events.json: октябрь + вторая дата посева + 4 недели × 11 месяцев, ru/en/de."""
 
     def setUp(self):
         from marathon.models import Event
@@ -132,8 +132,8 @@ class Schedule2026Test(TestCase):
     def test_sync_is_idempotent_and_covers_the_year(self):
         self._sync()
         self._sync()
-        events = self.Event.objects.filter(marathon=self.m, date__gt=datetime.date(2026, 10, 1)).order_by('date')
-        self.assertEqual(events.count(), 1 + 4 * 11)
+        events = self.Event.objects.filter(marathon=self.m, date__gt=datetime.date(2026, 10, 1)).order_by('date', 'id')
+        self.assertEqual(events.count(), 2 + 4 * 11)
         self.assertEqual(events.first().date, datetime.date(2026, 10, 2))
         self.assertEqual(events.last().date, datetime.date(2027, 9, 22))
         for e in events:
@@ -145,6 +145,26 @@ class Schedule2026Test(TestCase):
         self.assertTrue(first_weeks[11].endswith('C188'))
         self.assertTrue(first_weeks[5].endswith('C300 и C205 (green form)'))
         self.assertTrue(first_weeks[9].endswith('C. angelicae ssp. tetragonum'))
+
+    def test_second_sowing_date_goes_before_week_1(self):
+        self._sync()
+        self._sync()
+        nov1 = self.Event.objects.filter(marathon=self.m, date=datetime.date(2026, 11, 1)).order_by('id')
+        self.assertEqual([e.title_ru for e in nov1], ['Посев (вторая дата)', 'Неделя 1: конкурсный вид — C188'])
+        self.assertEqual((nov1[0].title_en, nov1[0].title_de), ('Sowing (second date)', 'Aussaat (zweiter Termin)'))
+        with mock.patch('marathon.views.datetime') as vdt:
+            vdt.date.today.return_value = datetime.date(2026, 11, 1)
+            r = self.client.get('/marathon/2026')
+        html = r.content.decode()
+        self.assertLess(html.index('Посев (вторая дата)'), html.index('Неделя 1: конкурсный вид — C188'))
+        self.assertEqual(r.context['now_event'].title_ru, 'Неделя 1: конкурсный вид — C188')  # последнее событие дня
+
+    def test_sync_fixes_day_order_when_week_1_already_exists(self):
+        # БД, где расписание уже синхронизировано без второй даты посева
+        self.Event.objects.create(marathon=self.m, date=datetime.date(2026, 11, 1), title='Неделя 1: конкурсный вид — C188')
+        self._sync()
+        nov1 = self.Event.objects.filter(marathon=self.m, date=datetime.date(2026, 11, 1)).order_by('id')
+        self.assertEqual([e.title_ru for e in nov1], ['Посев (вторая дата)', 'Неделя 1: конкурсный вид — C188'])
 
     def test_schedule_does_not_change_marathon_state(self):
         self._sync()

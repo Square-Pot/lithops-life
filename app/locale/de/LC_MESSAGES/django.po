@@ -679,3 +679,6 @@ msgstr[1] "%(n)s Wettbewerbsarten"
 
 msgid "тема «Заявка на участие в Марафоне»"
 msgstr "Betreff „Anmeldung zum Marathon“"
+
+msgid "Сейчас"
+msgstr "Jetzt"

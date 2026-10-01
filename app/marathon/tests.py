@@ -114,3 +114,69 @@ class MarathonStateTest(TestCase):
         Event.objects.create(marathon=m, date=d(2026, 12, 20), title='Финал: итоги и призы')
         self.assertEqual(m.state_on(d(2026, 12, 19)), 'final')
         self.assertEqual(m.state_on(d(2026, 12, 20)), 'completed')
+
+
+class Schedule2026Test(TestCase):
+    """Расписание Марафона 2026 из data/events.json: октябрь + 4 недели × 11 месяцев, ru/en/de."""
+
+    def setUp(self):
+        from marathon.models import Event
+        self.Event = Event
+        for name in ('2023', '2024', '2025', '2026'):
+            Marathon.objects.get_or_create(name=name, defaults={'description': '', 'seeding_date': datetime.date(int(name), 10, 1)})
+        self.m = Marathon.objects.get(name='2026')
+
+    def _sync(self):
+        call_command('sync_events', stdout=io.StringIO())
+
+    def test_sync_is_idempotent_and_covers_the_year(self):
+        self._sync()
+        self._sync()
+        events = self.Event.objects.filter(marathon=self.m, date__gt=datetime.date(2026, 10, 1)).order_by('date')
+        self.assertEqual(events.count(), 1 + 4 * 11)
+        self.assertEqual(events.first().date, datetime.date(2026, 10, 2))
+        self.assertEqual(events.last().date, datetime.date(2027, 9, 22))
+        for e in events:
+            with self.subTest(date=e.date):
+                self.assertTrue(e.title_ru and e.title_en and e.title_de)
+                if e.date.month != 10:
+                    self.assertIn(e.date.day, (1, 8, 15, 22))
+        first_weeks = {e.date.month: e.title_ru for e in events if e.date.day == 1}
+        self.assertTrue(first_weeks[11].endswith('C188'))
+        self.assertTrue(first_weeks[5].endswith('C300 и C205 (green form)'))
+        self.assertTrue(first_weeks[9].endswith('C. angelicae ssp. tetragonum'))
+
+    def test_schedule_does_not_change_marathon_state(self):
+        self._sync()
+        d = datetime.date
+        self.assertEqual(self.m.state_on(d(2026, 11, 20)), 'in_progress')
+        self.assertEqual(self.m.state_on(d(2027, 9, 30)), 'in_progress')
+        self.assertEqual(self.m.state_on(d(2027, 10, 1)), 'final')
+
+    def test_sync_keeps_german_title_when_json_has_none(self):
+        e = self.Event.objects.create(marathon=self.m, date=datetime.date(2026, 10, 1), title='Посев', title_de='Aussaat')
+        self._sync()
+        e.refresh_from_db()
+        self.assertEqual(e.title_de, 'Aussaat')
+
+    def test_page_shows_schedule_in_order_by_month(self):
+        self._sync()
+        with mock.patch('marathon.views.datetime') as vdt:
+            vdt.date.today.return_value = datetime.date(2026, 11, 10)
+            r = self.client.get('/marathon/2026')
+        self.assertEqual(r.status_code, 200)
+        html = r.content.decode()
+        self.assertLess(html.index('C188'), html.index('C262'))  # идущий марафон — по возрастанию
+        self.assertIn('Ноябрь 2026', html)
+        self.assertEqual(r.context['now_event'].date, datetime.date(2026, 11, 8))
+        from django.conf import settings
+        for lang, title in (('en', 'Week 1: contest species — C188'), ('de', 'Woche 1: Wettbewerbsart — C188')):
+            self.client.cookies[settings.LANGUAGE_COOKIE_NAME] = lang
+            with self.subTest(lang=lang):
+                self.assertContains(self.client.get('/marathon/2026'), title)
+
+    def test_finished_marathon_keeps_newest_first(self):
+        self._sync()
+        r = self.client.get('/marathon/2023')
+        dates = [e.date for e in r.context['events']]
+        self.assertEqual(dates, sorted(dates, reverse=True))

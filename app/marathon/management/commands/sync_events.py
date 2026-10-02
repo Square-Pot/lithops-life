@@ -4,6 +4,7 @@ from pathlib import Path
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.utils import translation
 
 from marathon.models import Event, Marathon
 
@@ -11,7 +12,8 @@ DEFAULT = Path(__file__).resolve().parents[2] / 'data' / 'events.json'
 
 
 class Command(BaseCommand):
-    help = 'Создаёт/обновляет события марафонов из JSON (ключ — марафон + дата). Повторный запуск безопасен.'
+    help = ('Создаёт/обновляет события марафонов из JSON (ключ — марафон + дата; несколько строк на одну дату '
+            'сопоставляются с событиями этой даты по порядку id). Повторный запуск безопасен.')
 
     def add_arguments(self, parser):
         parser.add_argument('path', nargs='?', default=str(DEFAULT))
@@ -19,21 +21,31 @@ class Command(BaseCommand):
 
     def handle(self, path, dry_run, **options):
         rows = json.loads(Path(path).read_text(encoding='utf-8'))
-        with transaction.atomic():
+        # 'title' у modeltranslation пишется в поле активного языка — фиксируем русский
+        seen = {}  # (марафон, дата) → сколько строк этой даты уже обработано
+        with translation.override('ru'), transaction.atomic():
             for row in rows:
                 marathon = Marathon.objects.get(name=row['marathon'])
                 if row.get('old_date'):  # перенос события на другую дату
                     Event.objects.filter(marathon=marathon, date=datetime.date.fromisoformat(row['old_date'])) \
                         .update(date=datetime.date.fromisoformat(row['date']))
-                event, created = Event.objects.update_or_create(
-                    marathon=marathon, date=datetime.date.fromisoformat(row['date']),
-                    defaults={
-                        'title': row['title_ru'],
-                        'title_ru': row['title_ru'],
-                        'title_en': row['title_en'],
-                        'published': row.get('published', True),
-                    },
-                )
+                defaults = {
+                    'title': row['title_ru'],
+                    'title_ru': row['title_ru'],
+                    'title_en': row['title_en'],
+                    'published': row.get('published', True),
+                }
+                if row.get('title_de'):  # без title_de немецкий берётся из базы или фолбэком en → ru
+                    defaults['title_de'] = row['title_de']
+                date = datetime.date.fromisoformat(row['date'])
+                n = seen[marathon.pk, date] = seen.get((marathon.pk, date), -1) + 1
+                event = Event.objects.filter(marathon=marathon, date=date).order_by('id')[n:n + 1].first()
+                created = event is None
+                if created:
+                    event = Event(marathon=marathon, date=date)
+                for field, value in defaults.items():
+                    setattr(event, field, value)
+                event.save()
                 self.stdout.write(f"{'+' if created else '~'} {event}")
             if dry_run:
                 transaction.set_rollback(True)

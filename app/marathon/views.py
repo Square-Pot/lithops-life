@@ -63,9 +63,16 @@ def _carousel_images(marathon, limit=20):
 
 def marathon_view(request, marathon_name):
     marathon = get_object_or_404(Marathon, name=marathon_name)
+    # Идущий марафон показывает расписание вперёд, прошедший — от последних событий
+    today = datetime.date.today()
+    upcoming = marathon.state_on(today) in ('pending', 'in_progress')
+    # В один день событий может быть несколько (вторая дата посева + «Неделя 1»): порядок дня — по id, как в events.json
+    events = list(marathon.event_set.all().order_by(*(('date', 'id') if upcoming else ('-date', '-id'))))
+    started = [e for e in events if e.date <= today]
     context = {
         'marathon': marathon,
-        'events': marathon.event_set.all().order_by('-date'),
+        'events': events,
+        'now_event': started[-1] if upcoming and started else None,
         'nomination_categories': marathon.nomination_set.values_list('category', flat=True).distinct(),
         'nominations': marathon.nomination_set.prefetch_related(
             Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))

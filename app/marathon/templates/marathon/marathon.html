@@ -106,10 +106,15 @@
           </thead>
           <tbody>
             {% for event in events %}
-              <tr >
-                <th scope="row"></th>
-                <td class="text-{{ event.color }}"><small>{{ event.date|date:"SHORT_DATE_FORMAT" }}</small></td>
-                <td class="text-{{ event.color }}">{{ event.title }}</td>
+              {% ifchanged event.date.year event.date.month %}
+              <tr class="calendar-month">
+                <td colspan="3" class="text-start fw-semibold pt-3">{{ event.date|date:"F Y" }}</td>
+              </tr>
+              {% endifchanged %}
+              <tr{% if event == now_event %} class="table-success"{% endif %}>
+                <th scope="row">{% if event == now_event %}<i class="bi bi-arrow-right-short" title="{% trans 'Сейчас' %}"></i>{% endif %}</th>
+                <td class="text-{{ event.color }} text-nowrap"><small>{{ event.date|date:"SHORT_DATE_FORMAT" }}</small></td>
+                <td class="text-{{ event.color }}{% if event == now_event %} fw-semibold{% endif %}">{{ event.title }}</td>
               </tr>
             {% endfor %}
           </tbody>

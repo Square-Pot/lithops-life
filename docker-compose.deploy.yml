@@ -4,6 +4,8 @@ services:
   app:
     build:
       context: .
+      args:
+        - APP_UID=${APP_UID:-1000}
     restart: always
     volumes:
       - /static/lithops-life:/vol/static

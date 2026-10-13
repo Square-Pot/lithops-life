@@ -13,7 +13,7 @@ from django.utils import translation
 from django.views.decorators.http import require_POST
 
 from marathon import storage
-from marathon.models import Image, Marathon, Nomination, Nominee, Participant
+from marathon.models import Image, Marathon, Nomination, Nominee, Participant, normalize_tg_username
 from marathon.permissions import can_manage_nominations
 
 CATEGORIES = ['Конкурсные', 'Внеконкурсные']
@@ -133,9 +133,14 @@ def nomination(request, pk):
 def _add_nominee(request, nomination):
     new_name = request.POST.get('new_name', '').strip()
     if new_name:
-        username = request.POST.get('new_username', '').strip().lstrip('@')
+        raw_username = request.POST.get('new_username', '').strip()
+        username = normalize_tg_username(raw_username)
+        if raw_username and not username:
+            messages.warning(request, f'«{raw_username}» не похоже на хэндл Telegram (латиница, цифры, «_», 5–32 символа) — участник сохранён без него.')
         participant = Participant.objects.filter(tg_username__iexact=username).first() if username else None
-        if participant is None:
+        if participant is not None:
+            messages.info(request, f'@{participant.tg_username} уже есть на сайте как «{participant.display_name}» — добавлен этот участник.')
+        else:
             participant = Participant.objects.create(display_name=new_name, tg_username=username, slug=unique_slug(new_name))
     elif request.POST.get('participant'):
         participant = get_object_or_404(Participant, pk=request.POST.get('participant'))

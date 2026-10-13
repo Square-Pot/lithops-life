@@ -221,6 +221,16 @@ class Image(models.Model):
 
 
 
+TG_USERNAME_RE = re.compile(r'^[A-Za-z0-9_]{5,32}$')
+
+
+def normalize_tg_username(value):
+    """Хэндл Telegram храним без «@»: «@name», « @name », «@@name» → «name». «@» добавляют шаблоны при выводе.
+    Что на хэндл не похоже («-», когда он скрыт в Telegram, имя, ссылка) — пустая строка."""
+    value = (value or '').strip().lstrip('@').strip()
+    return value if TG_USERNAME_RE.match(value) else ''
+
+
 class Participant(models.Model):
     """Человек — участник марафона (в отличие от Contestant, который вид растения)."""
     display_name = models.CharField(max_length=255)
@@ -230,7 +240,12 @@ class Participant(models.Model):
     note = models.TextField(blank=True)
 
     def __str__(self):
-        return f'{self.display_name} ({self.tg_username or self.slug})'
+        return f"{self.display_name} ({'@' + self.tg_username if self.tg_username else self.slug})"
+
+    def save(self, *args, **kwargs):
+        # одно правило для админки, кабинета номинаций и команд импорта — иначе поиск по хэндлу плодит дубли
+        self.tg_username = normalize_tg_username(self.tg_username)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         from django.urls import reverse

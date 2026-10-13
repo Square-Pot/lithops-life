@@ -155,6 +155,11 @@ class NominationQuerySet(models.QuerySet):
 
 
 class Nomination(models.Model):
+    LABEL_CHOICES = [
+        ('name', 'Имя участника'),
+        ('number', 'Номер («Номинант 1, 2, …»)'),
+    ]
+
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=100)
     winner_name = models.CharField(max_length=255, blank=True)
@@ -164,11 +169,31 @@ class Nomination(models.Model):
     poll_date = models.DateField(null=True, blank=True)
     poll_url = models.URLField(blank=True)
     total_voters = models.PositiveIntegerField(null=True, blank=True)
+    is_published = models.BooleanField(default=False, help_text='Неопубликованная номинация с номинантами и фото видна только в кабинете номинаций')
+    nominee_label = models.CharField(max_length=10, choices=LABEL_CHOICES, default='name',
+                                     help_text='Как подписывать номинантов в галерее и бюллетене')
 
     objects = NominationQuerySet.as_manager()
 
+    class Meta:
+        permissions = [('manage_nominations', 'Кабинет номинаций: номинанты, фото, публикация')]
+
     def __str__(self):
         return self.title
+
+    @property
+    def anonymous(self):
+        return self.nominee_label == 'number'
+
+
+class ImageQuerySet(models.QuerySet):
+    def public(self):
+        """Без фото неопубликованных номинаций (их видно только в кабинете номинаций)."""
+        return self.exclude(nomination__is_published=False)
+
+    def named(self):
+        """Публичные фото, которые можно показать с именем участника: без номинаций «по номерам»."""
+        return self.public().exclude(nomination__nominee_label='number')
 
 
 class Image(models.Model):
@@ -181,6 +206,8 @@ class Image(models.Model):
     participant = models.ForeignKey('Participant', related_name='images', on_delete=models.SET_NULL, null=True, blank=True)
     is_winner = models.BooleanField(default=False)
     is_starred = models.BooleanField(default=False)
+
+    objects = ImageQuerySet.as_manager()
 
     def __str__(self):
         data = []

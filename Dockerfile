@@ -15,7 +15,10 @@ WORKDIR /app
 # .mo не хранятся в git — собираем переводы при сборке образа
 RUN DJANGO_SECRET_KEY=build DJANGO_ALLOWED_HOSTS=localhost python manage.py compilemessages
 
-RUN adduser --disabled-password --no-create-home django &&\
+# uid пользователя django = владелец app/db.sqlite3 на хосте (передаёт rebuild.sh),
+# иначе bind-mount базы в контейнере доступен только на чтение
+ARG APP_UID=1000
+RUN adduser --disabled-password --no-create-home -u ${APP_UID} django && \
     chown -R django:django /vol && \
     chmod -R 755 /vol && \
     chown -R django:django /app

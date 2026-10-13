@@ -1,4 +1,6 @@
 #!/bin/bash
+# любой упавший шаг (pull, сборка, chown, collectstatic) валит деплой в GitHub Actions, а не проходит молча
+set -e
 
 cd /home/dntx/projects/lithops-life
 git pull origin main

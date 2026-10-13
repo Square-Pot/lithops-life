@@ -19,6 +19,7 @@ from django.db.models import Q, Prefetch
 
 from marathon import watermark
 from marathon.models import Marathon, Contestant, Image, Nominee, Participant
+from marathon.permissions import can_manage_nominations
 
 
 def set_language(request):
@@ -36,7 +37,7 @@ def redirect_to_main(request):
 
 def index_view(request):
     context = {
-        'images': Image.objects.filter(is_starred=True).order_by('?')[:5],
+        'images': Image.objects.named().filter(is_starred=True).order_by('?')[:5],
         'recent_marathons': Marathon.objects.order_by('-seeding_date')[:3],  # остальные — по кнопке «Еще»
         'contestants': Contestant.objects.all(),
     }
@@ -56,7 +57,7 @@ FINAL_PHOTOS = Q(participant__isnull=False) | Q(nomination__isnull=False) | Q(ma
 
 def _carousel_images(marathon, limit=20):
     """Карусель на странице марафона: избранные финальные фото, если их нет — фото победителей."""
-    finals = Image.objects.filter(FINAL_PHOTOS, marathon=marathon)
+    finals = Image.objects.named().filter(FINAL_PHOTOS, marathon=marathon)
     starred = finals.filter(is_starred=True)
     return (starred if starred.exists() else finals.filter(is_winner=True)).order_by('?')[:limit]
 
@@ -69,16 +70,17 @@ def marathon_view(request, marathon_name):
     # В один день событий может быть несколько (вторая дата посева + «Неделя 1»): порядок дня — по id, как в events.json
     events = list(marathon.event_set.all().order_by(*(('date', 'id') if upcoming else ('-date', '-id'))))
     started = [e for e in events if e.date <= today]
+    nominations = marathon.nomination_set.filter(is_published=True)
     context = {
         'marathon': marathon,
         'events': events,
         'now_event': started[-1] if upcoming and started else None,
-        'nomination_categories': marathon.nomination_set.values_list('category', flat=True).distinct(),
-        'nominations': marathon.nomination_set.prefetch_related(
-            Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes'))
+        'nomination_categories': nominations.values_list('category', flat=True).distinct(),
+        'nominations': nominations.prefetch_related(
+            Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes', 'id'))
         ),
         'images': _carousel_images(marathon),
-        'final_photos_count': Image.objects.filter(marathon=marathon, participant__isnull=False).count(),
+        'final_photos_count': Image.objects.named().filter(marathon=marathon, participant__isnull=False).count(),
 
     }
     return render(request, 'marathon/marathon.html', context=context)
@@ -87,7 +89,7 @@ def marathon_view(request, marathon_name):
 def gallery_view(request):
     # в галерее только фото с автором; непривязанные etc/NN.jpg живут в карусели марафона
     images = (
-        Image.objects.filter(participant__isnull=False)
+        Image.objects.named().filter(participant__isnull=False)
         .select_related('marathon', 'contestant', 'participant', 'nomination')
         .order_by('-marathon__seeding_date', '-is_winner', '-is_starred', 'id')
     )
@@ -100,7 +102,7 @@ def gallery_view(request):
         'images': images,
         'selected_marathon': marathon_name,
         'winners_only': bool(request.GET.get('winners')),
-        'gallery_marathons': Marathon.objects.filter(images__participant__isnull=False).distinct().order_by('-seeding_date'),
+        'gallery_marathons': Marathon.objects.filter(id__in=Image.objects.named().filter(participant__isnull=False).values('marathon')).order_by('-seeding_date'),
     }
     return render(request, 'marathon/gallery.html', context=context)
 
@@ -140,7 +142,7 @@ def _thumbnail(data):
 
 def photo_download(request, image_id):
     """Финальное фото с водяным знаком марафона — для промо, отдаём всем."""
-    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS).select_related('marathon'), pk=image_id)
+    img = get_object_or_404(Image.objects.public().filter(FINAL_PHOTOS).select_related('marathon'), pk=image_id)
     marathon_name = img.marathon.name if img.marathon else ''
     cached = _derived_photo(img, 'watermark', f'{marathon_name}|{watermark.VERSION}',
                             lambda data: watermark.apply(data, marathon_name))
@@ -152,7 +154,8 @@ def photo_download(request, image_id):
 
 def photo_thumb(request, image_id):
     """Миниатюра для плитки галереи; при сбое S3 — редирект на оригинал, чтобы плитка не пустела."""
-    img = get_object_or_404(Image.objects.filter(FINAL_PHOTOS), pk=image_id)
+    images = Image.objects.all() if can_manage_nominations(request.user) else Image.objects.public()
+    img = get_object_or_404(images.filter(FINAL_PHOTOS), pk=image_id)
     cached = _derived_photo(img, 'thumb', THUMB_SIZE, _thumbnail)
     if cached is None:
         return redirect(img.url)
@@ -165,6 +168,7 @@ def participant_view(request, slug):
     participant = get_object_or_404(Participant, slug=slug)
     nominees = (
         participant.nominations
+        .filter(nomination__is_published=True).exclude(nomination__nominee_label='number')
         .select_related('nomination', 'nomination__marathon')
         .order_by('-nomination__marathon__seeding_date', '-is_winner', 'nomination__id')
     )
@@ -176,7 +180,7 @@ def participant_view(request, slug):
         'by_marathon': by_marathon.items(),
         'wins': sum(n.is_winner for n in nominees),
         'finals': len(by_marathon),
-        'images': participant.images.select_related('marathon', 'contestant', 'nomination').order_by('-marathon__seeding_date', 'id'),
+        'images': participant.images.named().select_related('marathon', 'contestant', 'nomination').order_by('-marathon__seeding_date', 'id'),
     }
     return render(request, 'marathon/participant.html', context=context)
 

@@ -589,6 +589,10 @@ msgstr "Fotos"
 msgid "Финалисты"
 msgstr "Finalisten"
 
+#: marathon/templates/marathon/marathon.html
+msgid "Номинант"
+msgstr "Kandidat"
+
 msgid "все"
 msgstr "alle"
 

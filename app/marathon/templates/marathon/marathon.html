@@ -50,7 +50,7 @@
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#contest">{% trans 'Конкурсные сеянцы' %}</a></li>
           {% endif %}
           <li class="list-inline-item me-2"> <i class="bi bi-flower3 h6 me-1"></i><a href="#calendar">{% trans 'Календарь' %}</a></li>
-          {% if marathon.nomination_set.all %}
+          {% if nominations %}
           <li class="list-inline-item"> <i class="bi bi-flower3 h6 me-1"></i><a href="#nominations">{% trans 'Номинации' %}</a></li>
           {% endif %}
           {% if marathon.sowing_table_url %}
@@ -121,7 +121,7 @@
         </table> 
       </div>
 
-      {% if marathon.nomination_set.all %}
+      {% if nominations %}
       <!-- Right content -->
       <div class="col-lg-7 col-xl-6 text-center position-relative mb-4">
         <h2 class="display-6 mb-4 text-center" id="nominations"><small><i class="bi bi-trophy-fill"></i></small>&nbsp;{% trans 'Номинации' %}:</h2>
@@ -157,7 +157,7 @@
                   {% for n in nomination.nominees.all %}
                   <li>
                     {% if n.is_winner %}<i class="bi bi-trophy-fill text-warning"></i>{% else %}<i class="bi bi-flag text-secondary"></i>{% endif %}
-                    <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a>
+                    {% if nomination.anonymous %}{% trans 'Номинант' %} {{ forloop.counter }}{% else %}<a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a>{% endif %}
                     {% if n.votes is not None %}<span class="text-secondary">· {{ n.votes }}</span>{% endif %}
                   </li>
                   {% endfor %}
@@ -165,7 +165,7 @@
                 {% endif %}
               </td>
               <td>
-                {% for n in nomination.nominees.all %}{% if n.is_winner %}
+                {% for n in nomination.nominees.all %}{% if n.is_winner and not nomination.anonymous %}
                   <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a><br/>
                 {% endif %}{% empty %}
                   {{ nomination.winner_name }}

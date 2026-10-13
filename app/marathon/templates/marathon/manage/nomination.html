@@ -1,0 +1,145 @@
+{% extends "marathon/manage/base.html" %}
+{% block title %}{{ nomination.title }}{% endblock title %}
+{% block head %}
+<style>
+  .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: .5rem; }
+  .thumb { position: relative; aspect-ratio: 1; background: #e9ecef; border-radius: .375rem; overflow: hidden; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb form { position: absolute; top: .25rem; right: .25rem; margin: 0; }
+  .thumb .btn { padding: 0 .35rem; line-height: 1.4; }
+  .thumb.pending { display: flex; align-items: center; justify-content: center; font-size: .75rem; color: #6c757d; text-align: center; padding: .25rem; }
+  .thumb.failed { background: #f8d7da; color: #842029; }
+  .dropzone { border: 2px dashed #adb5bd; border-radius: .5rem; padding: 1rem; text-align: center; cursor: pointer; }
+  .dropzone.over { border-color: #198754; background: #d1e7dd; }
+</style>
+{% endblock head %}
+{% block body %}
+<p class="mb-2"><a href="{% url 'manage_index' %}?marathon={{ nomination.marathon.name }}" class="text-decoration-none"><i class="bi bi-arrow-left"></i> Номинации марафона {{ nomination.marathon.name }}</a></p>
+<h1 class="h4">{{ nomination.title }}</h1>
+<p class="text-secondary small mb-3">{{ nomination.category }}</p>
+
+<form method="post" class="card card-body mb-4">{% csrf_token %}
+  <input type="hidden" name="action" value="settings">
+  <div class="form-check form-switch mb-2">
+    <input class="form-check-input" type="checkbox" role="switch" id="is_published" name="is_published"{% if nomination.is_published %} checked{% endif %}>
+    <label class="form-check-label" for="is_published"><strong>Опубликовано</strong> — номинация, номинанты и фото видны на сайте</label>
+  </div>
+  <div class="d-flex flex-wrap gap-2 align-items-center">
+    <label class="small" for="nominee_label">Подпись номинантов:</label>
+    <select class="form-select form-select-sm w-auto" id="nominee_label" name="nominee_label">
+      {% for value, label in label_choices %}<option value="{{ value }}"{% if nomination.nominee_label == value %} selected{% endif %}>{{ label }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-sm btn-dark ms-auto">Сохранить</button>
+  </div>
+</form>
+
+{% for nominee, photos in nominees %}
+<section class="card mb-3" id="nominee-{{ nominee.pk }}">
+  <div class="card-header d-flex align-items-center gap-2">
+    <span class="me-auto">
+      {% if nomination.anonymous %}<span class="badge text-bg-dark">Номинант {{ forloop.counter }}</span>{% endif %}
+      <strong>{{ nominee.participant.display_name }}</strong>
+      {% if nominee.participant.tg_username %}<span class="text-secondary small">@{{ nominee.participant.tg_username }}</span>{% endif %}
+    </span>
+    <span class="badge text-bg-light" data-count>{{ photos|length }} фото</span>
+    <form method="post" class="m-0" onsubmit="return confirm('Удалить номинанта {{ nominee.participant.display_name|escapejs }} и все его фото в этой номинации?')">{% csrf_token %}
+      <input type="hidden" name="action" value="delete_nominee"><input type="hidden" name="nominee" value="{{ nominee.pk }}">
+      <button class="btn btn-sm btn-outline-danger" title="Удалить номинанта"><i class="bi bi-person-x"></i></button>
+    </form>
+  </div>
+  <div class="card-body">
+    <div class="thumbs mb-3" data-thumbs>
+      {% for img in photos %}
+      <div class="thumb">
+        <a href="{{ img.url }}" target="_blank"><img src="{% url 'photo_thumb' img.pk %}" loading="lazy" alt="фото {{ forloop.counter }}"></a>
+        <form method="post" onsubmit="return confirm('Удалить это фото?')">{% csrf_token %}
+          <input type="hidden" name="action" value="delete_photo"><input type="hidden" name="photo" value="{{ img.pk }}">
+          <button class="btn btn-sm btn-light" title="Удалить фото"><i class="bi bi-x-lg"></i></button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+    <label class="dropzone d-block mb-0" data-upload="{% url 'manage_upload_photo' nominee.pk %}">
+      <i class="bi bi-cloud-arrow-up fs-4"></i><br>
+      Перетащите фото сюда или нажмите, чтобы выбрать (можно несколько)
+      <input type="file" accept="image/*" multiple hidden>
+    </label>
+  </div>
+</section>
+{% empty %}
+<p class="text-secondary">Номинантов пока нет.</p>
+{% endfor %}
+
+<form method="post" class="card card-body mb-4">{% csrf_token %}
+  <input type="hidden" name="action" value="add_nominee">
+  <h2 class="h6">Добавить номинанта</h2>
+  <select class="form-select mb-2" name="participant" aria-label="Участник">
+    <option value="">— участник из списка —</option>
+    {% for p in participants %}<option value="{{ p.pk }}">{{ p.display_name }}{% if p.tg_username %} (@{{ p.tg_username }}){% endif %}</option>{% endfor %}
+  </select>
+  <div class="small text-secondary mb-1">или новый участник:</div>
+  <div class="row g-2 mb-3">
+    <div class="col-sm"><input class="form-control" name="new_name" placeholder="Имя, как на сайте"></div>
+    <div class="col-sm"><input class="form-control" name="new_username" placeholder="Telegram @username (если есть)" autocapitalize="none"></div>
+  </div>
+  <button class="btn btn-dark">Добавить</button>
+</form>
+{% endblock body %}
+
+{% block foot %}
+<script>
+(() => {
+  const MAX_SIDE = 2560;  // как на сервере; nginx пропускает до 10 МБ, телефонные фото крупнее
+  const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  async function shrink(file) {
+    try {
+      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' });
+      const scale = Math.min(1, MAX_SIDE / Math.max(bitmap.width, bitmap.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+      canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      return await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+    } catch (e) {
+      return file;  // браузер не умеет этот формат — пусть сервер решит
+    }
+  }
+
+  async function uploadOne(zone, file) {
+    const cell = document.createElement('div');
+    cell.className = 'thumb pending';
+    cell.textContent = file.name;
+    zone.closest('.card-body').querySelector('[data-thumbs]').append(cell);
+    try {
+      const body = new FormData();
+      body.append('photo', await shrink(file), file.name.replace(/\.\w+$/, '') + '.jpg');
+      const response = await fetch(zone.dataset.upload, { method: 'POST', body, headers: { 'X-CSRFToken': csrf } });
+      const data = await response.json().catch(() => ({ error: `ошибка ${response.status}` }));
+      if (!response.ok) throw new Error(data.error || `ошибка ${response.status}`);
+      cell.className = 'thumb';
+      cell.innerHTML = `<a href="${data.url}" target="_blank"><img src="${data.thumb}" alt=""></a>`;
+      const counter = zone.closest('section').querySelector('[data-count]');
+      counter.textContent = `${parseInt(counter.textContent) + 1} фото`;
+    } catch (e) {
+      cell.className = 'thumb pending failed';
+      cell.textContent = `${file.name}: ${e.message}`;
+    }
+  }
+
+  async function uploadAll(zone, files) {
+    const queue = [...files].filter(f => f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name));
+    const worker = async () => { while (queue.length) await uploadOne(zone, queue.shift()); };
+    await Promise.all([worker(), worker()]);  // по два файла параллельно
+  }
+
+  document.querySelectorAll('[data-upload]').forEach(zone => {
+    const input = zone.querySelector('input[type=file]');
+    input.addEventListener('change', () => { uploadAll(zone, input.files); input.value = ''; });
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+    zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); uploadAll(zone, e.dataTransfer.files); });
+  });
+})();
+</script>
+{% endblock foot %}

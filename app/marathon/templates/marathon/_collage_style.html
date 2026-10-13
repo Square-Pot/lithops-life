@@ -1,0 +1,16 @@
+<style>
+  /* коллаж: одно фото — во всю ширину, два — пополам, больше — первое крупно, остальные плиткой */
+  .collage { display: grid; gap: 6px; grid-template-columns: repeat(3, 1fr); }
+  .collage a { display: block; overflow: hidden; border-radius: .5rem; background: #e9ecef; aspect-ratio: 1; }
+  .collage img { width: 100%; height: 100%; object-fit: cover; transition: transform .2s; }
+  .collage a:hover img { transform: scale(1.03); }
+  .collage-1 { grid-template-columns: 1fr; }
+  .collage-1 a { aspect-ratio: 4 / 3; }
+  .collage-2 { grid-template-columns: 1fr 1fr; }
+  .collage-many a:first-child { grid-column: span 2; grid-row: span 2; }
+  @media (min-width: 768px) {
+    .collage-1 { max-width: 520px; }
+    .collage-2 { max-width: 640px; }
+    .collage-many { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

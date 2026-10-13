@@ -18,7 +18,7 @@ from django.utils.translation import gettext
 from django.db.models import Q, Prefetch
 
 from marathon import watermark
-from marathon.models import Marathon, Contestant, Image, Nominee, Participant
+from marathon.models import Marathon, Contestant, Image, Nomination, Nominee, Participant
 from marathon.permissions import can_manage_nominations
 
 
@@ -71,20 +71,57 @@ def marathon_view(request, marathon_name):
     events = list(marathon.event_set.all().order_by(*(('date', 'id') if upcoming else ('-date', '-id'))))
     started = [e for e in events if e.date <= today]
     # названия номинаций видны всегда (по ним подписывают фото в чате), номинанты — только у опубликованных
-    nominations = marathon.nomination_set.all()
+    nominations = list(marathon.nomination_set.all().prefetch_related(
+        Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes', 'id'))
+    ))
+    for nomination in nominations:
+        _number_nominees(nomination.nominees.all())
     context = {
         'marathon': marathon,
         'events': events,
         'now_event': started[-1] if upcoming and started else None,
-        'nomination_categories': nominations.values_list('category', flat=True).distinct(),
-        'nominations': nominations.prefetch_related(
-            Prefetch('nominees', queryset=Nominee.objects.select_related('participant').order_by('-is_winner', '-votes', 'id'))
-        ),
+        'nomination_categories': list(dict.fromkeys(n.category for n in nominations)),
+        'nominations': nominations,
         'images': _carousel_images(marathon),
         'final_photos_count': Image.objects.named().filter(marathon=marathon, participant__isnull=False).count(),
 
     }
     return render(request, 'marathon/marathon.html', context=context)
+
+
+def _number_nominees(nominees):
+    """«Номинант N» — по порядку добавления, одинаково в бюллетене, галерее и на странице марафона:
+    иначе после подсчёта голосов номера на сайте разъедутся с вариантами опроса в Telegram."""
+    for number, nominee in enumerate(sorted(nominees, key=lambda n: n.id), 1):
+        nominee.number = number
+    return nominees
+
+
+def _nomination_with_photos(request, pk, **filters):
+    """Номинация с номинантами по номерам и их фото. Неопубликованную видит только кабинет номинаций —
+    чтобы Кристина проверила галерею и бюллетень до публикации."""
+    nominations = Nomination.objects.select_related('marathon').filter(**filters)
+    if not can_manage_nominations(request.user):
+        nominations = nominations.filter(is_published=True)
+    nomination = get_object_or_404(nominations, pk=pk)
+    nominees = _number_nominees(list(nomination.nominees.select_related('participant').order_by('id')))
+    photos = {}
+    for img in nomination.images.filter(participant__isnull=False).order_by('id'):
+        photos.setdefault(img.participant_id, []).append(img)
+    for nominee in nominees:
+        nominee.photos = photos.get(nominee.participant_id, [])
+    return nomination, nominees
+
+
+def nomination_view(request, marathon_name, pk):
+    nomination, nominees = _nomination_with_photos(request, pk, marathon__name=marathon_name)
+    return render(request, 'marathon/nomination.html', {'nomination': nomination, 'nominees': nominees})
+
+
+def ballot_view(request, pk):
+    """Бюллетень: строгая страница без навигации сайта, её ссылку дают в чат к опросу в Telegram."""
+    nomination, nominees = _nomination_with_photos(request, pk)
+    return render(request, 'marathon/ballot.html', {'nomination': nomination, 'nominees': nominees})
 
 
 def gallery_view(request):

@@ -686,3 +686,16 @@ msgstr "Betreff „Anmeldung zum Marathon“"
 
 msgid "Сейчас"
 msgstr "Jetzt"
+
+#: marathon/templates/marathon/_nominee.html
+#, python-format
+msgid "Номинант %(number)s"
+msgstr "Kandidat %(number)s"
+
+#: marathon/templates/marathon/_nominee.html
+msgid "фото"
+msgstr "Foto"
+
+#: marathon/templates/marathon/_nominee.html
+msgid "Фото скоро появятся."
+msgstr "Fotos folgen in Kürze."

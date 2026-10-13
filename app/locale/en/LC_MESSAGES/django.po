@@ -829,3 +829,16 @@ msgstr "subject “Application to join the Marathon”"
 
 msgid "Сейчас"
 msgstr "Now"
+
+#: marathon/templates/marathon/_nominee.html
+#, python-format
+msgid "Номинант %(number)s"
+msgstr "Nominee %(number)s"
+
+#: marathon/templates/marathon/_nominee.html
+msgid "фото"
+msgstr "photo"
+
+#: marathon/templates/marathon/_nominee.html
+msgid "Фото скоро появятся."
+msgstr "Photos coming soon."

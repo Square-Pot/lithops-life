@@ -7,6 +7,11 @@ services:
       args:
         - APP_UID=${APP_UID:-1000}
     restart: always
+    # публичные DNS вместо DNS хостинга: один из них не отвечает, и загрузка фото в Object Storage
+    # падала с «Could not connect to the endpoint URL». Имена сервисов (app, proxy) по-прежнему резолвит Docker.
+    dns:
+      - 77.88.8.8
+      - 8.8.8.8
     volumes:
       - /static/lithops-life:/vol/static
       - ./app/db.sqlite3:/app/db.sqlite3
@@ -44,6 +49,10 @@ services:
     build:
       context: ./docker/certbot
     command: echo "Skipping..."
+    # продление сертификата ходит к Let's Encrypt — та же причина, что у app
+    dns:
+      - 77.88.8.8
+      - 8.8.8.8
     environment:
       - EMAIL=${ACME_DEFAULT_EMAIL}
       - DOMAIN=${DOMAIN}

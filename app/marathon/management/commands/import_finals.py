@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils.text import slugify
 
-from marathon.models import Marathon, Nomination, Participant, Nominee
+from marathon.models import Marathon, Nomination, Participant, Nominee, normalize_tg_username
 
 
 class Command(BaseCommand):
@@ -66,7 +66,7 @@ class Command(BaseCommand):
         names = {}
         for item in data:
             for n in item['nominees']:
-                key = n.get('tg_id') or n.get('username')
+                key = n.get('tg_id') or normalize_tg_username(n.get('username'))
                 name = (n.get('display_name') or '').strip()
                 if len(name) > len(names.get(key, '')):
                     names[key] = name
@@ -74,7 +74,7 @@ class Command(BaseCommand):
 
     def _get_participant(self, n, names, stats):
         tg_id = n.get('tg_id')
-        username = (n.get('username') or '').strip()
+        username = normalize_tg_username(n.get('username'))
         participant = None
         if tg_id:
             participant = Participant.objects.filter(tg_id=tg_id).first()
@@ -91,7 +91,7 @@ class Command(BaseCommand):
         display_name = names.get(tg_id or username) or username or str(tg_id)
         participant = Participant.objects.create(
             display_name=display_name,
-            slug=self._unique_slug(username.lstrip('@') or display_name, tg_id),
+            slug=self._unique_slug(username or display_name, tg_id),
             tg_id=tg_id,
             tg_username=username,
             note='' if n.get('tg_id_confidence', 'high') == 'high'

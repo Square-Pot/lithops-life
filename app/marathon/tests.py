@@ -466,3 +466,76 @@ class NominationGalleryBallotTest(TestCase):
                 self.client.cookies['django_language'] = lang
                 for url in (self.gallery_url, self.ballot_url):
                     self.assertContains(self.client.get(url), label)
+
+
+@override_settings(ALLOWED_HOSTS=['testserver'])
+class TgUsernameTest(TestCase):
+    """#102: хэндл хранится без «@», выводится с одной «@», поиск по нему не плодит дубли."""
+
+    def setUp(self):
+        from django.contrib.auth.models import Permission, User
+        self.marathon = Marathon.objects.create(name='2025', description='', seeding_date=datetime.date(2025, 10, 1))
+        self.nomination = Nomination.objects.create(title='Лучший C300', category='Конкурсные', marathon=self.marathon)
+        user = User.objects.create_user('kristina', password='pw')
+        user.user_permissions.add(Permission.objects.get(codename='manage_nominations'))
+        self.client.login(username='kristina', password='pw')
+
+    def test_save_strips_at(self):
+        for raw in ('@carol', ' @carol ', '@@carol', 'carol'):
+            with self.subTest(raw=raw):
+                p = Participant.objects.create(display_name='Кэрол', slug=f's{Participant.objects.count()}', tg_username=raw)
+                p.refresh_from_db()
+                self.assertEqual(p.tg_username, 'carol')
+                self.assertEqual(str(p), 'Кэрол (@carol)')
+
+    def test_manage_finds_existing_participant_and_shows_single_at(self):
+        carol = Participant.objects.create(display_name='Кэрол', slug='kerol', tg_username='@Carol')
+        url = f'/manage/nomination/{self.nomination.pk}'
+        page = self.client.get(url)
+        self.assertContains(page, '(@Carol)')
+        self.assertNotContains(page, '@@')
+        page = self.client.post(url, {'action': 'add_nominee', 'new_name': 'Кэрол Новая', 'new_username': '@carol'}, follow=True)
+        self.assertEqual(Participant.objects.count(), 1)  # не дубль
+        self.assertEqual(list(self.nomination.nominees.values_list('participant', flat=True)), [carol.pk])
+        self.assertContains(page, 'уже есть на сайте')
+        self.assertNotContains(page, '@@')
+
+    def test_import_stores_without_at_and_matches_later_rows(self):
+        def run(username, name):
+            data = [{'title': 'Лучший C300', 'marathon': '2025', 'nominees': [
+                {'username': username, 'display_name': name, 'votes': None, 'winner': False, 'photo_msgs': []}]}]
+            with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
+                json.dump(data, f, ensure_ascii=False)
+            call_command('import_finals', f.name, stdout=open('/dev/null', 'w'))
+        run('@dave', 'Дэйв')
+        run('dave', 'Дэйв')
+        dave = Participant.objects.get()
+        self.assertEqual((dave.tg_username, dave.slug, dave.display_name), ('dave', 'dave', 'Дэйв'))
+
+    def test_migration_normalizes_idempotently_and_stops_on_collision(self):
+        import importlib
+        from django.apps import apps
+        normalize = importlib.import_module('marathon.migrations.0026_normalize_tg_username').normalize
+        a = Participant.objects.create(display_name='А', slug='a', tg_username='x')
+        b = Participant.objects.create(display_name='Б', slug='b')
+        Participant.objects.filter(pk=a.pk).update(tg_username='@ann')  # как хранил import_finals
+        Participant.objects.filter(pk=b.pk).update(tg_username='@@bob ')
+        normalize(apps, None)
+        normalize(apps, None)
+        self.assertEqual(sorted(Participant.objects.values_list('tg_username', flat=True)), ['ann', 'bob'])
+        Participant.objects.filter(pk=b.pk).update(tg_username='@ANN')
+        with self.assertRaisesMessage(RuntimeError, 'a и b'):
+            normalize(apps, None)
+        self.assertEqual(Participant.objects.get(pk=b.pk).tg_username, '@ANN')  # ничего не тронуто
+
+    def test_public_pages_do_not_show_handle(self):
+        carol = Participant.objects.create(display_name='Кэрол', slug='kerol', tg_username='carol_handle')
+        Nominee.objects.create(nomination=self.nomination, participant=carol)
+        Nomination.objects.filter(pk=self.nomination.pk).update(is_published=True)
+        self.client.logout()
+        for url in ('/marathon/2025', '/participant/kerol', f'/marathon/2025/nomination/{self.nomination.pk}',
+                    f'/ballot/{self.nomination.pk}', '/gallery'):
+            with self.subTest(url=url):
+                page = self.client.get(url)
+                self.assertEqual(page.status_code, 200)
+                self.assertNotContains(page, 'carol_handle')

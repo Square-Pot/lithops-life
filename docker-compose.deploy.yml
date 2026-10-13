@@ -19,6 +19,9 @@ services:
       - EMAIL_FROM_SITE_PASSWD=${EMAIL_FROM_SITE_PASSWD}
       - EMAIL_FROM_SITE_TO=${EMAIL_FROM_SITE_TO}
       - RECAPTCHA_SECRET_KEY=${RECAPTCHA_SECRET_KEY}
+      # кабинет номинаций: загрузка фото в Object Storage (marathon/storage.py)
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
 
   proxy:
     build:

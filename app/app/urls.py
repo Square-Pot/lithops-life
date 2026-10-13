@@ -22,6 +22,7 @@ from marathon import views as marathon_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('manage/', include('marathon.manage_urls')),
     # path('', marathon_views.redirect_to_marathon, name='redirect_to_marathon'),
     path('', marathon_views.index_view, name="index"),
     path("marathons", marathon_views.marathons_view, name="marathons"),

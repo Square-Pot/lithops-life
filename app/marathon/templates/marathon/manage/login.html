@@ -1,0 +1,20 @@
+{% extends "marathon/manage/base.html" %}
+{% block title %}Вход{% endblock title %}
+{% block body %}
+<div class="mx-auto" style="max-width: 360px">
+  <h1 class="h4 my-3">Вход в кабинет номинаций</h1>
+  {% if form.errors %}<div class="alert alert-danger py-2">Неверный логин или пароль.</div>{% endif %}
+  <form method="post">{% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <div class="mb-3">
+      <label class="form-label" for="id_username">Логин</label>
+      <input class="form-control" id="id_username" name="username" autocomplete="username" autocapitalize="none" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="id_password">Пароль</label>
+      <input class="form-control" id="id_password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="btn btn-dark w-100">Войти</button>
+  </form>
+</div>
+{% endblock body %}

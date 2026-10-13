@@ -376,3 +376,93 @@ class ManageNominationsTest(TestCase):
         with tempfile.TemporaryDirectory() as cache, override_settings(WATERMARK_CACHE_DIR=cache), \
                 mock.patch('marathon.views.requests.get', return_value=fake):
             self.assertEqual(self.client.get(f'/photo/{img.pk}/thumb').status_code, 200)
+
+
+@override_settings(ALLOWED_HOSTS=['testserver'])
+class NominationGalleryBallotTest(TestCase):
+    """Этап 2 #99: галерея номинации и бюллетень — видны после публикации, кабинет видит заранее."""
+
+    def setUp(self):
+        from django.contrib.auth.models import Permission, User
+        self.marathon = Marathon.objects.create(name='2025', description='', seeding_date=datetime.date(2025, 10, 1))
+        self.nomination = Nomination.objects.create(title='Лучший C300', category='Конкурсные', marathon=self.marathon)
+        self.alice = Participant.objects.create(display_name='Алиса', slug='alice')
+        self.bob = Participant.objects.create(display_name='Боб', slug='bob')
+        Nominee.objects.create(nomination=self.nomination, participant=self.alice)
+        Nominee.objects.create(nomination=self.nomination, participant=self.bob, votes=10, is_winner=True)
+        base = 'https://storage.yandexcloud.net/lithops.life/finals/2025/nominations/1/'
+        self.alice_photos = [Image.objects.create(url=f'{base}a{i}.jpg', marathon=self.marathon, nomination=self.nomination,
+                                                  participant=self.alice) for i in range(3)]
+        self.bob_photo = Image.objects.create(url=f'{base}b.jpg', marathon=self.marathon, nomination=self.nomination, participant=self.bob)
+        self.manager = User.objects.create_user('kristina', password='pw')
+        self.manager.user_permissions.add(Permission.objects.get(codename='manage_nominations'))
+        self.gallery_url = f'/marathon/2025/nomination/{self.nomination.pk}'
+        self.ballot_url = f'/ballot/{self.nomination.pk}'
+
+    def _publish(self, **fields):
+        Nomination.objects.filter(pk=self.nomination.pk).update(is_published=True, **fields)
+
+    def test_unpublished_is_404_publicly_but_manager_previews(self):
+        for url in (self.gallery_url, self.ballot_url):
+            with self.subTest(url=url):
+                self.assertEqual(self.client.get(url).status_code, 404)
+        self.client.login(username='kristina', password='pw')
+        for url in (self.gallery_url, self.ballot_url):
+            with self.subTest(url=url):
+                page = self.client.get(url)
+                self.assertContains(page, 'Не опубликовано')
+                self.assertContains(page, self.alice_photos[0].url)
+        self.assertContains(self.client.get(f'/manage/nomination/{self.nomination.pk}'), self.ballot_url)
+
+    def test_gallery_shows_nominees_with_all_photos(self):
+        self._publish()
+        page = self.client.get(self.gallery_url)
+        for img in self.alice_photos + [self.bob_photo]:
+            self.assertContains(page, img.url)
+        self.assertContains(page, 'collage-many')  # три фото Алисы — коллажем
+        self.assertContains(page, 'collage-1')
+        self.assertContains(page, '/participant/alice')
+        self.assertContains(page, f'/photo/{self.bob_photo.pk}/download')
+        self.assertContains(page, 'bi-trophy-fill')
+        # со страницы марафона в галерею номинации
+        self.assertContains(self.client.get('/marathon/2025'), self.gallery_url)
+        # номинация другого марафона по чужому адресу не открывается
+        Marathon.objects.create(name='2024', description='', seeding_date=datetime.date(2024, 10, 1))
+        self.assertEqual(self.client.get(f'/marathon/2024/nomination/{self.nomination.pk}').status_code, 404)
+
+    def test_ballot_is_bare_and_numbered_in_order_of_adding(self):
+        self._publish(nominee_label='number')
+        page = self.client.get(self.ballot_url)
+        content = page.content.decode()
+        self.assertContains(page, 'Лучший C300')
+        self.assertContains(page, 'Mesemb Marathon 2025')
+        self.assertNotContains(page, 'navbar')  # без шапки сайта
+        self.assertNotContains(page, '/download')  # без кнопок скачивания
+        self.assertNotContains(page, 'Алиса')
+        self.assertNotContains(page, 'Боб')
+        self.assertNotContains(page, '/participant/')
+        self.assertNotContains(page, 'bi-trophy-fill')
+        # Алиса добавлена первой — «Номинант 1», хотя у Боба больше голосов
+        self.assertLess(content.index('Номинант 1'), content.index(self.alice_photos[0].url))
+        self.assertLess(content.index(self.alice_photos[0].url), content.index('Номинант 2'))
+        self.assertLess(content.index('Номинант 2'), content.index(self.bob_photo.url))
+        # и на странице марафона те же номера, несмотря на сортировку по голосам
+        marathon_page = self.client.get('/marathon/2025').content.decode()
+        self.assertIn('Номинант 2', marathon_page)
+        self.assertLess(marathon_page.index('Номинант 2'), marathon_page.index('Номинант 1'))
+
+    def test_named_ballot_shows_names_without_links(self):
+        self._publish()
+        page = self.client.get(self.ballot_url)
+        self.assertContains(page, 'Алиса')
+        self.assertNotContains(page, '/participant/alice')
+
+    def test_pages_render_in_all_languages(self):
+        self._publish(nominee_label='number')
+        self.addCleanup(translation.activate, 'ru')
+        expected = {'ru': 'Номинант 1', 'en': 'Nominee 1', 'de': 'Kandidat 1'}
+        for lang, label in expected.items():
+            with self.subTest(lang=lang):
+                self.client.cookies['django_language'] = lang
+                for url in (self.gallery_url, self.ballot_url):
+                    self.assertContains(self.client.get(url), label)

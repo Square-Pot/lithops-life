@@ -1,0 +1,28 @@
+{% extends "main.html" %}
+{% load i18n %}
+
+{% block title %}{{ nomination.title }} · {% trans 'Марафон' %} {{ nomination.marathon.name }} · Mesemb Marathon{% endblock title %}
+{% block og %}
+  <meta property="og:title" content="{{ nomination.title }} · {% trans 'Марафон' %} {{ nomination.marathon.name }}">
+  {% for nominee in nominees %}{% if forloop.first and nominee.photos %}<meta property="og:image" content="{{ nominee.photos.0.url }}">{% endif %}{% endfor %}
+{% endblock og %}
+
+{% block head %}{% include 'marathon/_collage_style.html' %}{% endblock head %}
+
+{% block body %}
+<main class="container mt-5 pt-4" style="max-width: 1000px">
+  {% if not nomination.is_published %}
+  <div class="alert alert-warning py-2"><i class="bi bi-eye-slash"></i> Не опубликовано — страницу видит только кабинет номинаций.</div>
+  {% endif %}
+  <p class="mb-2"><a href="{% url 'marathon' nomination.marathon.name %}#nominations" class="text-decoration-none"><i class="bi bi-arrow-left"></i> {% trans 'Марафон' %} {{ nomination.marathon.name }} · {% trans 'Номинации' %}</a></p>
+  <h1 class="display-6 mb-1"><i class="bi bi-award"></i>&nbsp;{{ nomination.title }}</h1>
+  <p class="text-secondary mb-4">{{ nomination.category }}</p>
+
+  {% for nominee in nominees %}
+    {% include 'marathon/_nominee.html' with link_participant=True show_winner=True downloads=True %}
+  {% empty %}
+    <p class="text-secondary">{% trans 'Пока нет фото.' %}</p>
+  {% endfor %}
+</main>
+{% include 'marathon/_lightbox.html' %}
+{% endblock body %}

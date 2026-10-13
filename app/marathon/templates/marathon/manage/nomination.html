@@ -18,6 +18,24 @@
 <h1 class="h4">{{ nomination.title }}</h1>
 <p class="text-secondary small mb-3">{{ nomination.category }}</p>
 
+{% url 'ballot' nomination.pk as ballot_url %}
+<div class="card card-body mb-4">
+  <div class="d-flex flex-wrap gap-2 align-items-center">
+    <strong class="small me-auto">Бюллетень для чата{% if not nomination.is_published %} <span class="text-secondary fw-normal">— до публикации виден только вам</span>{% endif %}</strong>
+    <a href="{{ ballot_url }}" target="_blank" class="btn btn-sm btn-outline-dark"><i class="bi bi-box-arrow-up-right"></i> Открыть</a>
+    <button type="button" class="btn btn-sm btn-outline-dark" id="copy-ballot" data-url="{{ request.scheme }}://{{ request.get_host }}{{ ballot_url }}"><i class="bi bi-clipboard"></i> Скопировать ссылку</button>
+    <a href="{% url 'nomination' nomination.marathon.name nomination.pk %}" target="_blank" class="btn btn-sm btn-outline-secondary"><i class="bi bi-images"></i> Галерея</a>
+  </div>
+</div>
+<script>
+  document.getElementById('copy-ballot').addEventListener('click', function () {
+    const btn = this;
+    navigator.clipboard.writeText(btn.dataset.url).then(function () {
+      btn.innerHTML = '<i class="bi bi-check2"></i> Скопировано';
+    }, function () { window.prompt('Ссылка на бюллетень:', btn.dataset.url); });
+  });
+</script>
+
 <form method="post" class="card card-body mb-4">{% csrf_token %}
   <input type="hidden" name="action" value="settings">
   <div class="form-check form-switch mb-2">

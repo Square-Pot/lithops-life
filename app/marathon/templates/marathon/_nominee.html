@@ -1,0 +1,24 @@
+{% load i18n %}
+{# номинант и его фото коллажем; в анонимной номинации — только номер, без имени и ссылки на участника #}
+{% if nomination.anonymous %}{% blocktrans asvar label with number=nominee.number %}Номинант {{ number }}{% endblocktrans %}{% else %}{% firstof nominee.participant.display_name as label %}{% endif %}
+<section class="nominee mb-4 pb-2" id="nominee-{{ nominee.number }}">
+  <h2 class="h5 d-flex align-items-baseline flex-wrap gap-2 mb-2">
+    <span class="badge rounded-pill text-bg-dark">{{ nominee.number }}</span>
+    {% if not nomination.anonymous and link_participant %}<a href="{{ nominee.participant.get_absolute_url }}" class="text-decoration-none">{{ label }}</a>{% else %}<span>{{ label }}</span>{% endif %}
+    {% if nominee.plant %}<small class="text-secondary fw-normal">{{ nominee.plant }}</small>{% endif %}
+    {% if show_winner and nominee.is_winner %}<i class="bi bi-trophy-fill text-warning" title="{% trans 'Победитель' %}"></i>{% endif %}
+  </h2>
+  {% with count=nominee.photos|length %}
+  {% if count %}
+  <div class="collage collage-{% if count == 1 %}1{% elif count == 2 %}2{% else %}many{% endif %}">
+    {% for img in nominee.photos %}
+    <a href="{{ img.url }}" data-lightbox{% if downloads %} data-download="{% url 'photo_download' img.id %}"{% endif %} data-caption="{{ label }} · {{ nomination.title }}">
+      <img src="{% url 'photo_thumb' img.id %}" loading="lazy" alt="{{ label }}, {% trans 'фото' %} {{ forloop.counter }}">
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-secondary small mb-0">{% trans 'Фото скоро появятся.' %}</p>
+  {% endif %}
+  {% endwith %}
+</section>

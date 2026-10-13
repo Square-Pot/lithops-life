@@ -133,7 +133,10 @@ def nomination(request, pk):
 def _add_nominee(request, nomination):
     new_name = request.POST.get('new_name', '').strip()
     if new_name:
-        username = normalize_tg_username(request.POST.get('new_username'))
+        raw_username = request.POST.get('new_username', '').strip()
+        username = normalize_tg_username(raw_username)
+        if raw_username and not username:
+            messages.warning(request, f'«{raw_username}» не похоже на хэндл Telegram (латиница, цифры, «_», 5–32 символа) — участник сохранён без него.')
         participant = Participant.objects.filter(tg_username__iexact=username).first() if username else None
         if participant is not None:
             messages.info(request, f'@{participant.tg_username} уже есть на сайте как «{participant.display_name}» — добавлен этот участник.')

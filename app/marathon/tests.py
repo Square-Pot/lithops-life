@@ -487,6 +487,13 @@ class TgUsernameTest(TestCase):
                 p.refresh_from_db()
                 self.assertEqual(p.tg_username, 'carol')
                 self.assertEqual(str(p), 'Кэрол (@carol)')
+        # «-» — хэндл скрыт в Telegram; имя, ссылка, слишком короткое — тоже не хэндл
+        for raw in ('-', '@-', 'Кэрол', 't.me/carol', 'abc', 'x' * 33):
+            with self.subTest(raw=raw):
+                p = Participant.objects.create(display_name='Кэрол', slug=f's{Participant.objects.count()}', tg_username=raw)
+                p.refresh_from_db()
+                self.assertEqual(p.tg_username, '')
+                self.assertEqual(str(p), f'Кэрол ({p.slug})')
 
     def test_manage_finds_existing_participant_and_shows_single_at(self):
         carol = Participant.objects.create(display_name='Кэрол', slug='kerol', tg_username='@Carol')
@@ -499,6 +506,10 @@ class TgUsernameTest(TestCase):
         self.assertEqual(list(self.nomination.nominees.values_list('participant', flat=True)), [carol.pk])
         self.assertContains(page, 'уже есть на сайте')
         self.assertNotContains(page, '@@')
+        # прочерк вместо хэндла: новый участник без хэндла, а не поиск по «-»
+        page = self.client.post(url, {'action': 'add_nominee', 'new_name': 'Без Хэндла', 'new_username': '-'}, follow=True)
+        self.assertEqual(Participant.objects.get(display_name='Без Хэндла').tg_username, '')
+        self.assertContains(page, 'не похоже на хэндл')
 
     def test_import_stores_without_at_and_matches_later_rows(self):
         def run(username, name):
@@ -507,10 +518,10 @@ class TgUsernameTest(TestCase):
             with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False)
             call_command('import_finals', f.name, stdout=open('/dev/null', 'w'))
-        run('@dave', 'Дэйв')
-        run('dave', 'Дэйв')
+        run('@daver', 'Дэйв')
+        run('daver', 'Дэйв')
         dave = Participant.objects.get()
-        self.assertEqual((dave.tg_username, dave.slug, dave.display_name), ('dave', 'dave', 'Дэйв'))
+        self.assertEqual((dave.tg_username, dave.slug, dave.display_name), ('daver', 'daver', 'Дэйв'))
 
     def test_migration_normalizes_idempotently_and_stops_on_collision(self):
         import importlib
@@ -518,15 +529,19 @@ class TgUsernameTest(TestCase):
         normalize = importlib.import_module('marathon.migrations.0026_normalize_tg_username').normalize
         a = Participant.objects.create(display_name='А', slug='a', tg_username='x')
         b = Participant.objects.create(display_name='Б', slug='b')
-        Participant.objects.filter(pk=a.pk).update(tg_username='@ann')  # как хранил import_finals
-        Participant.objects.filter(pk=b.pk).update(tg_username='@@bob ')
+        c = Participant.objects.create(display_name='В', slug='c')
+        d = Participant.objects.create(display_name='Г', slug='d')
+        Participant.objects.filter(pk=a.pk).update(tg_username='@annie')  # как хранил import_finals
+        Participant.objects.filter(pk=b.pk).update(tg_username='@@bobby ')
+        Participant.objects.filter(pk=c.pk).update(tg_username='-')  # хэндл скрыт в Telegram
+        Participant.objects.filter(pk=d.pk).update(tg_username='-')  # два прочерка — не коллизия
         normalize(apps, None)
         normalize(apps, None)
-        self.assertEqual(sorted(Participant.objects.values_list('tg_username', flat=True)), ['ann', 'bob'])
-        Participant.objects.filter(pk=b.pk).update(tg_username='@ANN')
+        self.assertEqual(sorted(Participant.objects.values_list('tg_username', flat=True)), ['', '', 'annie', 'bobby'])
+        Participant.objects.filter(pk=b.pk).update(tg_username='@ANNIE')
         with self.assertRaisesMessage(RuntimeError, 'a и b'):
             normalize(apps, None)
-        self.assertEqual(Participant.objects.get(pk=b.pk).tg_username, '@ANN')  # ничего не тронуто
+        self.assertEqual(Participant.objects.get(pk=b.pk).tg_username, '@ANNIE')  # ничего не тронуто
 
     def test_public_pages_do_not_show_handle(self):
         carol = Participant.objects.create(display_name='Кэрол', slug='kerol', tg_username='carol_handle')

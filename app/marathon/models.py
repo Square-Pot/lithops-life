@@ -221,9 +221,14 @@ class Image(models.Model):
 
 
 
+TG_USERNAME_RE = re.compile(r'^[A-Za-z0-9_]{5,32}$')
+
+
 def normalize_tg_username(value):
-    """Хэндл Telegram храним без «@»: «@name», « @name », «@@name» → «name». «@» добавляют шаблоны при выводе."""
-    return (value or '').strip().lstrip('@').strip()
+    """Хэндл Telegram храним без «@»: «@name», « @name », «@@name» → «name». «@» добавляют шаблоны при выводе.
+    Что на хэндл не похоже («-», когда он скрыт в Telegram, имя, ссылка) — пустая строка."""
+    value = (value or '').strip().lstrip('@').strip()
+    return value if TG_USERNAME_RE.match(value) else ''
 
 
 class Participant(models.Model):

@@ -220,8 +220,12 @@ class NominationVisibilityTest(TestCase):
         self.photo = Image.objects.create(url='https://storage.yandexcloud.net/lithops.life/finals/2025/nominations/1/a.jpg',
                                           marathon=self.marathon, nomination=self.hidden, participant=self.alice)
 
-    def test_unpublished_nomination_is_hidden_everywhere(self):
-        self.assertNotContains(self.client.get('/marathon/2025'), 'Лучший C300')
+    def test_unpublished_nomination_shows_only_its_title(self):
+        page = self.client.get('/marathon/2025')
+        self.assertContains(page, 'Лучший C300')  # название уже дано участникам в чате
+        self.assertContains(page, 'id="nominations"')
+        self.assertNotContains(page, 'Финалисты')
+        self.assertNotContains(page, '/participant/alice')
         self.assertNotContains(self.client.get('/gallery'), self.photo.url)
         page = self.client.get('/participant/alice')
         self.assertNotContains(page, self.photo.url)

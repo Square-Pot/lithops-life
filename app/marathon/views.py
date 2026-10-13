@@ -70,7 +70,8 @@ def marathon_view(request, marathon_name):
     # В один день событий может быть несколько (вторая дата посева + «Неделя 1»): порядок дня — по id, как в events.json
     events = list(marathon.event_set.all().order_by(*(('date', 'id') if upcoming else ('-date', '-id'))))
     started = [e for e in events if e.date <= today]
-    nominations = marathon.nomination_set.filter(is_published=True)
+    # названия номинаций видны всегда (по ним подписывают фото в чате), номинанты — только у опубликованных
+    nominations = marathon.nomination_set.all()
     context = {
         'marathon': marathon,
         'events': events,

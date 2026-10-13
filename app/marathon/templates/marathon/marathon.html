@@ -149,7 +149,7 @@
               <th scope="row"></th>
               <td>
                 {{ nomination.title }}
-                {% if nomination.nominees.all %}
+                {% if nomination.is_published and nomination.nominees.all %}
                 <br><a class="small text-decoration-none" data-bs-toggle="collapse" href="#nom-{{ nomination.id }}" role="button" aria-expanded="false">
                   {% trans 'Финалисты' %} ({{ nomination.nominees.all|length }}) <i class="bi bi-chevron-down"></i>
                 </a>
@@ -165,11 +165,11 @@
                 {% endif %}
               </td>
               <td>
-                {% for n in nomination.nominees.all %}{% if n.is_winner and not nomination.anonymous %}
+                {% if nomination.is_published %}{% for n in nomination.nominees.all %}{% if n.is_winner and not nomination.anonymous %}
                   <a href="{{ n.participant.get_absolute_url }}">{{ n.participant.display_name }}</a><br/>
                 {% endif %}{% empty %}
                   {{ nomination.winner_name }}
-                {% endfor %}
+                {% endfor %}{% endif %}
               </td>
             </tr>
             {% endif %}

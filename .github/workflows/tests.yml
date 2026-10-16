@@ -1,0 +1,35 @@
+name: Tests
+
+# тесты сайта на каждый PR — на ai-box тяжёлые сборки и прогоны запрещены (~/.claude/CLAUDE.md, «Heavy work»)
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      # тот же Dockerfile, что на проде: заодно проверяется, что образ собирается (переводы компилирует сборка)
+      - name: Build image
+        run: docker build -t lithops-life-test .
+
+      # секретов прода нет: ключ-заглушка, база тестов — своя (SQLite в памяти), S3 и сеть в тестах замоканы
+      - name: Django checks
+        run: >
+          docker run --rm -e DJANGO_SECRET_KEY=ci -e DJANGO_ALLOWED_HOSTS=localhost,testserver lithops-life-test
+          sh -c "python manage.py check && python manage.py makemigrations --check --dry-run"
+
+      - name: Tests
+        run: >
+          docker run --rm -e DJANGO_SECRET_KEY=ci -e DJANGO_ALLOWED_HOSTS=localhost,testserver lithops-life-test
+          python manage.py test marathon -v 2
